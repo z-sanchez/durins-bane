@@ -1,29 +1,32 @@
-# Time Complexity: O(n)
-# Space Complexity: O(n)
+def groupAnagrams(strs):
+    result = {}
 
-def getIndices(nums, target):
-    # The trick is to only add key, value after they have been visited
-    # [value]: index
-    prevMap = {}
+    for word in strs:
+        countTable = [0] * 26
+        for char in word:
+            index = ord(char) - ord('a')
+            countTable[index] += 1
 
-    for i, n in enumerate(nums):
-        # calculating the difference let's us see if we have it in the table
-        difference = target - n
-        if difference in prevMap:
-            # return least to greatest (works because nums is ordered)
-            return [prevMap[difference], i]
-        # if not, add it
-        prevMap[n] = i
+        if (tuple(countTable) in result):
+            result[tuple(countTable)].append(word)
+        else:
+            result[tuple(countTable)] = []
+            result[tuple(countTable)].append(word)
 
-    # loop works because by the time we iterate to the greatest index needed, we for sure will have visited the least
+    return result.values()
 
 
 if __name__ == "__main__":
-    # these must be least to greatest
-    nums = [3, 4, 5, 6]
-    target = 7
+    strs = ["act", "pots", "tops", "cat", "stop", "hat"]
 
-    # result must be least to greatest
-    result = getIndices(nums, target)
+    result = groupAnagrams(strs)
 
     print(result)
+
+
+# create hash table (keys = count of letters in the form of tuples, values = list of words matching the tuples letter count)
+# loop through words
+# create the key a-z with all 0s
+# calculate the index ord(char) - ord('a')
+# append in the index
+# use table.values() to return the values in table
