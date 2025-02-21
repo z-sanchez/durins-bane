@@ -1,29 +1,78 @@
-# Time Complexity: O(n), iterates through list a couple of times but no more than n
-# Space Complexity: O(n), creating a result array
 
+def isValidSudoku(board):
+    boxes = []
+    columns = []
 
-def productsOfArrayExceptSelf(nums):
-    result = []
+    for currentColumn in range(9):
+        column = []
+        for currentRow in range(9):
+            column.append(board[currentRow][currentColumn])
+        columns.append(column)
 
-    prefix = 1
+    currentRowStart = 0
+    currentColStart = 0
 
-    for x in range(len(nums)):
-        if x == 0:
-            result.append(prefix)
-        else:
-            prefix *= nums[x - 1]
-            result.append(prefix)
+    # collects boxes
+    while (currentColStart != 9):
+        box = []
 
-    postfix = 1
+        for row in range(3):
+            for col in range(3):
+                box.append(board[currentColStart + col][currentRowStart + row])
 
-    for x in range(len(nums) - 1, -1, -1):
-        result[x] *= postfix
-        postfix *= nums[x]
+        boxes.append(box)
 
-    return result
+        currentRowStart += 3
+
+        if currentRowStart == 9:
+            currentRowStart = 0
+            currentColStart += 3
+
+    for x in range(9):
+        seen = []
+
+        for i in range(9):
+            value = boxes[x][i]
+
+            if (value != "." and value in seen):
+                return False
+            else:
+                seen.append(value)
+
+    for x in range(9):
+        seen = []
+
+        for i in range(9):
+            value = board[x][i]
+
+            if (value != "." and value in seen):
+                return False
+            else:
+                seen.append(value)
+
+    for x in range(9):
+        seen = []
+
+        for i in range(9):
+            value = columns[x][i]
+
+            if (value != "." and value in seen):
+                return False
+            else:
+                seen.append(value)
+
+    return True
 
 
 if __name__ == "__main__":
-    nums = [1, 2, 3, 4]
+    board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
+             ["4", ".", ".", "5", ".", ".", ".", ".", "."],
+             [".", "9", "1", ".", ".", ".", ".", ".", "3"],
+             ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
+             [".", ".", ".", "8", ".", "3", ".", ".", "5"],
+             ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+             [".", ".", ".", ".", ".", ".", "2", ".", "."],
+             [".", ".", ".", "4", "1", "9", ".", ".", "8"],
+             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
 
-    print(productsOfArrayExceptSelf(nums))
+print(isValidSudoku(board))
