@@ -1,65 +1,31 @@
 
 def isValidSudoku(board):
-    boxes = []
-    columns = []
+    boxes = {}
+    columns = {}
+    rows = {}
 
-    for currentColumn in range(9):
-        column = []
-        for currentRow in range(9):
-            column.append(board[currentRow][currentColumn])
-        columns.append(column)
+    for r in range(9):
+        for c in range(9):
+            if board[r][c] == ".":
+                continue
 
-    currentRowStart = 0
-    currentColStart = 0
+            if c not in columns:
+                columns[c] = set()
 
-    # collects boxes
-    while (currentColStart != 9):
-        box = []
+            if r not in rows:
+                rows[r] = set()
 
-        for row in range(3):
-            for col in range(3):
-                box.append(board[currentColStart + col][currentRowStart + row])
+            if (r//3, c//3) not in boxes:
+                boxes[(r//3, c//3)] = set()
 
-        boxes.append(box)
-
-        currentRowStart += 3
-
-        if currentRowStart == 9:
-            currentRowStart = 0
-            currentColStart += 3
-
-    for x in range(9):
-        seen = []
-
-        for i in range(9):
-            value = boxes[x][i]
-
-            if (value != "." and value in seen):
+            if (board[r][c] in columns[c] or
+                    board[r][c] in rows[r] or
+                    board[r][c] in boxes[(r//3, c//3)]):
                 return False
-            else:
-                seen.append(value)
 
-    for x in range(9):
-        seen = []
-
-        for i in range(9):
-            value = board[x][i]
-
-            if (value != "." and value in seen):
-                return False
-            else:
-                seen.append(value)
-
-    for x in range(9):
-        seen = []
-
-        for i in range(9):
-            value = columns[x][i]
-
-            if (value != "." and value in seen):
-                return False
-            else:
-                seen.append(value)
+            columns[c].add(board[r][c])
+            rows[r].add(board[r][c])
+            boxes[r//3, c//3].add(board[r][c])
 
     return True
 
@@ -67,7 +33,7 @@ def isValidSudoku(board):
 if __name__ == "__main__":
     board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
              ["4", ".", ".", "5", ".", ".", ".", ".", "."],
-             [".", "9", "1", ".", ".", ".", ".", ".", "3"],
+             [".", "9", "8", ".", ".", ".", ".", ".", "3"],
              ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
              [".", ".", ".", "8", ".", "3", ".", ".", "5"],
              ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
