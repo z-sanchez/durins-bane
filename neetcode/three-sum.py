@@ -1,3 +1,5 @@
+# Time Complexity: O(n^2), nested loops
+# Space Complexity: O(n), creating a result array
 
 def threeSum(array):
     result = []
