@@ -32,21 +32,6 @@ def threeSum(array):
     return result
 
 
-def myThreeSum(array):
-    arrayLen = len(array)
-    combinations = {}
-    for i in range(arrayLen):
-        for j in range(i, arrayLen):
-            for k in range(j, arrayLen):
-                isDistinct = i != j and i != k and j != k
-                isSumZero = array[i] + array[j] + array[k] == 0
-                if (isDistinct and isSumZero):
-                    combinations[tuple(
-                        sorted([array[i], array[j], array[k]]))] = [array[i], array[j], array[k]]
-
-    return list(combinations.values())
-
-
 if "__main__" == __name__:
 
     array = [-1, 0, 1, 2, -1, -4]
