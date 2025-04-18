@@ -1,9 +1,8 @@
+# Time Complexity: O(n^2), nested loops
+# Space Complexity: O(n), creating a result array
 
 def threeSum(array):
     result = []
-
-    # prevent duplicates by sorting
-    array.sort()
 
     for i, a in enumerate(array):
         # detect duplicate by comparing prev neighbor
@@ -32,23 +31,12 @@ def threeSum(array):
     return result
 
 
-def myThreeSum(array):
-    arrayLen = len(array)
-    combinations = {}
-    for i in range(arrayLen):
-        for j in range(i, arrayLen):
-            for k in range(j, arrayLen):
-                isDistinct = i != j and i != k and j != k
-                isSumZero = array[i] + array[j] + array[k] == 0
-                if (isDistinct and isSumZero):
-                    combinations[tuple(
-                        sorted([array[i], array[j], array[k]]))] = [array[i], array[j], array[k]]
-
-    return list(combinations.values())
-
-
 if "__main__" == __name__:
 
     array = [-1, 0, 1, 2, -1, -4]
 
-    threeSum(array)
+    # prevent duplicates by sorting
+    array.sort()
+    print(array)
+    result = threeSum(array)
+    print(result)
