@@ -1,34 +1,35 @@
 # Time Complexity: O(n), nested loops
 # Space Complexity: O(1), creating nothing
 
-def encode(array):
-    encodedStr = ""
-    for x in array:
-        encodedStr += str(len(x)) + '#' + x
-    return encodedStr
-
-
-def decode(str):
+def threeSum(array):
     result = []
-    startingPlace = 0
-    while startingPlace < len(str):
-        cursor = startingPlace
-        while str[cursor] != '#':
-            cursor += 1
 
-        strLen = int(str[startingPlace: cursor])
-        result.append(str[cursor + 1: cursor + 1 + strLen])
-        startingPlace = cursor + 1 + strLen
+    array.sort()
+
+    for i in range(len(array)):
+        if i > 0 and array[i] == array[i - 1]:
+            continue
+
+        l = i + 1
+        r = len(array) - 1
+
+        while l < r:
+            summed = array[i] + array[l] + array[r]
+
+            if summed > 0:
+                r -= 1
+            elif summed < 0:
+                l += 1
+            else:
+                result.append([array[i], array[l], array[r]])
+                l += 1
+                while l < r and array[l] == array[l-1]:
+                    l += 1
 
     return result
 
 
 if "__main__" == __name__:
-    # must be in order for it to work
-    array = ["Ziek", "Loves", "Cheese"]
-    print("Input", array)
-    encodedResult = encode(array)
-    print("Encoded Result", encodedResult)
-    decodedResult = decode(encodedResult)
-    print("Decoded Result", decodedResult)
-    print("Solved: ", array == decodedResult)
+    array = [-1, 0, 1, 2, -1, -4]
+    output = threeSum(array)
+    print("Output: ", output)
