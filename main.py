@@ -1,40 +1,34 @@
-def encode(array):
-    encodedStr = ""
-    delimiter = "#"
+def threeSum(array):
+    result = []
+    array.sort()
 
     for x in range(len(array)):
-        encodedStr += str(len(array[x])) + delimiter + str(array[x])
+        if x > 0 and array[x] == array[x - 1]:
+            continue
 
-    return encodedStr
+        i = x + 1
+        j = len(array) - 1
 
+        while i < j:
 
-def decode(str):
-    result = []
-    pointer = 0
+            currentSum = array[x] + array[i] + array[j]
 
-    while pointer < len(str):
-        delimiterPosition = pointer
+            if currentSum > 0:
+                j -= 1
+            elif currentSum < 0:
+                i += 1
+            else:
+                result.append([array[x], array[i], array[j]])
+                i += 1
 
-        while str[delimiterPosition] != '#':
-            delimiterPosition += 1
-
-        strLen = int(str[pointer:delimiterPosition])
-        delimiterPosition += 1
-
-        word = str[delimiterPosition: delimiterPosition + strLen]
-        pointer = delimiterPosition + strLen
-        result.append(word)
+                if array[i] == array[i - 1] and i < j:
+                    i += 1
 
     return result
 
 
 if "__main__" == __name__:
-    input = ["ziek", "loves", "cheese", "alot"]
-
+    input = [-1, 0, 1, 2, -1, -4]
     print("Input: ", input)
-    encodedStr = encode(input)
-    print("Encoded: ", encodedStr)
-    decodedArray = decode(encodedStr)
-    print("Decoded: ", decodedArray)
-
-    print("Result Matches: ", input == decodedArray)
+    result = threeSum(input)
+    print("Result: ", result)
