@@ -1,34 +1,29 @@
-def threeSum(array):
+def productOfArray(array):
+
+    before = {}
+    after = {}
     result = []
-    array.sort()
 
     for x in range(len(array)):
-        if x > 0 and array[x] == array[x - 1]:
+        if x == 0:
+            before[x] = 1
             continue
 
-        i = x + 1
-        j = len(array) - 1
+        before[x] = array[x - 1] * before[x - 1]
 
-        while i < j:
+    for index, value in reversed(list(enumerate(array))):
+        if index == len(array) - 1:
+            after[index] = 1
+            continue
 
-            currentSum = array[x] + array[i] + array[j]
+        after[index] = array[index + 1] * after[index + 1]
 
-            if currentSum > 0:
-                j -= 1
-            elif currentSum < 0:
-                i += 1
-            else:
-                result.append([array[x], array[i], array[j]])
-                i += 1
-
-                if array[i] == array[i - 1] and i < j:
-                    i += 1
+    for x in range(len(array)):
+        result.append(before[x] * after[x])
 
     return result
 
 
 if "__main__" == __name__:
-    input = [-1, 0, 1, 2, -1, -4]
-    print("Input: ", input)
-    result = threeSum(input)
-    print("Result: ", result)
+    input = [-1, 0, 1, 2, 3]
+    productOfArray(input)
