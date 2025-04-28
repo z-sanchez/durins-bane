@@ -1,3 +1,6 @@
+# Time Complexity: O(n), we traverse the array once max
+# Space Complexity: O(n), we make a set here
+
 def longestSequence(nums):
     numSet = set(nums)
     result = 0
