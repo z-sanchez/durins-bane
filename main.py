@@ -1,20 +1,20 @@
-def longestSequence(nums):
-    numSet = set(nums)
-    result = 0
+def twoSum(nums, target):
+    i = 0
+    j = len(nums) - 1
 
-    for x in nums:
-        # means its the start of sequence
-        if (x - 1) not in numSet:
-            length = 0
-            # x + length works because we're dealing in sequences
-            while x + length in numSet:
-                length += 1
-            result = max(result, length)
+    while nums[i] + nums[j] != target:
+        currentSum = nums[i] + nums[j]
 
-    return result
+        if currentSum > target:
+            j -= 1
+        elif currentSum < target:
+            i += 1
+
+    return [i + 1, j + 1]
 
 
 if "__main__" == __name__:
-    input = [0, 3, 2, 5, 4, 6, 1, 1]
-    result = longestSequence(input)
+    input = [0, 2, 3, 4]
+    target = 2
+    result = twoSum(input, target)
     print(result)
