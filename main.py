@@ -1,20 +1,20 @@
-def twoSum(nums, target):
+def maxArea(heights):
     i = 0
-    j = len(nums) - 1
+    j = i + 1
+    result = 0
 
-    while nums[i] + nums[j] != target:
-        currentSum = nums[i] + nums[j]
+    while i < len(heights):
+        while j < len(heights):
+            calculation = (len(heights[i:j])) * min(heights[i], heights[j])
+            result = max(result, calculation)
+            j += 1
+        i += 1
+        j = i + 1
 
-        if currentSum > target:
-            j -= 1
-        elif currentSum < target:
-            i += 1
-
-    return [i + 1, j + 1]
+    return result
 
 
 if "__main__" == __name__:
-    input = [0, 2, 3, 4]
-    target = 2
-    result = twoSum(input, target)
+    input = [2, 2, 2]
+    result = maxArea(input)
     print(result)
