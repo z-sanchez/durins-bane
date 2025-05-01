@@ -1,33 +1,46 @@
-def threeSum(input):
-    output = []
+def trap(input):
+    output = 0
 
-    input.sort()
+    pointer = 0
 
-    for x in range(len(input)):
-        if x > 0 and input[x] == input[x - 1]:
+    while pointer < len(input):
+        if input[pointer] == 0:
+            pointer += 1
             continue
 
-        i = x + 1
-        j = len(input) - 1
+        # found wall
+        pointerToNextWall = pointer + 1
+        detectedWater = False
+        potentialBlocks = 0
 
-        while i < j:
-            currentSum = input[x] + input[i] + input[j]
+        while pointerToNextWall < len(input):
+            if input[pointerToNextWall] == 0:
+                detectedWater = True
 
-            if currentSum > 0:
-                j -= 1
-            elif currentSum < 0:
-                i += 1
-            else:
-                output.append([input[x], input[i], input[j]])
-                i += 1
-                while i < j and input[i] == input[i - 1]:
-                    i += 1
+            if input[pointerToNextWall] < input[pointer]:
+                potentialBlocks += input[pointerToNextWall]
+
+            # found trapping wall, greater or equal to current wall
+            if input[pointerToNextWall] >= input[pointer] and detectedWater:
+                print("trap wall found",
+                      input[pointer], "to", input[pointerToNextWall])
+
+                width = pointerToNextWall - pointer - 1
+                area = width * min(input[pointerToNextWall], input[pointer])
+                print("Counted:", area - potentialBlocks)
+                output += area - potentialBlocks
+                pointer = pointerToNextWall - 1
+                break
+
+            pointerToNextWall += 1
+
+        pointer += 1
 
     return output
 
 
 if "__main__" == __name__:
-    input = [-4, -2, -2, -2, 0, 1, 2, 2, 2, 3, 3, 4, 4, 6, 6]
-    result = threeSum(input)
+    input = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]
+    result = trap(input)
 
     print(result)
