@@ -1,34 +1,33 @@
-def encode(input):
-    output = ''
-
-    for x in input:
-        output += str(len(x)) + '#' + x
-
-    return output
-
-
-def decode(key):
+def threeSum(input):
     output = []
-    currentPoint = 0
 
-    while currentPoint < len(key):
-        delimiterPointer = currentPoint
+    input.sort()
 
-        while key[delimiterPointer] != '#':
-            delimiterPointer += 1
+    for x in range(len(input)):
+        if x > 0 and input[x] == input[x - 1]:
+            continue
 
-        strLength = int(key[currentPoint:delimiterPointer])
-        delimiterPointer += 1
-        string = key[delimiterPointer:delimiterPointer + strLength]
-        output.append(string)
+        i = x + 1
+        j = len(input) - 1
 
-        currentPoint = delimiterPointer + strLength
+        while i < j:
+            currentSum = input[x] + input[i] + input[j]
+
+            if currentSum > 0:
+                j -= 1
+            elif currentSum < 0:
+                i += 1
+            else:
+                output.append([input[x], input[i], input[j]])
+                i += 1
+                while i < j and input[i] == input[i - 1]:
+                    i += 1
 
     return output
 
 
 if "__main__" == __name__:
-    input = ["ziek", "loves", "bella", "alot"]
-    encodedStr = encode(input)
-    decodedList = decode(encodedStr)
-    print(decodedList)
+    input = [-4, -2, -2, -2, 0, 1, 2, 2, 2, 3, 3, 4, 4, 6, 6]
+    result = threeSum(input)
+
+    print(result)
