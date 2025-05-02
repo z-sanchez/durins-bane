@@ -1,46 +1,46 @@
-def trap(input):
-    output = 0
+def isValidSudoku(input):
+    output = True
 
-    pointer = 0
+    rows = {}
+    columns = {}
+    boxes = {}
 
-    while pointer < len(input):
-        if input[pointer] == 0:
-            pointer += 1
-            continue
+    for r in range(9):
+        for c in range(9):
+            if input[r][c] == ".":
+                continue
 
-        # found wall
-        pointerToNextWall = pointer + 1
-        detectedWater = False
-        potentialBlocks = 0
+            if r not in rows:
+                rows[r] = set()
 
-        while pointerToNextWall < len(input):
-            if input[pointerToNextWall] == 0:
-                detectedWater = True
+            if c not in columns:
+                columns[c] = set()
 
-            if input[pointerToNextWall] < input[pointer]:
-                potentialBlocks += input[pointerToNextWall]
+            if (r//3, c//3) not in boxes:
+                boxes[(r//3, c//3)] = set()
 
-            # found trapping wall, greater or equal to current wall
-            if input[pointerToNextWall] >= input[pointer] and detectedWater:
-                print("trap wall found",
-                      input[pointer], "to", input[pointerToNextWall])
+            if (input[r][c] in rows[r] or input[r][c] in columns[c] or input[r][c] in boxes[(r//3, c//3)]):
+                return False
 
-                width = pointerToNextWall - pointer - 1
-                area = width * min(input[pointerToNextWall], input[pointer])
-                print("Counted:", area - potentialBlocks)
-                output += area - potentialBlocks
-                pointer = pointerToNextWall - 1
-                break
-
-            pointerToNextWall += 1
-
-        pointer += 1
+            rows[r].add(input[r][c])
+            columns[c].add(input[r][c])
+            boxes[((r//3, c//3))].add(input[r][c])
 
     return output
 
 
 if "__main__" == __name__:
-    input = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]
-    result = trap(input)
 
-    print(result)
+    board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
+             ["4", ".", ".", "5", ".", ".", ".", ".", "."],
+             [".", "9", "1", ".", ".", ".", ".", ".", "3"],
+             ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
+             [".", ".", ".", "8", ".", "3", ".", ".", "5"],
+             ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+             [".", ".", ".", ".", ".", ".", "2", ".", "."],
+             [".", ".", ".", "4", "1", "9", ".", ".", "8"],
+             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
+
+    result = isValidSudoku(board)
+
+    print("Is Valid Sudoku: ", result)
