@@ -1,46 +1,29 @@
-def isValidSudoku(input):
-    output = True
+def containerWithMostWater(heights):
 
-    rows = {}
-    columns = {}
-    boxes = {}
+    result = 0
 
-    for r in range(9):
-        for c in range(9):
-            if input[r][c] == ".":
-                continue
+    i = 0
+    j = len(heights) - 1
 
-            if r not in rows:
-                rows[r] = set()
+    while i < j:
+        currentArea = min(heights[i], heights[j]) * (j - i)
+        result = max(currentArea, result)
 
-            if c not in columns:
-                columns[c] = set()
+        if heights[i] < heights[j]:
+            i += 1
+        elif heights[j] < heights[i]:
+            j -= 1
+        else:
+            i += 1
 
-            if (r//3, c//3) not in boxes:
-                boxes[(r//3, c//3)] = set()
-
-            if (input[r][c] in rows[r] or input[r][c] in columns[c] or input[r][c] in boxes[(r//3, c//3)]):
-                return False
-
-            rows[r].add(input[r][c])
-            columns[c].add(input[r][c])
-            boxes[((r//3, c//3))].add(input[r][c])
-
-    return output
+    return result
 
 
 if "__main__" == __name__:
 
-    board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
-             ["4", ".", ".", "5", ".", ".", ".", ".", "."],
-             [".", "9", "1", ".", ".", ".", ".", ".", "3"],
-             ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
-             [".", ".", ".", "8", ".", "3", ".", ".", "5"],
-             ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
-             [".", ".", ".", ".", ".", ".", "2", ".", "."],
-             [".", ".", ".", "4", "1", "9", ".", ".", "8"],
-             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
+    heights = [2, 2, 2]
 
-    result = isValidSudoku(board)
+    result = containerWithMostWater(heights)
 
-    print("Is Valid Sudoku: ", result)
+    print("Correct: ", result == 36)
+    print("You answered: ", result)
