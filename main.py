@@ -1,43 +1,27 @@
 # Time Complexity = O(n) we traverse the array once
 # Space Complexity = O(1) No space needed
 
-def trappingRainwater(height):
+def trappedWater(heights):
+    i = 0
+    j = len(heights) - 1
+    leftMax = heights[i]
+    rightMax = heights[j]
+    waterCount = 0
 
-    if not height:
-        return 0
-
-    l, r = 0, len(height) - 1
-    leftMax, rightMax = height[l], height[r]
-
-    result = 0
-
-    # To Calculate Water Trapped:
-    # wall bounded by          current wall
-    # min(leftMax, rightMax) - height[i]
-    # you cannot trap water any higher than the smallest wall
-
-    while l < r:
-        # solve with the smallest wall (bounded wall)
+    while i < j:
         if leftMax < rightMax:
-            # advance wall to focus on a new spot
-            l += 1
-
-            # left max is basically the tallest wall prior to current one
-            # here we find the 'ceiling'
-            leftMax = max(leftMax, height[l])
-
-            # then we subtract the height of our current wall from the ceiling
-            result += leftMax - height[l]
+            i += 1
+            leftMax = max(leftMax, heights[i])
+            waterCount += leftMax - heights[i]
         else:
-            r -= 1
-            # right max is basically the tallest wall prior to current one
-            rightMax = max(rightMax, height[r])
-            result += rightMax - height[r]
+            j -= 1
+            rightMax = max(rightMax, heights[j])
+            waterCount += rightMax - heights[j]
 
-    return result
+    return waterCount
 
 
 if "__main__" == __name__:
-    height = [0, 2, 0, 3, 1, 0, 1, 3, 2, 1]
-    result = trappingRainwater(height)
+    heights = [0, 2, 0, 3, 1, 0, 1, 3, 2, 1]
+    result = trappedWater(heights)
     print(result)
