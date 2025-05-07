@@ -2,34 +2,27 @@
 # Space Complexity = O(n) space for the stack
 
 def validParenthesis(str):
-
-    closeToOpenMap = {
-        ')': '(',
-        '}': '{',
-        ']': '[',
-    }
-
     stack = []
 
-    for x in str:
-        # check if the char is closing
-        if x in closeToOpenMap:
-            # if there is a stack and the last element is an open one matching the current close
-            if stack and stack[-1] == closeToOpenMap[x]:
-                # pop because its valid
+    openToCloseMap = {
+        ')': "(",
+        "]": '[',
+        "}": "{"
+    }
+
+    for x in range(len(str)):
+        if str[x] in openToCloseMap:
+            if stack and openToCloseMap[str[x]] == stack[-1]:
                 stack.pop()
             else:
-                # return false cause it ain't
                 return False
-        # if not add to stack (LIFO), the most inner parenthesis
         else:
-            stack.append(x)
+            stack.append(str[x])
 
-    # return true if stack empty
     return True if not stack else False
 
 
 if "__main__" == __name__:
-    str = "([{}])"
+    str = "([{])"
     result = validParenthesis(str)
     print(result)
