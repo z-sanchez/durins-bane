@@ -1,31 +1,36 @@
 # Time Complexity = O(1) we never traverse, constant time for everything
 # Space Complexity = O(n) create stacks
 
-def validParenthesis(input):
-    openToClose = {
-        ")": "(",
-        "}": "{",
-        "]": "["
-    }
+def threeSum(nums):
+    result = []
+    nums.sort()
 
-    stack = []
+    for x in range(len(nums)):
+        if x > 0 and nums[x] == nums[x - 1]:
+            continue
 
-    for x in input:
-        if x in openToClose:
-            if stack and openToClose[x] == stack[-1]:
-                stack.pop()
+        i = x + 1
+        j = len(nums) - 1
+
+        while i < j:
+            currentSum = nums[x] + nums[i] + nums[j]
+
+            if currentSum < 0:
+                i += 1
+            elif currentSum > 0:
+                j -= 1
             else:
-                return False
-        else:
-            stack.append(x)
+                result.append([nums[x], nums[i], nums[j]])
+                i += 1
 
-    if stack:
-        return False
-    else:
-        return True
+                while nums[i] == nums[i-1] and i < j:
+                    i += 1
+
+    return result
 
 
 if "__main__" == __name__:
-    input = "([{}])"
-    result = validParenthesis(input)
+    nums = [1, 2, -2, -1]
+
+    result = threeSum(nums)
     print(result)
