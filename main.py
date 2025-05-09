@@ -1,36 +1,36 @@
 # Time Complexity = O(1) we never traverse, constant time for everything
 # Space Complexity = O(n) create stacks
 
-def threeSum(nums):
-    result = []
-    nums.sort()
+class MinStack:
 
-    for x in range(len(nums)):
-        if x > 0 and nums[x] == nums[x - 1]:
-            continue
+    def __init__(self):
+        self.min = []
+        self.stack = []
 
-        i = x + 1
-        j = len(nums) - 1
+    def push(self, val: int) -> None:
+        self.stack.append(val)
+        if not self.min:
+            self.min.append(val)
+        else:
+            self.min.append(min(self.min[-1], val))
 
-        while i < j:
-            currentSum = nums[x] + nums[i] + nums[j]
+    def pop(self) -> None:
+        self.stack.pop()
+        self.min.pop()
 
-            if currentSum < 0:
-                i += 1
-            elif currentSum > 0:
-                j -= 1
-            else:
-                result.append([nums[x], nums[i], nums[j]])
-                i += 1
+    def top(self) -> int:
+        return self.stack[-1]
 
-                while nums[i] == nums[i-1] and i < j:
-                    i += 1
-
-    return result
+    def getMin(self) -> int:
+        return self.min[-1]
 
 
 if "__main__" == __name__:
-    nums = [1, 2, -2, -1]
-
-    result = threeSum(nums)
-    print(result)
+    minStack = MinStack()
+    minStack.push(1)
+    minStack.push(2)
+    minStack.push(0)
+    minStack.getMin()
+    minStack.pop()
+    minStack.top()
+    minStack.getMin()
