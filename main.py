@@ -1,28 +1,36 @@
 # Time Complexity = O(1) we never traverse, constant time for everything
 # Space Complexity = O(n) create stacks
 
-def trappedRainWater(height):
-    result = 0
-    left = 0
-    right = len(height) - 1
-    leftMax = height[left]
-    rightMax = height[right]
+class MinStack:
 
-    while left < right:
-        if leftMax < rightMax:
-            left += 1
-            leftMax = max(leftMax, height[left])
-            result += leftMax - height[left]
+    def __init__(self):
+        self.stack = []
+        self.minStack = []
 
+    def push(self, val: int) -> None:
+        self.stack.append(val)
+        if not self.minStack:
+            self.minStack.append(val)
         else:
-            right -= 1
-            rightMax = max(rightMax, height[right])
-            result += rightMax - height[right]
+            self.minStack.append(min(self.minStack[-1], val))
 
-    return result
+    def pop(self) -> None:
+        self.stack.pop()
+        self.minStack.pop()
+
+    def top(self) -> int:
+        return self.stack[-1]
+
+    def getMin(self) -> int:
+        return self.minStack[-1]
 
 
 if "__main__" == __name__:
-    height = [0, 2, 0, 3, 1, 0, 1, 3, 2, 1]
-    result = trappedRainWater(height)
-    print("Result: ", result)
+    minStack = MinStack()
+    minStack.push(1)
+    minStack.push(2)
+    minStack.push(0)
+    print(minStack.getMin())
+    print(minStack.pop())
+    print(minStack.top())
+    print(minStack.getMin())
