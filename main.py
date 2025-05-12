@@ -1,36 +1,25 @@
 # Time Complexity = O(1) we never traverse, constant time for everything
 # Space Complexity = O(n) create stacks
 
-class MinStack:
+def containerWithMostWater(heights):
 
-    def __init__(self):
-        self.stack = []
-        self.minStack = []
+    result = 0
 
-    def push(self, val: int) -> None:
-        self.stack.append(val)
-        if not self.minStack:
-            self.minStack.append(val)
+    left = 0
+    right = len(heights) - 1
+
+    while left < right:
+        area = (right - left) * min(heights[left], heights[right])
+        result = max(area, result)
+
+        if heights[left] < heights[right]:
+            left += 1
         else:
-            self.minStack.append(min(self.minStack[-1], val))
-
-    def pop(self) -> None:
-        self.stack.pop()
-        self.minStack.pop()
-
-    def top(self) -> int:
-        return self.stack[-1]
-
-    def getMin(self) -> int:
-        return self.minStack[-1]
+            right -= 1
+    return result
 
 
 if "__main__" == __name__:
-    minStack = MinStack()
-    minStack.push(1)
-    minStack.push(2)
-    minStack.push(0)
-    print(minStack.getMin())
-    print(minStack.pop())
-    print(minStack.top())
-    print(minStack.getMin())
+    heights = [2, 2, 2]
+    result = containerWithMostWater(heights)
+    print(result)
