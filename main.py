@@ -4,33 +4,28 @@
 from typing import List
 
 
-def evalRPN(tokens: List[str]) -> int:
+def containerWithMostWater(heights: List[str]) -> int:
 
-    stack = []
+    if not heights:
+        return 0
 
-    for x in tokens:
-        if x == '+':
-            result = stack.pop() + stack.pop()
-            stack.append(result)
-        elif x == '-':
-            second = stack.pop()
-            first = stack.pop()
-            stack.append(first - second)
-        elif x == '*':
-            result = stack.pop() * stack.pop()
-            stack.append(result)
-        elif x == "/":
-            second = stack.pop()
-            first = stack.pop()
-            # python is floating point division by default, need to make it int
-            stack.append(int(first / second))
+    result = 0
+    left = 0
+    right = len(heights) - 1
+
+    while left < right:
+        calculatedArea = (right - left) * min(heights[left], heights[right])
+        result = max(calculatedArea, result)
+
+        if heights[left] < heights[right]:
+            left += 1
         else:
-            stack.append(int(x))
-    # guaranteed a single value by the end based on problem description
-    return stack[0]
+            right -= 1
+
+    return result
 
 
 if "__main__" == __name__:
-    input = ["4", "13", "5", "/", "+"]
-    result = evalRPN(input)
+    input = [2, 2, 2]
+    result = containerWithMostWater(input)
     print(result)
