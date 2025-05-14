@@ -1,6 +1,3 @@
-# Time Complexity: O((4^n)/sqrtN), I do not even know
-# Space Complexity: O(n), we create the stack
-
 from typing import List
 
 
