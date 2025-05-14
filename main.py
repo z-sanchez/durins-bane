@@ -4,31 +4,27 @@
 from typing import List
 
 
-def generateParenthesis(n: int) -> List[str]:
-    stack = []
+def dailyTemperatures(temps: int) -> List[str]:
     result = []
 
-    def backtracing(openCount, leftCount):
-        if openCount == leftCount == n:
-            result.append("".join(stack))
-            return
+    for index, value in enumerate(temps):
+        print(index, value)
 
-        if openCount > leftCount:
-            stack.append(')')
-            backtracing(openCount, leftCount + 1)
-            stack.pop()
+        daysUntil = 0
+        x = index + 1
+        while x < len(temps):
+            if value < temps[x]:
+                daysUntil = x - index
+                break
+            x += 1
 
-        if openCount < n:
-            stack.append('(')
-            backtracing(openCount + 1, leftCount)
-            stack.pop()
-
-    backtracing(0, 0)
+        result.append(daysUntil)
 
     return result
 
 
 if "__main__" == __name__:
-    input = 3
-    result = generateParenthesis(input)
+    temperatures = [30, 38, 30, 36, 35, 40, 28]
+
+    result = dailyTemperatures(temperatures)
     print(result)
