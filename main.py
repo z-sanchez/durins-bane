@@ -1,29 +1,23 @@
-# Time Complexity: O((4^n)/sqrtN), I do not even know
-# Space Complexity: O(n), we create the stack
-
-from typing import List
 
 
-def dailyTemperatures(temps: int) -> List[str]:
-    # default all to zero
-    result = [0] * len(temperatures)
+def longestConsecutive(nums):
+    numSet = set(nums)
+    result = 0
 
-    # pair: [temp, index], this will keep track of temps we need to re-evaluate as we go down the list
-    stack = []
-
-    for index, temperature in enumerate(temps):
-        # while our stack has values and the temp is greater than the top value
-        # we must iterate through and evaluate prev temps waiting to be solved
-        while stack and temperature > stack[-1][0]:
-            stackTemp, stackIndex = stack.pop()
-            result[stackIndex] = index - stackIndex  # days until warmer temp
-        stack.append([temperature, index])
+    for x in nums:
+        # means its the start of sequence
+        if (x - 1) not in numSet:
+            length = 0
+            # x + length works because we're dealing in sequences
+            while x + length in numSet:
+                length += 1
+            result = max(result, length)
 
     return result
 
 
 if "__main__" == __name__:
-    temperatures = [30, 38, 30, 36, 35, 40, 28]
+    nums = [2, 20, 4, 10, 3, 4, 5]
 
-    result = dailyTemperatures(temperatures)
+    result = longestConsecutive(nums)
     print(result)
