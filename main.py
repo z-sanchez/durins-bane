@@ -1,24 +1,31 @@
 
 
-def containerWithMostWater(heights):
-    result = 0
-    left = 0
-    right = len(heights) - 1
+def evalRPN(tokens):
+    stack = []
 
-    while left < right:
-        calculatedArea = (right - left) * min(heights[left], heights[right])
-        result = max(calculatedArea, result)
-
-        if heights[left] < heights[right]:
-            left += 1
+    for x in tokens:
+        if x == '+':
+            result = stack.pop() + stack.pop()
+            stack.append(result)
+        elif x == "*":
+            result = stack.pop() * stack.pop()
+            stack.append(result)
+        elif x == "-":
+            second = stack.pop()
+            first = stack.pop()
+            stack.append(first - second)
+        elif x == "/":
+            second = stack.pop()
+            first = stack.pop()
+            stack.append(int(first / second))
         else:
-            right -= 1
+            stack.append(int(x))
 
-    return result
+    return stack[0]
 
 
 if "__main__" == __name__:
-    height = [1, 7, 2, 5, 4, 7, 3, 6]
+    tokens = ["1", "2", "+", "3", "*", "4", "-"]
 
-    result = containerWithMostWater(height)
+    result = evalRPN(tokens)
     print(result)
