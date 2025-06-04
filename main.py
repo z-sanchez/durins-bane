@@ -1,32 +1,31 @@
 
 
-def validParenthesis(s):
+def evalRPN(tokens):
 
     stack = []
 
-    closeToOpenMap = {
-        ")": "(",
-        "]": "[",
-        "}": "{"
-    }
-
-    for x in s:
-        if x not in closeToOpenMap:
-            stack.append(x)
+    for x in tokens:
+        if x == "+":
+            sum = stack.pop() + stack.pop()
+            stack.append(sum)
+        elif x == "-":
+            second = stack.pop()
+            first = stack.pop()
+            stack.append(first - second)
+        elif x == "*":
+            stack.append(stack.pop() * stack.pop())
+        elif x == "/":
+            second = stack.pop()
+            first = stack.pop()
+            stack.append(int(first / second))
         else:
-            if closeToOpenMap[x] == stack[-1]:
-                stack.pop()
-            else:
-                return False
+            stack.append(int(x))
 
-    if stack:
-        return False
-    else:
-        return True
+    return stack[0]
 
 
 if "__main__" == __name__:
-    height = "[(])"
+    tokens = ["1", "2", "+", "3", "*", "4", "-"]
 
-    result = validParenthesis(height)
+    result = evalRPN(tokens)
     print(result)
