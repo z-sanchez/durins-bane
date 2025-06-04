@@ -1,25 +1,32 @@
 
 
-def containerWithMostWater(height):
+def validParenthesis(s):
 
-    result = 0
-    left = 0
-    right = len(height) - 1
+    stack = []
 
-    while left < right:
-        calculatedArea = (right - left) * min(height[left], height[right])
-        result = max(result, calculatedArea)
+    closeToOpenMap = {
+        ")": "(",
+        "]": "[",
+        "}": "{"
+    }
 
-        if left < right:
-            left += 1
+    for x in s:
+        if x not in closeToOpenMap:
+            stack.append(x)
         else:
-            right -= 1
+            if closeToOpenMap[x] == stack[-1]:
+                stack.pop()
+            else:
+                return False
 
-    return result
+    if stack:
+        return False
+    else:
+        return True
 
 
 if "__main__" == __name__:
-    height = [1, 7, 2, 5, 4, 7, 3, 6]
+    height = "[(])"
 
-    result = containerWithMostWater(height)
+    result = validParenthesis(height)
     print(result)
