@@ -1,31 +1,24 @@
 
 
-def evalRPN(tokens):
-    stack = []
+def longestConsecutiveSequence(nums):
 
-    for x in tokens:
-        if x == '+':
-            result = stack.pop() + stack.pop()
-            stack.append(result)
-        elif x == "*":
-            result = stack.pop() * stack.pop()
-            stack.append(result)
-        elif x == "-":
-            second = stack.pop()
-            first = stack.pop()
-            stack.append(first - second)
-        elif x == "/":
-            second = stack.pop()
-            first = stack.pop()
-            stack.append(int(first / second))
-        else:
-            stack.append(int(x))
+    numSet = set(nums)
+    result = 0
 
-    return stack[0]
+    for x in numSet:
+        if x - 1 not in numSet:
+            length = 0
+
+            while x + length in numSet:
+                length += 1
+
+            result = max(result, length)
+
+    return result
 
 
 if "__main__" == __name__:
-    tokens = ["1", "2", "+", "3", "*", "4", "-"]
+    nums = [0, 3, 2, 5, 4, 6, 1, 1]
 
-    result = evalRPN(tokens)
+    result = longestConsecutiveSequence(nums)
     print(result)
