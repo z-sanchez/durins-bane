@@ -1,24 +1,25 @@
 
 
-def longestConsecutiveSequence(nums):
+def containerWithMostWater(height):
 
-    numSet = set(nums)
     result = 0
+    left = 0
+    right = len(height) - 1
 
-    for x in numSet:
-        if x - 1 not in numSet:
-            length = 0
+    while left < right:
+        calculatedArea = (right - left) * min(height[left], height[right])
+        result = max(result, calculatedArea)
 
-            while x + length in numSet:
-                length += 1
-
-            result = max(result, length)
+        if left < right:
+            left += 1
+        else:
+            right -= 1
 
     return result
 
 
 if "__main__" == __name__:
-    nums = [0, 3, 2, 5, 4, 6, 1, 1]
+    height = [1, 7, 2, 5, 4, 7, 3, 6]
 
-    result = longestConsecutiveSequence(nums)
+    result = containerWithMostWater(height)
     print(result)
