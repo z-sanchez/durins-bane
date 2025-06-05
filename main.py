@@ -1,31 +1,20 @@
 
 
-def evalRPN(tokens):
-
+def dailyTemperatures(temp):
+    result = [0] * len(temp)
     stack = []
 
-    for x in tokens:
-        if x == "+":
-            sum = stack.pop() + stack.pop()
-            stack.append(sum)
-        elif x == "-":
-            second = stack.pop()
-            first = stack.pop()
-            stack.append(first - second)
-        elif x == "*":
-            stack.append(stack.pop() * stack.pop())
-        elif x == "/":
-            second = stack.pop()
-            first = stack.pop()
-            stack.append(int(first / second))
-        else:
-            stack.append(int(x))
+    for index, value in enumerate(temp):
+        while stack and value > stack[-1][0]:
+            stackTemp, stackIndex = stack.pop()
+            result[stackIndex] = index - stackIndex
+        stack.append([value, index])
 
-    return stack[0]
+    return result
 
 
 if "__main__" == __name__:
-    tokens = ["1", "2", "+", "3", "*", "4", "-"]
+    temperatures = [30, 38, 30, 36, 35, 40, 28]
 
-    result = evalRPN(tokens)
+    result = dailyTemperatures(temperatures)
     print(result)
