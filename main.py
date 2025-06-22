@@ -1,20 +1,31 @@
 
+def validParenthesis(strInput):
+    closeToOpenMap = {
+        ")": "(",
+        "]": "[",
+        "}": "{"
+    }
 
-def dailyTemperatures(temp):
-    result = [0] * len(temp)
     stack = []
 
-    for index, value in enumerate(temp):
-        while stack and value > stack[-1][0]:
-            stackTemp, stackIndex = stack.pop()
-            result[stackIndex] = index - stackIndex
-        stack.append([value, index])
+    for x in strInput:
+        print(stack)
+        if x in closeToOpenMap:
+            if stack and closeToOpenMap[x] == stack[-1]:
+                stack.pop()
+            else:
+                return False
+        else:
+            stack.append(x)
 
-    return result
+    if stack:
+        return False
+    else:
+        return True
 
 
 if "__main__" == __name__:
-    temperatures = [30, 38, 30, 36, 35, 40, 28]
+    input = "[(])"
 
-    result = dailyTemperatures(temperatures)
+    result = validParenthesis(input)
     print(result)
