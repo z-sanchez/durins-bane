@@ -1,35 +1,22 @@
 
 
-def threeSum(nums):
-    sortedNums = sorted(nums)
-    results = []
+def carFleet(target, position, speed):
+    cars = [[p, s] for p, s in zip(position, speed)]
+    stack = []
 
-    for x in range(len((sortedNums))):
-        if x > 0 and sortedNums[x] == sortedNums[x - 1]:
-            continue
+    for p, s in cars[::-1]:
+        stack.append((target - p) / s)
 
-        left = x + 1
-        right = len(sortedNums) - 1
+        if len(stack) >= 2 and stack[-1] >= stack[-2]:
+            stack.pop()
 
-        while left < right:
-            calculatedSum = sortedNums[x] + \
-                sortedNums[left] + sortedNums[right]
-            if calculatedSum == 0:
-                results.append(
-                    [sortedNums[x], sortedNums[left], sortedNums[right]])
-                left += 1
-                while left < right and sortedNums[left] == sortedNums[left-1]:
-                    left += 1
-            elif calculatedSum < 0:
-                left += 1
-            else:
-                right -= 1
-
-    return results
+    return len(stack)
 
 
 if "__main__" == __name__:
-    nums = [0, 0, 0]
+    target = 10
+    position = [1, 4]
+    speed = [3, 2]
 
-    result = threeSum(nums)
+    result = carFleet(target, position, speed)
     print(result)
