@@ -1,22 +1,20 @@
 
 
-def carFleet(target, position, speed):
-    cars = [[p, s] for p, s in zip(position, speed)]
+def dailyTemperatures(temps):
+    result = [0] * len(temperatures)
     stack = []
 
-    for p, s in cars[::-1]:
-        stack.append((target - p) / s)
+    for index, temp in enumerate(temps):
+        while stack and temp > stack[-1][0]:
+            stackTemp, stackIndex = stack.pop()
+            result[stackIndex] = index - stackIndex
+        stack.append([temp, index])
 
-        if len(stack) >= 2 and stack[-1] >= stack[-2]:
-            stack.pop()
-
-    return len(stack)
+    return result
 
 
 if "__main__" == __name__:
-    target = 10
-    position = [1, 4]
-    speed = [3, 2]
+    temperatures = [30, 38, 30, 36, 35, 40, 28]
 
-    result = carFleet(target, position, speed)
+    result = dailyTemperatures(temperatures)
     print(result)
