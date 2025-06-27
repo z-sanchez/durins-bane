@@ -16,9 +16,6 @@ def isValidSudoku(board):
             if column not in columns:
                 columns[column] = set()
 
-            print(column)
-            print(row//3, column//3)
-
             if (row//3, column//3) not in boxes:
                 boxes[(row//3, column//3)] = set()
 
