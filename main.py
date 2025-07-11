@@ -1,21 +1,22 @@
-def longestConsecutiveSequence(nums):
-    numSet = set(nums)
-    result = 0
+from typing import List
 
-    for x in numSet:
-        # start of sequence
-        if x - 1 not in numSet:
-            length = 0
-            while x + length in numSet:
-                length += 1
-            result = max(result, length)
+
+def dailyTemperatures(temps: int) -> List[str]:
+    # default all to zero
+    result = [0] * len(temps)
+    tempStack = []  # [index, temp]
+
+    for index, temp in enumerate(temps):
+        while tempStack and tempStack[-1][1] < temp:
+            poppedTempIndex, poppedTemp = tempStack.pop()
+            result[poppedTempIndex] = index - poppedTempIndex
+        tempStack.append([index, temp])
 
     return result
 
 
-if __name__ == "__main__":
-    # nums = [2, 20, 4, 10, 3, 4, 5]
-    # nums = [0, 3, 2, 5, 4, 6, 1, 1]
-    nums = [0, -1]
+if "__main__" == __name__:
+    temperatures = [30, 38, 30, 36, 35, 40, 28]
 
-    print(longestConsecutiveSequence(nums))
+    result = dailyTemperatures(temperatures)
+    print(result)
