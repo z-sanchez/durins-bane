@@ -1,44 +1,21 @@
-def isValidSudoku(board):
-    boxes = {}
-    columns = {}
-    rows = {}
+def longestConsecutiveSequence(nums):
+    numSet = set(nums)
+    result = 0
 
-    for row in range(9):
-        for column in range(9):
-            currentSquare = board[row][column]
+    for x in numSet:
+        # start of sequence
+        if x - 1 not in numSet:
+            length = 0
+            while x + length in numSet:
+                length += 1
+            result = max(result, length)
 
-            if currentSquare == ".":
-                continue
-
-            if row not in rows:
-                rows[row] = set()
-
-            if column not in columns:
-                columns[column] = set()
-
-            if (row//3, column//3) not in boxes:
-                boxes[(row//3, column//3)] = set()
-
-            if currentSquare in rows[row] or currentSquare in columns[column] or currentSquare in boxes[(row//3, column//3)]:
-                return False
-
-            rows[row].add(currentSquare)
-            columns[column].add(currentSquare)
-            boxes[(row//3, column//3)].add(currentSquare)
-
-    return True
+    return result
 
 
 if __name__ == "__main__":
-    board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
-             ["4", ".", ".", "5", ".", ".", ".", ".", "."],
-             [".", "9", "8", ".", ".", ".", ".", ".", "3"],
-             ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
-             [".", ".", ".", "8", ".", "3", ".", ".", "5"],
-             ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
-             [".", ".", ".", ".", ".", ".", "2", ".", "."],
-             [".", ".", ".", "4", "1", "9", ".", ".", "8"],
-             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
+    # nums = [2, 20, 4, 10, 3, 4, 5]
+    # nums = [0, 3, 2, 5, 4, 6, 1, 1]
+    nums = [0, -1]
 
-
-print(isValidSudoku(board))
+    print(longestConsecutiveSequence(nums))
