@@ -2,14 +2,16 @@
 # Space Complexity = O(n) space for the stack
 
 def carFleet(target, positions, speeds):
-    pairs = [[pos, speed] for pos, speed in zip(positions, speeds)]
+    pairs = [[pos, speed] for pos, speed in zip(positions, speed)]
+
     stack = []
 
     for pos, speed in sorted(pairs)[::-1]:
         time = (target - pos) / speed
         stack.append(time)
 
-        if len(stack) >= 2 and stack[-1] <= stack[-2]:
+        # keep getting -2 and -1 confused
+        if len(stack) >= 2 and stack[-2] <= stack[-1]:
             stack.pop()
 
     return len(stack)
