@@ -1,21 +1,26 @@
-# Time Complexity: O(n), we traverse the array once max
-# Space Complexity: O(n), we make a set here
+from typing import List
 
-def longestSequence(nums):
-    numSet = set(nums)
-    result = 0
 
-    for x in numSet:
-        if x - 1 not in numSet:
-            length = 0
-            while x + length in numSet:
-                length += 1
-            result = max(length, result)
+def dailyTemperatures(temps: int) -> List[str]:
+    # default all to zero
+    result = [0] * len(temps)
+    stack = []
+
+    # pair: [temp, index], this will keep track of temps we need to re-evaluate as we go down the list
+    for index, temp in enumerate(temps):
+        while stack and temp > stack[-1][0]:
+            stackTemp, stackIndex = stack.pop()
+            daysSince = index - stackIndex
+            result[stackIndex] = daysSince
+        stack.append([temp, index])
+    # while our stack has values and the temp is greater than the top value
+    # we must iterate through and evaluate prev temps waiting to be solved
 
     return result
 
 
 if "__main__" == __name__:
-    input = [0, 3, 2, 5, 4, 6, 1, 1]
-    result = longestSequence(input)
+    temperatures = [30, 38, 30, 36, 35, 40, 28]
+
+    result = dailyTemperatures(temperatures)
     print(result)

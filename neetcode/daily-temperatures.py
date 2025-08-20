@@ -3,7 +3,7 @@ from typing import List
 
 def dailyTemperatures(temps: int) -> List[str]:
     # default all to zero
-    result = [0] * len(temperatures)
+    result = [0] * len(temps)
 
     # pair: [temp, index], this will keep track of temps we need to re-evaluate as we go down the list
     stack = []
