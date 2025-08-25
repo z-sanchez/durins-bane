@@ -1,21 +1,21 @@
-from typing import List
+# Time Complexity: O(n), we traverse the array once max
+# Space Complexity: O(n), we make a set here
 
+def longestSequence(nums):
+    numSet = set(nums)
+    result = 0
 
-def dailyTemperatures(temps: int) -> List[str]:
-    result = [0] * len(temps)
-    stack = []
-
-    for index, temp in enumerate(temps):
-        while stack and temp > stack[-1][1]:
-            stackIndex, stackTemp = stack.pop()
-            result[stackIndex] = index - stackIndex
-        stack.append([index, temp])
+    for x in numSet:
+        if x - 1 not in numSet:
+            length = 0
+            while x + length in numSet:
+                length += 1
+            result = max(length, result)
 
     return result
 
 
 if "__main__" == __name__:
-    temperatures = [30, 38, 30, 36, 35, 40, 28]
-
-    result = dailyTemperatures(temperatures)
+    input = [0, 3, 2, 5, 4, 6, 1, 1]
+    result = longestSequence(input)
     print(result)
