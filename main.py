@@ -1,21 +1,29 @@
-from typing import List
+# Time Complexity: O(n)
+# Space Complexity: O(n)
+
+def getIndices(nums, target):
+    # The trick is to only add key, value after they have been visited
+    # [value]: index
+    prevMap = {}
+
+    for i, n in enumerate(nums):
+        # calculating the difference let's us see if we have it in the table
+        difference = target - n
+        if difference in prevMap:
+            # return least to greatest (works because nums is ordered)
+            return [prevMap[difference], i]
+        # if not, add it
+        prevMap[n] = i
+
+    # loop works because by the time we iterate to the greatest index needed, we for sure will have visited the least
 
 
-def dailyTemperatures(temps: int) -> List[str]:
-    result = [0] * len(temps)
-    stack = []
+if __name__ == "__main__":
+    # these must be least to greatest
+    nums = [3, 4, 5, 6]
+    target = 7
 
-    for index, temp in enumerate(temps):
-        while stack and temp > stack[-1][1]:
-            stackIndex, stackTemp = stack.pop()
-            result[stackIndex] = index - stackIndex
-        stack.append([index, temp])
+    # result must be least to greatest
+    result = getIndices(nums, target)
 
-    return result
-
-
-if "__main__" == __name__:
-    temperatures = [30, 38, 30, 36, 35, 40, 28]
-
-    result = dailyTemperatures(temperatures)
     print(result)
