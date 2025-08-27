@@ -1,26 +1,29 @@
-# Time Complexity: O(n)
-# Space Complexity: O(n)
+# Time Complexity: O(n), nested loops
+# Space Complexity: O(1), creating nothing
 
-def getIndices(nums, target):
-    map = {}
+def twoSumTwo(array, target):
+    # pointer to beginning and pointer to the end
+    l, r = 0, len(array) - 1
 
-    for index, value in enumerate(nums):
-        diff = target - value
+    # keeps indices from overlapping
+    while l < r:
+        currentSum = array[l] + array[r]
 
-        if (diff in map):
-            return [map[diff], index]
+        if currentSum > target:
+            r -= 1
+        elif currentSum < target:
+            l += 1
         else:
-            map[value] = index
+            # wants these results with a 1 based index for some reason
+            return [l+1, r+1]
 
     return []
 
 
-if __name__ == "__main__":
-    # these must be least to greatest
-    nums = [3, 4, 5, 6]
-    target = 7
+if "__main__" == __name__:
 
-    # result must be least to greatest
-    result = getIndices(nums, target)
-
+    # must be in order for it to work
+    array = [1, 2, 3, 4]
+    target = 3
+    result = twoSumTwo(array, target)
     print(result)
