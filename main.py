@@ -1,29 +1,23 @@
-# Time Complexity: O(n), nested loops
-# Space Complexity: O(1), creating nothing
+# Time Complexity: O(n), we traverse the array once max
+# Space Complexity: O(n), we make a set here
 
-def twoSumTwo(array, target):
-    # pointer to beginning and pointer to the end
-    l, r = 0, len(array) - 1
+def longestSequence(nums):
+    numSet = set(nums)
+    result = 0
 
-    # keeps indices from overlapping
-    while l < r:
-        currentSum = array[l] + array[r]
+    for x in numSet:
+        if x - 1 not in numSet:
+            length = 0
 
-        if currentSum > target:
-            r -= 1
-        elif currentSum < target:
-            l += 1
-        else:
-            # wants these results with a 1 based index for some reason
-            return [l+1, r+1]
+            while x + length in numSet:
+                length += 1
 
-    return []
+            result = max(length, result)
+
+    return result
 
 
 if "__main__" == __name__:
-
-    # must be in order for it to work
-    array = [1, 2, 3, 4]
-    target = 3
-    result = twoSumTwo(array, target)
+    input = [0, 3, 2, 5, 4, 6, 1, 1]
+    result = longestSequence(input)
     print(result)
