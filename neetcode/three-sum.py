@@ -42,4 +42,4 @@ if "__main__" == __name__:
 
     array = [-1, 0, 1, 2, -1, -4]
 
-    threeSum(array)
+    print(threeSum(array))

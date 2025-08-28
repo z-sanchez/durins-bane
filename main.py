@@ -1,27 +1,40 @@
-# Time Complexity: O(n), nested loops
-# Space Complexity: O(1), creating nothing
+# Time Complexity: O(n^2), nested loops
+# Space Complexity: O(n), creating a result array
 
-def twoSumTwo(array, target):
-    left = 0
-    right = len(array) - 1
+# The idea here is that you focus on one value at a time. Take that value and find what other two summed with it = 0. Then move to next index.
+# We don't have to worry about comparing results using previous array values because those have been exhausted and check for
+# Rule of thumb: Once we've passed an index in the array, those values have been checked if there in play already, no need to compare back
 
-    while left < right:
-        sum = array[left] + array[right]
+def threeSum(array):
+    result = []
 
-        if sum > target:
-            right -= 1
-        elif sum < target:
-            left += 1
-        else:
-            return [left + 1, right + 1]
+    array.sort()
 
-    return []
+    for index, num in enumerate(array):
+        if index > 0 and array[index - 1] == num:
+            continue
+
+        left = index + 1
+        right = len(array) - 1
+
+        while left < right:
+            threeSum = num + array[left] + array[right]
+
+            if threeSum > 0:
+                right -= 1
+            elif threeSum < 0:
+                left += 1
+            else:
+                result.append([num, array[left], array[right]])
+                left += 1
+                while left < right and array[left] == array[left - 1]:
+                    left += 1
+
+    return result
 
 
 if "__main__" == __name__:
 
-    # must be in order for it to work
-    array = [1, 2, 3, 4]
-    target = 3
-    result = twoSumTwo(array, target)
-    print(result)
+    array = [-1, 0, 1, 2, -1, -4]
+
+    print(threeSum(array))
