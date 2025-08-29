@@ -10,23 +10,24 @@ def threeSum(array):
 
     array.sort()
 
-    for index, num in enumerate(array):
-        if index > 0 and array[index - 1] == num:
+    for index, value in enumerate(array):
+        if index > 0 and value == array[index - 1]:
             continue
 
         left = index + 1
         right = len(array) - 1
 
         while left < right:
-            threeSum = num + array[left] + array[right]
+            threeSum = value + array[left] + array[right]
 
-            if threeSum > 0:
+            if threeSum < 0:
+                left += 1
+            elif threeSum > 0:
                 right -= 1
-            elif threeSum < 0:
-                left += 1
             else:
-                result.append([num, array[left], array[right]])
+                result.append([value, array[left], array[right]])
                 left += 1
+
                 while left < right and array[left] == array[left - 1]:
                     left += 1
 
