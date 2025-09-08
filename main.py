@@ -11,7 +11,7 @@ def threeSum(array):
     array.sort()
 
     for index, value in enumerate(array):
-        if index > 0 and array[index] == array[index-1]:
+        if index >= 1 and array[index] == array[index - 1]:
             continue
 
         left = index + 1
@@ -27,8 +27,10 @@ def threeSum(array):
             else:
                 result.append([value, array[left], array[right]])
                 left += 1
+
                 while left < right and array[left] == array[left - 1]:
                     left += 1
+
     return result
 
 
