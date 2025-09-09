@@ -1,25 +1,24 @@
-# Time Complexity = O(nlogn) we traverse the array once (n) but we do sort the card (longn)
-# Space Complexity = O(n) space for the stack
+# Time Complexity: O(n), we traverse the array once max
+# Space Complexity: O(1), no new data structure needed
 
-def carFleet(target, positions, speeds):
-    pairs = [[pos, speed] for pos, speed in zip(positions, speeds)]
-    stack = []
+def maxArea(heights):
+    result = 0
+    left = 0
+    right = len(heights) - 1
 
-    for position, speed in sorted(pairs)[::-1]:
+    while left < right:
+        calculatedArea = (right - left) * min(heights[left], heights[right])
+        result = max(calculatedArea, result)
 
-        time = (target - position) / speed
-        stack.append(time)
+        if heights[left] > heights[right]:
+            right -= 1
+        else:
+            left += 1
 
-        if len(stack) >= 2 and stack[-2] >= stack[-1]:
-            stack.pop()
-
-    return len(stack)
+    return result
 
 
 if "__main__" == __name__:
-    target = 10
-    position = [1, 4]
-    speed = [3, 2]
-
-    result = carFleet(target, position, speed)
+    input = [1, 7, 2, 5, 4, 7, 3, 6]
+    result = maxArea(input)
     print(result)
