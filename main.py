@@ -8,7 +8,8 @@ def maxArea(heights):
 
     while left < right:
         calculatedArea = (right - left) * min(heights[left], heights[right])
-        result = max(calculatedArea, result)
+
+        result = max(result, calculatedArea)
 
         if heights[left] > heights[right]:
             right -= 1
