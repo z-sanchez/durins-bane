@@ -1,5 +1,5 @@
 # Time Complexity = O(n) we traverse the array once
-# Space Complexity = O(1) No space needed
+# Space Complexity = O(n) Need stack for potentially every index
 
 def largestRectangleArea(heights) -> int:
 
