@@ -1,32 +1,34 @@
-# Time Complexity = O(n) we traverse the array once
-# Space Complexity = O(1) No space needed
+def largestRectangleArea(heights) -> int:
 
-def trappingRainwater(height):
+    maxArea = 0
+    stack = []  # pair: (index, height)
 
-    result = 0
+    for index, height in enumerate(heights):
+        currentIndex = index
 
-    if not height:
-        return result
+        # pop and calc area if the previous height is greater (their time of being a rectangle has come to an end)
+        # the loop will stop at the point where the shape is still possible
+        while stack and stack[-1][1] > height:
+            prevIndex, prevHeight = stack.pop()
 
-    left = 0
-    right = len(height) - 1
-    leftMax = height[left]
-    rightMax = height[right]
+            # current wall position - previous taller wall = width of rectangle
+            maxArea = max(maxArea, prevHeight * (index - prevIndex))
 
-    while left < right:
-        if leftMax < rightMax:
-            left += 1
-            leftMax = max(leftMax, height[left])
-            result += leftMax - height[left]
-        else:
-            right -= 1
-            rightMax = max(rightMax, height[right])
-            result += rightMax - height[right]
+            # this is for later
+            currentIndex = prevIndex
 
-    return result
+        # keep track of how far the current (index) wall can go back
+        stack.append((currentIndex, height))
+
+    for index, height in stack:
+        # these made it all the way to the end as rectangles so calculate the remaining max areas
+        # len(heights) = total width of the chart
+        maxArea = max(maxArea, height * (len(heights) - index))
+
+    return maxArea
 
 
 if "__main__" == __name__:
-    height = [0, 2, 0, 3, 1, 0, 1, 3, 2, 1]
-    result = trappingRainwater(height)
+    height = [7, 1, 7, 2, 2, 4]
+    result = largestRectangleArea(height)
     print(result)
