@@ -1,39 +1,32 @@
-# Time Complexity: O(n^2), nested loops
-# Space Complexity: O(n), creating a result array
+# Time Complexity = O(n) we traverse the array once
+# Space Complexity = O(1) No space needed
 
-# The idea here is that you focus on one value at a time. Take that value and find what other two summed with it = 0. Then move to next index.
-# We don't have to worry about comparing results using previous array values because those have been exhausted and check for
-# Rule of thumb: Once we've passed an index in the array, those values have been checked if there in play already, no need to compare back
+def trappingRainwater(height):
 
-def threeSum(array):
-    result = []
+    result = 0
 
-    array.sort()
+    if not height:
+        return result
 
-    for index, value in enumerate(array):
-        if index > 0 and array[index] == array[index - 1]:
-            continue
+    left = 0
+    right = len(height) - 1
+    leftMax = height[left]
+    rightMax = height[right]
 
-        left = index + 1
-        right = len(array) - 1
+    while left < right:
+        if leftMax < rightMax:
+            left += 1
+            leftMax = max(leftMax, height[left])
+            result += leftMax - height[left]
+        else:
+            right -= 1
+            rightMax = max(rightMax, height[right])
+            result += rightMax - height[right]
 
-        while left < right:
-            threeSum = value + array[left] + array[right]
-
-            if threeSum < 0:
-                left += 1
-            elif threeSum > 0:
-                right -= 1
-            else:
-                result.append([value, array[left], array[right]])
-                left += 1
-                while left < right and array[left] == array[left - 1]:
-                    left += 1
     return result
 
 
 if "__main__" == __name__:
-
-    array = [-1, 0, 1, 2, -1, -4]
-
-    print(threeSum(array))
+    height = [0, 2, 0, 3, 1, 0, 1, 3, 2, 1]
+    result = trappingRainwater(height)
+    print(result)
