@@ -1,3 +1,6 @@
+# Time Complexity = O(n) we traverse the array once
+# Space Complexity = O(1) No space needed
+
 def largestRectangleArea(heights) -> int:
 
     maxArea = 0
