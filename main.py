@@ -1,21 +1,26 @@
-# Time Complexity: O(n), we traverse the array once max
-# Space Complexity: O(n), we make a set here
+# Time Complexity = O(n) we traverse the array once
+# Space Complexity = O(n) Need stack for potentially every index
 
-def longestSequence(nums):
-    numSet = set(nums)
-    result = 0
+def largestRectangleArea(heights) -> int:
+    maxArea = 0
+    stack = []  # index, height
 
-    for num in numSet:
-        if num - 1 not in numSet:
-            length = 0
-            while num + length in numSet:
-                length += 1
-            result = max(length, result)
+    for index, height in enumerate(heights):
+        pointerIndex = index
+        while stack and height < stack[-1][1]:
+            stackIndex, stackHeight = stack.pop()
 
-    return result
+            maxArea = max(maxArea, stackHeight * (index - stackIndex))
+            pointerIndex = stackIndex
+        stack.append([pointerIndex, height])
+
+    for index, height in stack:
+        maxArea = max(maxArea, height * (len(heights) - index))
+
+    return maxArea
 
 
 if "__main__" == __name__:
-    input = [0, 3, 2, 5, 4, 6, 1, 1]
-    result = longestSequence(input)
+    height = [7, 1, 7, 2, 2, 4]
+    result = largestRectangleArea(height)
     print(result)
