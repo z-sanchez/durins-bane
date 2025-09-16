@@ -1,26 +1,25 @@
-# Time Complexity = O(n) we traverse the array once
-# Space Complexity = O(n) Need stack for potentially every index
+# Time Complexity = O(nlogn) we traverse the array once (n) but we do sort the card (longn)
+# Space Complexity = O(n) space for the stack
 
-def largestRectangleArea(heights) -> int:
-    maxArea = 0
-    stack = []  # index, height
+def carFleet(target, positions, speeds):
+    pairs = [[pos, speed] for pos, speed in zip(positions, speeds)]
+    stack = []
 
-    for index, height in enumerate(heights):
-        pointerIndex = index
-        while stack and height < stack[-1][1]:
-            stackIndex, stackHeight = stack.pop()
+    for pos, speed in sorted(pairs)[::-1]:
+        time = (target - pos) / speed
 
-            maxArea = max(maxArea, stackHeight * (index - stackIndex))
-            pointerIndex = stackIndex
-        stack.append([pointerIndex, height])
+        stack.append(time)
 
-    for index, height in stack:
-        maxArea = max(maxArea, height * (len(heights) - index))
+        while len(stack) > 1 and stack[-1] <= stack[-2]:
+            stack.pop()
 
-    return maxArea
+    return len(stack)
 
 
 if "__main__" == __name__:
-    height = [7, 1, 7, 2, 2, 4]
-    result = largestRectangleArea(height)
+    target = 10
+    position = [1, 4]
+    speed = [3, 2]
+
+    result = carFleet(target, position, speed)
     print(result)
