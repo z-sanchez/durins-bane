@@ -1,25 +1,21 @@
-# Time Complexity = O(nlogn) we traverse the array once (n) but we do sort the card (longn)
-# Space Complexity = O(n) space for the stack
+# Time Complexity: O(n), we traverse the array once max
+# Space Complexity: O(n), we make a set here
 
-def carFleet(target, positions, speeds):
-    pairs = [[pos, speed] for pos, speed in zip(positions, speeds)]
-    stack = []
+def longestSequence(nums):
+    numSet = set(nums)
+    result = 0
 
-    for pos, speed in sorted(pairs)[::-1]:
-        time = (target - pos) / speed
+    for x in numSet:
+        if x - 1 not in numSet:
+            length = 0
+            while x + length in numSet:
+                length += 1
+            result = max(result, length)
 
-        stack.append(time)
-
-        while len(stack) > 1 and stack[-1] <= stack[-2]:
-            stack.pop()
-
-    return len(stack)
+    return result
 
 
 if "__main__" == __name__:
-    target = 10
-    position = [1, 4]
-    speed = [3, 2]
-
-    result = carFleet(target, position, speed)
+    input = [0, 3, 2, 5, 4, 6, 1, 1]
+    result = longestSequence(input)
     print(result)
