@@ -8,7 +8,9 @@ def search(nums, target: int) -> int:
 
     while low <= high:
         # // ensures no floats will be used to index array
-        midpoint = low + (high - low) // 2
+        # high - low // 2 is for int overflow (important for other programming languages)
+        # it calculates the midpoint between high and low, then adds low to get the index of that spot
+        midpoint = low + ((high - low) // 2)
 
         if nums[midpoint] == target:
             return midpoint
