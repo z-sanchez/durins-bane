@@ -1,25 +1,29 @@
-# Time Complexity = O(logn) the array looked at is halved every iteration
-# Space Complexity = O(1), no space needed to search
+# Time Complexity = O(m * n) n for the number of elements, m for the length of each char
+# Space Complexity = O(m) for the map we create
 
-def search(nums, target: int) -> int:
-    left = 0
-    right = len(nums) - 1
+def groupAnagrams(strs):
 
-    while left <= right:
-        midpoint = left + ((right - left)//2)
+    # map will have a tuple as a key, then a list of strings for values
+    map = {}
 
-        if nums[midpoint] < target:
-            left = midpoint + 1
-        elif nums[midpoint] > target:
-            right = midpoint - 1
-        else:
-            return midpoint
+    for word in strs:
+        counts = [0] * 26
 
-    return -1
+        for char in word:
+            counts[ord(char) - ord('a')] += 1
+
+        key = tuple(counts)
+
+        if key not in map:
+            map[key] = []
+
+        map[key].append(word)
+
+    return list(map.values())
 
 
-if "__main__" == __name__:
-    nums = [-1, 0, 2, 4, 6, 8]
-    target = 4
-    result = search(nums, target)
+if __name__ == "__main__":
+    strs = ["act", "pots", "tops", "cat", "stop", "hat"]
+
+    result = groupAnagrams(strs)
     print(result)
