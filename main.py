@@ -1,30 +1,29 @@
-# Time Complexity = O(logn) the array looked at is halved every iteration
-# Space Complexity = O(1), no space needed to search
+# Time Complexity = O(n) we traverse the array once
+# Space Complexity = O(n) Need stack for potentially every index
 
-def search(nums, target: int) -> int:
+def largestRectangleArea(heights) -> int:
 
-    low = 0
-    high = len(nums) - 1
+    maxArea = 0
+    stack = []  # pair: (index, height)
 
-    while low <= high:
-        # // ensures no floats will be used to index array
-        # high - low // 2 is for int overflow (important for other programming languages)
-        # it calculates the midpoint between high and low, then adds low to get the index of that spot
-        midpoint = low + ((high - low) // 2)
+    for index, height in enumerate(heights):
+        pointer = index
 
-        if nums[midpoint] == target:
-            return midpoint
+        while stack and height < stack[-1][1]:
+            stackIndex, stackHeight = stack.pop()
+            calculatedArea = (index - stackIndex) * stackHeight
+            maxArea = max(calculatedArea, maxArea)
+            pointer = stackIndex
+        stack.append([pointer, height])
 
-        elif nums[midpoint] < target:
-            low = midpoint + 1
-        else:
-            high = midpoint - 1
+    for index, height in stack:
+        calculatedArea = (len(heights) - index) * height
+        maxArea = max(calculatedArea, maxArea)
 
-    return -1
+    return maxArea
 
 
 if "__main__" == __name__:
-    nums = [-1, 0, 2, 4, 6, 8]
-    target = 4
-    result = search(nums, target)
+    height = [7, 1, 7, 2, 2, 4]
+    result = largestRectangleArea(height)
     print(result)
