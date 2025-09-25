@@ -1,29 +1,27 @@
-# Time Complexity = O(m * n) n for the number of elements, m for the length of each char
-# Space Complexity = O(m) for the map we create
+# Time Complexity: O(n), nested loops
+# Space Complexity: O(1), creating nothing
 
-def groupAnagrams(strs):
+def twoSumTwo(array, target):
+    # pointer to beginning and pointer to the end
+    l, r = 0, len(array) - 1
 
-    # map will have a tuple as a key, then a list of strings for values
-    map = {}
+    while l < r:
+        sum = array[l] + array[r]
 
-    for word in strs:
-        counts = [0] * 26
+        if sum < target:
+            l += 1
+        elif sum > target:
+            r -= 1
+        else:
+            return [l, r]
 
-        for char in word:
-            counts[ord(char) - ord('a')] += 1
-
-        key = tuple(counts)
-
-        if key not in map:
-            map[key] = []
-
-        map[key].append(word)
-
-    return list(map.values())
+    return []
 
 
-if __name__ == "__main__":
-    strs = ["act", "pots", "tops", "cat", "stop", "hat"]
+if "__main__" == __name__:
 
-    result = groupAnagrams(strs)
+    # must be in order for it to work
+    array = [1, 2, 3, 4]
+    target = 3
+    result = twoSumTwo(array, target)
     print(result)
