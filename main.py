@@ -1,24 +1,28 @@
-from typing import List
+# Time Complexity = O(m * n) n for the number of elements, m for the length of each char
+# Space Complexity = O(m) for the map we create
+
+def groupAnagrams(strs):
+
+    map = {}
+
+    for word in strs:
+        counts = [0] * 26
+
+        for char in word:
+            counts[ord(char) - ord('a')] += 1
+
+        key = tuple(counts)
+
+        if key not in map:
+            map[key] = []
+
+        map[key].append(word)
+
+    return list(map.values())
 
 
-def dailyTemperatures(temps: int) -> List[str]:
-    # default all to zero
-    daysTill = [0] * len(temps)
+if __name__ == "__main__":
+    strs = ["act", "pots", "tops", "cat", "stop", "hat"]
 
-    stack = []
-
-    for index, temp in enumerate(temps):
-        while stack and temp > stack[-1][1]:
-            stackIndex, stackTemp = stack.pop()
-            daysTill[stackIndex] = index - stackIndex
-
-        stack.append([index, temp])
-
-    return daysTill
-
-
-if "__main__" == __name__:
-    temperatures = [30, 38, 30, 36, 35, 40, 28]
-
-    result = dailyTemperatures(temperatures)
+    result = groupAnagrams(strs)
     print(result)
