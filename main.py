@@ -1,26 +1,41 @@
-# Time Complexity = O(logn) the array looked at is halved every iteration
-# Space Complexity = O(1), no space needed to search
+def searchMatrix(matrix, target):
+    ROWS = len(matrix)
+    COLS = len(matrix[0])
 
-def search(nums, target: int) -> int:
+    left = 0
+    right = ROWS - 1
 
-    low = 0
-    high = len(nums) - 1
+    while left <= right:
+        middleRow = (right + left) // 2
 
-    while low <= high:
-        midpoint = low + ((high - low) // 2)
-
-        if nums[midpoint] > target:
-            high = midpoint - 1
-        elif nums[midpoint] < target:
-            low = midpoint + 1
+        if matrix[middleRow][0] > target:
+            right = middleRow - 1
+        elif matrix[middleRow][-1] < target:
+            left = middleRow + 1
         else:
-            return midpoint
+            break
 
-    return -1
+    if not (left <= right):
+        return False
+
+    left = 0
+    right = COLS - 1
+
+    while left <= right:
+        midPoint = (right + left) // 2
+
+        if matrix[middleRow][midPoint] > target:
+            right = midPoint - 1
+        elif matrix[middleRow][midPoint] < target:
+            left = midPoint + 1
+        else:
+            return True
+
+    return False
 
 
 if "__main__" == __name__:
-    nums = [-1, 0, 2, 4, 6, 8]
-    target = 4
-    result = search(nums, target)
+    matrix = [[1, 2, 4, 8], [10, 11, 12, 13], [14, 20, 30, 40]]
+    target = 12
+    result = searchMatrix(matrix, target)
     print(result)
