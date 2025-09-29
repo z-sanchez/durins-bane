@@ -1,26 +1,31 @@
-# Time Complexity = O(logn) the array looked at is halved every iteration
-# Space Complexity = O(1), no space needed to search
+# Time Complexity = O(n) we traverse the array once
+# Space Complexity = O(1) No space needed
 
-def search(nums, target: int) -> int:
+def trappingRainwater(height):
 
-    low = 0
-    high = len(nums) - 1
+    if not height:
+        return 0
 
-    while low <= high:
-        midpoint = low + ((high - low) // 2)
+    l, r = 0, len(height) - 1
+    leftMax, rightMax = height[l], height[r]
 
-        if nums[midpoint] > target:
-            high = midpoint - 1
-        elif nums[midpoint] < target:
-            low = midpoint + 1
+    result = 0
+
+    while l < r:
+
+        if leftMax < rightMax:
+            l += 1
+            leftMax = max(height[l], leftMax)
+            result += leftMax - height[l]
         else:
-            return midpoint
+            r -= 1
+            rightMax = max(rightMax, height[r])
+            result += rightMax - height[r]
 
-    return -1
+    return result
 
 
 if "__main__" == __name__:
-    nums = [-1, 0, 2, 4, 6, 8]
-    target = 4
-    result = search(nums, target)
+    height = [0, 2, 0, 3, 1, 0, 1, 3, 2, 1]
+    result = trappingRainwater(height)
     print(result)
