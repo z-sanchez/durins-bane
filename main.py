@@ -1,43 +1,41 @@
-# Time Complexity = O(n * logn) we use binary search with the while loop (logn) and the iterate (n) through the piles
-# Space Complexity = O(1) no additional space needed
-import math
+# Time Complexity: O(n^2), nested loops
+# Space Complexity: O(n), creating a result array
 
+# The idea here is that you focus on one value at a time. Take that value and find what other two summed with it = 0. Then move to next index.
+# We don't have to worry about comparing results using previous array values because those have been exhausted and check for
+# Rule of thumb: Once we've passed an index in the array, those values have been checked if there in play already, no need to compare back
 
-def kokoBananas(piles, hours):
+def threeSum(array):
+    result = []
 
-    # our minimum speed is 1
-    left = 1
-    # our max speed to get the job done is the max banana count in the pile
-    right = max(piles)
-    # set to our max, as we use the algo, we'll compare found speeds to it
-    result = right
+    array.sort()
 
-    while left <= right:
-        # imagine [min (left)....max (right)]
-        # we're simply trying out the speeds between then will use binary search to decide which one to try next
-        midpoint = (left + right) // 2
+    for index, value in enumerate(array):
+        if index > 0 and array[index - 1] == value:
+            continue
 
-        hoursCounted = 0
-        for x in piles:
-            # banana amount / speed, ceil rounds up
-            hoursCounted += math.ceil(x / midpoint)
+        left = index + 1
+        right = len(array) - 1
 
-        # if the eating speed can be eat all bananas in under the given time
-        if hoursCounted <= hours:
-            # turn result into our minimum speed required
-            result = min(midpoint, result)
-            # try out smaller speeds
-            right = midpoint - 1
-        else:
-            # need more speed
-            left = midpoint + 1
+        while left < right:
+            sum = array[left] + array[right] + value
 
+            if sum > 0:
+                right -= 1
+            elif sum < 0:
+                left += 1
+            else:
+                result.append([array[left], array[right], value])
+
+                left += 1
+
+                while left < right and array[left] == array[left - 1]:
+                    left += 1
     return result
 
 
 if "__main__" == __name__:
-    piles = [25, 10, 23, 4]
-    hours = 4
 
-    result = kokoBananas(piles, hours)
-    print(result)
+    array = [-1, 0, 1, 2, -1, -4]
+
+    print(threeSum(array))
