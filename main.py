@@ -16,6 +16,8 @@ def twoSumTwo(array, target):
         else:
             return [left + 1, right + 1]
 
+    return []
+
 
 if "__main__" == __name__:
 
