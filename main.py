@@ -1,28 +1,24 @@
-# Time Complexity: O(n), nested loops
-# Space Complexity: O(1), creating nothing
+# Time Complexity: O(n), we traverse the array once max
+# Space Complexity: O(1), no new data structure needed
 
-def twoSumTwo(array, target):
-    # pointer to beginning and pointer to the end
+def maxArea(heights):
     left = 0
-    right = len(array) - 1
+    right = len(heights) - 1
+    result = 0
 
     while left < right:
-        sum = array[left] + array[right]
+        calculatedArea = min(heights[left], heights[right]) * (right - left)
+        result = max(calculatedArea, result)
 
-        if sum < target:
-            left = left + 1
-        elif sum > target:
-            right = right - 1
+        if heights[left] < heights[right]:
+            left += 1
         else:
-            return [left + 1, right + 1]
+            right -= 1
 
-    return []
+    return result
 
 
 if "__main__" == __name__:
-
-    # must be in order for it to work
-    array = [1, 2, 3, 4]
-    target = 3
-    result = twoSumTwo(array, target)
+    input = [1, 7, 2, 5, 4, 7, 3, 6]
+    result = maxArea(input)
     print(result)
