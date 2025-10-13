@@ -1,23 +1,26 @@
-# Time Complexity: O(n), we traverse the array once max
-# Space Complexity: O(n), we make a set here
+# Time Complexity = O(logn) the array looked at is halved every iteration
+# Space Complexity = O(1), no space needed to search
 
-def longestSequence(nums):
-    numSet = set(nums)
+def search(nums, target: int) -> int:
 
-    result = 0
+    left = 0
+    right = len(nums) - 1
 
-    for x in numSet:
-        if x - 1 not in numSet:
-            length = 0
-            while length + x in numSet:
-                length += 1
+    while left <= right:
+        midpoint = (right + left) // 2
 
-            result = max(length, result)
+        if nums[midpoint] < target:
+            left = midpoint + 1
+        elif nums[midpoint] > target:
+            right = midpoint - 1
+        else:
+            return midpoint
 
-    return result
+    return -1
 
 
 if "__main__" == __name__:
-    input = [0, 3, 2, 5, 4, 6, 1, 1]
-    result = longestSequence(input)
+    nums = [-1, 0, 2, 4, 6, 8]
+    target = 4
+    result = search(nums, target)
     print(result)
