@@ -1,26 +1,26 @@
-# Time Complexity = O(logn) the array looked at is halved every iteration
-# Space Complexity = O(1), no space needed to search
+# Time Complexity: O(n), nested loops
+# Space Complexity: O(1), creating nothing
 
-def search(nums, target: int) -> int:
-
+def twoSumTwo(array, target):
+    # pointer to beginning and pointer to the end
     left = 0
-    right = len(nums) - 1
+    right = len(array) - 1
 
-    while left <= right:
-        midpoint = (right + left) // 2
+    while left < right:
+        sum = array[left] + array[right]
 
-        if nums[midpoint] < target:
-            left = midpoint + 1
-        elif nums[midpoint] > target:
-            right = midpoint - 1
+        if sum < target:
+            left = left + 1
+        elif sum > target:
+            right = right - 1
         else:
-            return midpoint
-
-    return -1
+            return [left + 1, right + 1]
 
 
 if "__main__" == __name__:
-    nums = [-1, 0, 2, 4, 6, 8]
-    target = 4
-    result = search(nums, target)
+
+    # must be in order for it to work
+    array = [1, 2, 3, 4]
+    target = 3
+    result = twoSumTwo(array, target)
     print(result)
