@@ -1,24 +1,21 @@
 # Time Complexity: O(n), we traverse the array once max
-# Space Complexity: O(1), no new data structure needed
+# Space Complexity: O(n), we make a set here
 
-def maxArea(heights):
-    left = 0
-    right = len(heights) - 1
+def longestSequence(nums):
+    numSet = set(nums)
     result = 0
 
-    while left < right:
-        calculatedArea = min(heights[left], heights[right]) * (right - left)
-        result = max(calculatedArea, result)
-
-        if heights[left] < heights[right]:
-            left += 1
-        else:
-            right -= 1
+    for x in nums:
+        if x - 1 not in numSet:
+            length = 0
+            while x + length in numSet:
+                length += 1
+            result = max(length, result)
 
     return result
 
 
 if "__main__" == __name__:
-    input = [1, 7, 2, 5, 4, 7, 3, 6]
-    result = maxArea(input)
+    input = [0, 3, 2, 5, 4, 6, 1, 1]
+    result = longestSequence(input)
     print(result)
