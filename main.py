@@ -1,28 +1,26 @@
-# Time Complexity = O(nlogn) we traverse the array once (n) but we do sort the card (longn)
-# Space Complexity = O(n) space for the stack
+from typing import List
 
-def carFleet(target, positions, speeds):
-    # zip combines two array into pairs, use for loop to fill the array using tuples returned
-    pair = [[pos, speed] for pos, speed in zip(positions, speeds)]
+
+def dailyTemperatures(temps: int) -> List[str]:
+    # default all to zero
+    result = [0] * len(temps)
 
     stack = []
+    # pair: [temp, index], this will keep track of temps we need to re-evaluate as we go down the list
 
-    for position, speed in sorted(pair)[::-1]:
+    for index, temp in enumerate(temps):
 
-        time = (target - position) / speed
+        while stack and stack[-1][1] < temp:
+            prevIndex, prevTemp = stack.pop()
+            result[prevIndex] = index - prevIndex
 
-        stack.append(time)
+        stack.append([index, temp])
 
-        while len(stack) > 1 and stack[-1] <= stack[-2]:
-            stack.pop()
-
-    return len(stack)
+    return result
 
 
 if "__main__" == __name__:
-    target = 10
-    position = [1, 4]
-    speed = [3, 2]
+    temperatures = [30, 38, 30, 36, 35, 40, 28]
 
-    result = carFleet(target, position, speed)
+    result = dailyTemperatures(temperatures)
     print(result)
