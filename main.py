@@ -1,33 +1,42 @@
-# Time Complexity = O(n * logn) we use binary search with the while loop (logn) and the iterate (n) through the piles
-# Space Complexity = O(1) no additional space needed
-import math
+def searchMatrix(matrix, target):
+    ROWS = len(matrix)
+    COLS = len(matrix[0])
 
-
-def kokoBananas(piles, hours):
-
-    left = 1
-    right = max(piles)
-    result = right
+    left = 0
+    right = ROWS - 1
 
     while left <= right:
-        midPoint = (right + left) // 2
+        midpoint = (right + left) // 2
 
-        hoursCounted = 0
-        for x in piles:
-            hoursCounted += math.ceil(x/midPoint)
-
-        if hoursCounted <= hours:
-            right = midPoint - 1
-            result = min(midPoint, result)
+        if matrix[midpoint][0] > target:
+            right = midpoint - 1
+        elif matrix[midpoint][-1] < target:
+            left = midpoint + 1
         else:
-            left = midPoint + 1
+            break
 
-    return result
+    if not left <= right:
+        return False
+
+    row = midpoint
+    left = 0
+    right = COLS - 1
+
+    while left <= right:
+        midpoint = (right + left) // 2
+
+        if matrix[row][midpoint] > target:
+            right = midpoint - 1
+        elif matrix[row][midpoint] < target:
+            left += 1
+        else:
+            return True
+
+    return False
 
 
 if "__main__" == __name__:
-    piles = [25, 10, 23, 4]
-    hours = 4
-
-    result = kokoBananas(piles, hours)
+    matrix = [[1, 2, 4, 8], [10, 11, 12, 13], [14, 20, 30, 40]]
+    target = 12
+    result = searchMatrix(matrix, target)
     print(result)
