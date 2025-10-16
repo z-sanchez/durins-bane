@@ -1,33 +1,31 @@
-# Time Complexity = O(n * logn) we use binary search with the while loop (logn) and the iterate (n) through the piles
-# Space Complexity = O(1) no additional space needed
-import math
+# Time Complexity = O(n) we traverse the array once
+# Space Complexity = O(1) No space needed
 
+def trappingRainwater(height):
 
-def kokoBananas(piles, hours):
-    left = 1
-    right = max(piles)
-    result = right
+    if not height:
+        return 0
 
-    while left <= right:
-        midpoint = (right + left) // 2
+    left = 0
+    right = len(height) - 1
+    leftMax = height[left]
+    rightMax = height[right]
+    result = 0
 
-        hoursCounted = 0
-
-        for bananas in piles:
-            hoursCounted += math.ceil(bananas / midpoint)
-
-        if hoursCounted <= hours:
-            result = min(result, midpoint)
-            right = midpoint - 1
+    while left < right:
+        if leftMax < rightMax:
+            left += 1
+            leftMax = max(leftMax, height[left])
+            result += leftMax - height[left]
         else:
-            left = midpoint + 1
+            right -= 1
+            rightMax = max(rightMax, height[right])
+            result += rightMax - height[right]
 
     return result
 
 
 if "__main__" == __name__:
-    piles = [25, 10, 23, 4]
-    hours = 4
-
-    result = kokoBananas(piles, hours)
+    height = [0, 2, 0, 3, 1, 0, 1, 3, 2, 1]
+    result = trappingRainwater(height)
     print(result)
