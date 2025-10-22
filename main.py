@@ -1,42 +1,28 @@
-def searchMatrix(matrix, target):
-    ROWS = len(matrix)
-    COLS = len(matrix[0])
+# Time Complexity = O(n) we traverse the array once
+# Space Complexity = O(n) Need stack for potentially every index
 
-    left = 0
-    right = ROWS - 1
+def largestRectangleArea(heights) -> int:
 
-    while left <= right:
-        midpoint = (right + left) // 2
+    maxArea = 0
+    stack = []  # pair: (index, height)
 
-        if matrix[midpoint][0] > target:
-            right = midpoint - 1
-        elif matrix[midpoint][-1] < target:
-            left = midpoint + 1
-        else:
-            break
+    for index, height in enumerate(heights):
+        pointer = index
 
-    if not left <= right:
-        return False
+        while stack and stack[-1] > height:
+            stackIndex, stackHeight = stack.pop()
+            maxArea = max(maxArea, stackHeight * (index-stackIndex))
+            pointer = stackIndex
 
-    row = midpoint
-    left = 0
-    right = COLS - 1
+        stack.append([pointer, height])
 
-    while left <= right:
-        midpoint = (right + left) // 2
+    for index, height in stack:
+        maxArea = max(maxArea, height * (len(heights) - index))
 
-        if matrix[row][midpoint] > target:
-            right = midpoint - 1
-        elif matrix[row][midpoint] < target:
-            left += 1
-        else:
-            return True
-
-    return False
+    return maxArea
 
 
 if "__main__" == __name__:
-    matrix = [[1, 2, 4, 8], [10, 11, 12, 13], [14, 20, 30, 40]]
-    target = 12
-    result = searchMatrix(matrix, target)
+    height = [7, 1, 7, 2, 2, 4]
+    result = largestRectangleArea(height)
     print(result)
