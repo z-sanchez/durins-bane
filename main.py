@@ -1,41 +1,27 @@
-def searchMatrix(matrix, target):
+# Time Complexity: O(n), nested loops
+# Space Complexity: O(1), creating nothing
 
-    ROWS = len(matrix)
-    COLS = len(matrix[0])
+def twoSumTwo(array, target):
     left = 0
-    right = ROWS - 1
+    right = len(array) - 1
 
-    while left <= right:
-        middleRow = (left + right) // 2
+    while left < right:
+        sum = array[left] + array[right]
 
-        if matrix[middleRow][-1] < target:
-            left = middleRow + 1
-        elif matrix[middleRow][0] > target:
-            right = middleRow - 1
+        if sum < target:
+            left += 1
+        elif sum > target:
+            right -= 1
         else:
-            break
+            return [left + 1, right + 1]
 
-    if not left <= right:
-        return False
-
-    left = 0
-    right = COLS - 1
-
-    while left <= right:
-        midpoint = (left + right) // 2
-
-        if matrix[middleRow][midpoint] < target:
-            left = midpoint + 1
-        elif matrix[middleRow][midpoint] > target:
-            right = midpoint - 1
-        else:
-            return True
-
-    return False
+    return []
 
 
 if "__main__" == __name__:
-    matrix = [[1, 2, 4, 8], [10, 11, 12, 13], [14, 20, 30, 40]]
-    target = 12
-    result = searchMatrix(matrix, target)
+
+    # must be in order for it to work
+    array = [1, 2, 3, 4]
+    target = 3
+    result = twoSumTwo(array, target)
     print(result)
