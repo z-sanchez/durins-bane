@@ -1,27 +1,26 @@
 # Time Complexity: O(n), nested loops
 # Space Complexity: O(1), creating nothing
 
-def twoSumTwo(array, target):
-    left = 0
-    right = len(array) - 1
+def carFleet(target, positions, speeds):
+    # zip combines two array into pairs, use for loop to fill the array using tuples returned
+    pair = [[p, s] for p, s in zip(positions, speeds)]
 
-    while left < right:
-        sum = array[left] + array[right]
+    # this will keep track of fleet speeds
+    stack = []
 
-        if sum < target:
-            left += 1
-        elif sum > target:
-            right -= 1
-        else:
-            return [left + 1, right + 1]
+    for position, speed in sorted(pair)[::-1]:
+        time = (target - position) / speed
+        stack.append(time)
+        if len(stack) > 1 and stack[-2] >= stack[-1]:
+            stack.pop()
 
-    return []
+    return len(stack)
 
 
 if "__main__" == __name__:
+    target = 10
+    position = [1, 4]
+    speed = [3, 2]
 
-    # must be in order for it to work
-    array = [1, 2, 3, 4]
-    target = 3
-    result = twoSumTwo(array, target)
+    result = carFleet(target, position, speed)
     print(result)
