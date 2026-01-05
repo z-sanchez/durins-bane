@@ -1,40 +1,25 @@
-# Time Complexity: O(n^2), nested loops
-# Space Complexity: O(n), creating a result array
+from typing import List
 
-# The idea here is that you focus on one value at a time. Take that value and find what other two summed with it = 0. Then move to next index.
-# We don't have to worry about comparing results using previous array values because those have been exhausted and check for
-# Rule of thumb: Once we've passed an index in the array, those values have been checked if there in play already, no need to compare back
 
-def threeSum(array):
-    result = []
+def dailyTemperatures(temps: int) -> List[str]:
+    # default all to zero
+    result = [0] * len(temps)
 
-    array.sort()
+    stack = []
 
-    for index, value in enumerate(array):
-        if index > 0 and array[index - 1] == value:
-            continue
+    for index, temp in enumerate(temps):
+        while stack and temp > stack[-1][0]:
+            stackTemp, stackIndex = stack.pop()
+            result[stackIndex] = index - stackIndex
+        stack.append([temp, index])
 
-        left = index + 1
-        right = len(array) - 1
-
-        while left < right:
-            sum = value + array[left] + array[right]
-
-            if sum < 0:
-                left += 1
-            elif sum > 0:
-                right -= 1
-            else:
-                result.append([value, array[left], array[right]])
-                left += 1
-
-                while left < right and array[left - 1] == array[left]:
-                    left += 1
     return result
 
 
 if "__main__" == __name__:
-
-    array = [-1, 0, 1, 2, -1, -4]
-
-    print(threeSum(array))
+    temperatures = [30, 38, 30, 36, 35, 40, 28]
+    test = []
+    result = dailyTemperatures(temperatures)
+    print(result)
+    print(bool(test))
+    print(bool(temperatures))
