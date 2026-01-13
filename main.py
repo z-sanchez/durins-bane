@@ -1,25 +1,27 @@
-from typing import List
 
 
-def dailyTemperatures(temps: int) -> List[str]:
-    # default all to zero
-    result = [0] * len(temps)
+def twoSumTwo(array, target):
 
-    stack = []
+    left = 0
+    right = len(array) - 1
 
-    for index, temp in enumerate(temps):
-        while stack and temp > stack[-1][0]:
-            stackTemp, stackIndex = stack.pop()
-            result[stackIndex] = index - stackIndex
-        stack.append([temp, index])
+    while left < right:
+        sum = array[left] + array[right]
 
-    return result
+        if sum < target:
+            left += 1
+        elif sum > target:
+            right -= 1
+        else:
+            return [left + 1, right + 1]
+
+    return []
 
 
 if "__main__" == __name__:
-    temperatures = [30, 38, 30, 36, 35, 40, 28]
-    test = []
-    result = dailyTemperatures(temperatures)
+
+    # must be in order for it to work
+    array = [1, 2, 3, 4]
+    target = 3
+    result = twoSumTwo(array, target)
     print(result)
-    print(bool(test))
-    print(bool(temperatures))
