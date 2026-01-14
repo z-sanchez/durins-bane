@@ -1,27 +1,26 @@
+# Time Complexity = O(nlogn) we traverse the array once (n) but we do sort the card (longn)
+# Space Complexity = O(n) space for the stack
 
+def carFleet(target, positions, speeds):
+    # zip combines two array into pairs, use for loop to fill the array using tuples returned
+    pairs = [[pos, speed] for pos, speed in zip(positions, speeds)]
+    stack = []
 
-def twoSumTwo(array, target):
+    for position, speed in sorted(pairs)[::-1]:
+        time = (target - position) / speed
 
-    left = 0
-    right = len(array) - 1
+        stack.append(time)
 
-    while left < right:
-        sum = array[left] + array[right]
+        if len(stack) > 1 and stack[-1] <= stack[-2]:
+            stack.pop()
 
-        if sum < target:
-            left += 1
-        elif sum > target:
-            right -= 1
-        else:
-            return [left + 1, right + 1]
-
-    return []
+    return len(stack)
 
 
 if "__main__" == __name__:
+    target = 10
+    position = [1, 4]
+    speed = [3, 2]
 
-    # must be in order for it to work
-    array = [1, 2, 3, 4]
-    target = 3
-    result = twoSumTwo(array, target)
+    result = carFleet(target, position, speed)
     print(result)
