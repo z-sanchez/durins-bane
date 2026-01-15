@@ -1,28 +1,22 @@
-# Time Complexity = O(nlogn) we traverse the array once (n) but we do sort the card (longn)
-# Space Complexity = O(n) space for the stack
+from typing import List
 
-def twoSumTwo(array, target):
 
-    left = 0
-    right = len(array) - 1
+def dailyTemperatures(temps: int) -> List[str]:
+    result = [0] * len(temps)
 
-    while left < right:
-        sum = array[left] + array[right]
+    stack = []  # temp, index
 
-        if sum < target:
-            left += 1
-        elif sum > target:
-            right -= 1
-        else:
-            return [left + 1, right + 1]
+    for index, temperature in enumerate(temps):
+        while stack and temperature > stack[-1][0]:
+            stackTemp, stackIndex = stack.pop()
+            result[stackIndex] = index - stackIndex
+        stack.append([temperature, index])
 
-    return []
+    return result
 
 
 if "__main__" == __name__:
+    temperatures = [30, 38, 30, 36, 35, 40, 28]
 
-    # must be in order for it to work
-    array = [1, 2, 3, 4]
-    target = 3
-    result = twoSumTwo(array, target)
+    result = dailyTemperatures(temperatures)
     print(result)
