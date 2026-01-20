@@ -1,24 +1,23 @@
-# Time Complexity: O(n), we traverse the array once max
-# Space Complexity: O(1), no new data structure needed
+from typing import List
 
-def maxArea(heights):
-    left = 0
-    right = len(heights) - 1
-    result = 0
 
-    while left < right:
-        calculatedArea = (right - left) * min(heights[left], heights[right])
-        result = max(calculatedArea, result)
+def dailyTemperatures(temps: int) -> List[str]:
+    # default all to zero
+    result = [0] * len(temps)
 
-        if heights[left] < heights[right]:
-            left += 1
-        else:
-            right -= 1
+    stack = []  # index, temp
+
+    for index, temp in enumerate(temps):
+        while stack and stack[-1][1] < temp:
+            stackIndex, stackTemp = stack.pop()
+            result[stackIndex] = index - stackIndex
+        stack.append([index, temp])
 
     return result
 
 
 if "__main__" == __name__:
-    input = [1, 7, 2, 5, 4, 7, 3, 6]
-    result = maxArea(input)
+    temperatures = [30, 38, 30, 36, 35, 40, 28]
+
+    result = dailyTemperatures(temperatures)
     print(result)
