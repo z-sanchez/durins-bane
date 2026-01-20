@@ -1,25 +1,27 @@
-# Time Complexity: O(n), we traverse the array once max
-# Space Complexity: O(1), no new data structure needed
+# Time Complexity = O(n) we traverse the array once
+# Space Complexity = O(n) Need stack for potentially every index
 
-def maxArea(heights):
-    left = 0
-    right = len(heights) - 1
-    result = 0
+def largestRectangleArea(heights) -> int:
 
-    while left < right:
-        area = (right - left) * min(heights[left], heights[right])
+    maxArea = 0
+    stack = []  # index, height
 
-        result = max(area, result)
+    for index, height in enumerate(heights):
+        currentIndex = index
 
-        if heights[left] > heights[right]:
-            right -= 1
-        else:
-            left += 1
+        while stack and stack[-1][1] > height:
+            stackIndex, stackHeight = stack.pop()
+            maxArea = max(maxArea, stackHeight * (index - stackIndex))
+            currentIndex = stackIndex
+        stack.append([currentIndex, height])
 
-    return result
+    for index, height in stack:
+        maxArea = max(maxArea, (len(heights) - index) * height)
+
+    return maxArea
 
 
 if "__main__" == __name__:
-    input = [1, 7, 2, 5, 4, 7, 3, 6]
-    result = maxArea(input)
+    height = [7, 1, 7, 2, 2, 4]
+    result = largestRectangleArea(height)
     print(result)
