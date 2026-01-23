@@ -9,14 +9,17 @@ def largestRectangleArea(heights) -> int:
     for index, height in enumerate(heights):
         currentIndex = index
 
-        while stack and stack[-1][1] > height:
+        while stack and height < stack[-1][1]:
             stackIndex, stackHeight = stack.pop()
-            maxArea = max(maxArea, stackHeight * (index - stackIndex))
+            calculatedArea = (index - stackIndex) * stackHeight
+            maxArea = max(calculatedArea, maxArea)
             currentIndex = stackIndex
+
         stack.append([currentIndex, height])
 
     for index, height in stack:
-        maxArea = max(maxArea, (len(heights) - index) * height)
+        calculatedArea = (len(heights) - index) * height
+        maxArea = max(calculatedArea, maxArea)
 
     return maxArea
 
