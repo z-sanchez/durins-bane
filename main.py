@@ -1,24 +1,31 @@
-# Time Complexity: O(n), we traverse the array once max
-# Space Complexity: O(1), no new data structure needed
+# Time Complexity = O(n) we traverse the array once
+# Space Complexity = O(1) No space needed
 
-def maxArea(heights):
+def trappingRainwater(height):
+
+    if not height:
+        return 0
+
     left = 0
-    right = len(heights) - 1
+    right = len(height) - 1
+    leftMax = height[left]
+    rightMax = height[right]
+
     result = 0
 
     while left < right:
-        calculatedArea = (right - left) * min(heights[right], heights[left])
-
-        result = max(calculatedArea, result)
-
-        if heights[left] < heights[right]:
+        if leftMax < rightMax:
             left += 1
+            leftMax = max(height[left], leftMax)
+            result += leftMax - height[left]
         else:
             right -= 1
+            rightMax = max(height[right], rightMax)
+            result += rightMax - height[right]
     return result
 
 
 if "__main__" == __name__:
-    input = [1, 7, 2, 5, 4, 7, 3, 6]
-    result = maxArea(input)
+    height = [0, 2, 0, 3, 1, 0, 1, 3, 2, 1]
+    result = trappingRainwater(height)
     print(result)
