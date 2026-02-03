@@ -1,41 +1,30 @@
-# Time Complexity: O(n^2), nested loops
-# Space Complexity: O(n), creating a result array
+# Time Complexity = O(n) we traverse the array once
+# Space Complexity = O(n) Need stack for potentially every index
 
-# The idea here is that you focus on one value at a time. Take that value and find what other two summed with it = 0. Then move to next index.
-# We don't have to worry about comparing results using previous array values because those have been exhausted and check for
-# Rule of thumb: Once we've passed an index in the array, those values have been checked if there in play already, no need to compare back
+def largestRectangleArea(heights) -> int:
 
-def threeSum(array):
-    result = []
+    maxArea = 0
+    stack = []  # pair: (index, height)
 
-    array.sort()
+    for index, height in enumerate(heights):
+        currentIndex = index
 
-    for index, value in enumerate(array):
-        if index > 0 and array[index-1] == value:
-            continue
+        while stack and height < stack[-1][1]:
+            stackIndex, stackHeight = stack.pop()
+            calculatedArea = (index - stackIndex) * stackHeight
+            maxArea = max(calculatedArea, maxArea)
+            currentIndex = stackIndex
 
-        left = index + 1
-        right = len(array) - 1
+        stack.append([currentIndex, height])
 
-        while left < right:
-            sum = array[index] + array[left] + array[right]
+    for index, height in stack:
+        calculatedArea = (len(heights) - index) * height
+        maxArea = max(calculatedArea, maxArea)
 
-            if sum > 0:
-                right -= 1
-            elif sum < 0:
-                left += 1
-            else:
-                result.append([value, array[left], array[right]])
-                left += 1
-
-                while left < right and array[left] == array[left - 1]:
-                    left += 1
-
-    return result
+    return maxArea
 
 
 if "__main__" == __name__:
-
-    array = [-1, 0, 1, 2, -1, -4]
-
-    print(threeSum(array))
+    height = [7, 1, 7, 2, 2, 4]
+    result = largestRectangleArea(height)
+    print(result)
