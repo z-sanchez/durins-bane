@@ -1,23 +1,34 @@
-from typing import List
+# Time Complexity = O(n * logn) we use binary search with the while loop (logn) and the iterate (n) through the piles
+# Space Complexity = O(1) no additional space needed
+import math
 
 
-def dailyTemperatures(temps: int) -> List[str]:
-    # default all to zero
-    result = [0] * len(temps)
+def kokoBananas(piles, hours):
 
-    stack = []
+    left = 1
+    right = max(piles)
+    result = right
 
-    for index, temp in enumerate(temps):
-        while stack and stack[-1][1] < temp:
-            stackIndex, stackTemp = stack.pop()
-            result[stackIndex] = index - stackIndex
-        stack.append([index, temp])
+    while left <= right:
+        midpoint = (right + left) // 2
+
+        hoursCounted = 0
+
+        for x in piles:
+            hoursCounted += math.ceil(x/midpoint)
+
+        if hoursCounted <= hours:
+            right = midpoint - 1
+            result = min(result, midpoint)
+        else:
+            left = midpoint + 1
 
     return result
 
 
 if "__main__" == __name__:
-    temperatures = [30, 38, 30, 36, 35, 40, 28]
+    piles = [25, 10, 23, 4]
+    hours = 4
 
-    result = dailyTemperatures(temperatures)
+    result = kokoBananas(piles, hours)
     print(result)
