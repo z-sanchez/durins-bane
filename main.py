@@ -10,12 +10,12 @@ def kokoBananas(piles, hours):
     result = right
 
     while left <= right:
-        midpoint = (right + left) // 2
+        midpoint = (left + right) // 2
 
         hoursCounted = 0
 
         for x in piles:
-            hoursCounted += math.ceil(x/midpoint)
+            hoursCounted += math.ceil(x / midpoint)
 
         if hoursCounted <= hours:
             right = midpoint - 1
