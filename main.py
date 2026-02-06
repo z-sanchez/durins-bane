@@ -1,34 +1,30 @@
-# Time Complexity = O(n * logn) we use binary search with the while loop (logn) and the iterate (n) through the piles
-# Space Complexity = O(1) no additional space needed
-import math
 
 
-def kokoBananas(piles, hours):
+def largestRectangleArea(heights):
 
-    left = 1
-    right = max(piles)
-    result = right
+    result = 0
+    stack = []  # index, height
 
-    while left <= right:
-        midpoint = (left + right) // 2
+    for index, height in enumerate(heights):
 
-        hoursCounted = 0
+        pointer = index
 
-        for x in piles:
-            hoursCounted += math.ceil(x / midpoint)
+        while stack and stack[-1][1] > height:
+            stackIndex, stackHeight = stack.pop()
+            calculatedArea = (index - stackIndex) * stackHeight
+            result = max(result, calculatedArea)
+            pointer = stackIndex
 
-        if hoursCounted <= hours:
-            right = midpoint - 1
-            result = min(result, midpoint)
-        else:
-            left = midpoint + 1
+        stack.append([pointer, height])
+
+    for index, height in stack:
+        calculatedArea = (len(heights) - index) * height
+        result = max(calculatedArea, result)
 
     return result
 
 
 if "__main__" == __name__:
-    piles = [25, 10, 23, 4]
-    hours = 4
-
-    result = kokoBananas(piles, hours)
+    height = [7, 1, 7, 2, 2, 4]
+    result = largestRectangleArea(height)
     print(result)
