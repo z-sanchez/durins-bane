@@ -1,30 +1,41 @@
+# Time Complexity: O(n^2), nested loops
+# Space Complexity: O(n), creating a result array
 
+# The idea here is that you focus on one value at a time. Take that value and find what other two summed with it = 0. Then move to next index.
+# We don't have to worry about comparing results using previous array values because those have been exhausted and check for
+# Rule of thumb: Once we've passed an index in the array, those values have been checked if there in play already, no need to compare back
 
-def largestRectangleArea(heights):
+def threeSum(array):
+    result = []
 
-    result = 0
-    stack = []  # index, height
+    array.sort()
 
-    for index, height in enumerate(heights):
+    for index, value in enumerate(array):
+        if index > 0 and array[index - 1] == value:
+            continue
 
-        pointer = index
+        left = index + 1
+        right = len(array) - 1
 
-        while stack and stack[-1][1] > height:
-            stackIndex, stackHeight = stack.pop()
-            calculatedArea = (index - stackIndex) * stackHeight
-            result = max(result, calculatedArea)
-            pointer = stackIndex
+        while left < right:
+            sum = array[left] + array[right] + value
 
-        stack.append([pointer, height])
+            if sum > 0:
+                right -= 1
+            elif sum < 0:
+                left += 1
+            else:
+                result.append([value, array[left], array[right]])
+                left += 1
 
-    for index, height in stack:
-        calculatedArea = (len(heights) - index) * height
-        result = max(calculatedArea, result)
+                while left < right and array[left - 1] == array[left]:
+                    left += 1
 
     return result
 
 
 if "__main__" == __name__:
-    height = [7, 1, 7, 2, 2, 4]
-    result = largestRectangleArea(height)
-    print(result)
+
+    array = [-1, 0, 1, 2, -1, -4]
+
+    print(threeSum(array))
