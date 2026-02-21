@@ -5,37 +5,22 @@
 # We don't have to worry about comparing results using previous array values because those have been exhausted and check for
 # Rule of thumb: Once we've passed an index in the array, those values have been checked if there in play already, no need to compare back
 
-def threeSum(array):
-    result = []
+def dailyTemperatures(temperatures):
+    result = [0] * len(temperatures)
 
-    array.sort()
+    stack = []
 
-    for index, value in enumerate(array):
-        if index > 0 and array[index - 1] == value:
-            continue
-
-        left = index + 1
-        right = len(array) - 1
-
-        while left < right:
-            sum = array[left] + array[right] + value
-
-            if sum > 0:
-                right -= 1
-            elif sum < 0:
-                left += 1
-            else:
-                result.append([value, array[left], array[right]])
-                left += 1
-
-                while left < right and array[left - 1] == array[left]:
-                    left += 1
+    for index, temp in enumerate(temperatures):
+        while stack and stack[-1][1] < temp:
+            stackIndex, stackTemp = stack.pop()
+            result[stackIndex] = index - stackIndex
+        stack.append([index, temp])
 
     return result
 
 
 if "__main__" == __name__:
+    temperatures = [30, 38, 30, 36, 35, 40, 28]
 
-    array = [-1, 0, 1, 2, -1, -4]
-
-    print(threeSum(array))
+    result = dailyTemperatures(temperatures)
+    print(result)
