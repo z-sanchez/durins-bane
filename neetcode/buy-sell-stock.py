@@ -8,19 +8,13 @@ def maxProfit(prices) -> int:
 
     maxProfit = 0
 
-    # run till scout meets end
     while right < len(prices):
-
-        # left is where we buy, condition is true when profit possible
-        if prices[left] < prices[right]:
+        if prices[right] > prices[left]:
             profit = prices[right] - prices[left]
             maxProfit = max(maxProfit, profit)
-        # if left is greater than right, means there's a new opportunity to by lower that we must now explore
-        # we can update left because all other possibilities of profit have been explored
         else:
             left = right
 
-        # always increment right to move the algo
         right += 1
 
     return maxProfit
