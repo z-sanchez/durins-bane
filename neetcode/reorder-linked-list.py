@@ -10,26 +10,29 @@
 
 class Solution:
     def reorderList(self, head: Optional[ListNode]) -> None:
-        # slow will track where the midpoint falls
-        # fast will tell is when we hit the end of list
-        slow, fast = head, head.next
+
+        # find midpoint
+        slow = head
+        fast = head.next
 
         while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
 
+        # reverse list
+
         second = slow.next
         prev = None
-        slow.next = None
+        second.next = None
 
         while second:
-            temp = second.next
+            temp = second
             second.next = prev
-            prev = second
-            second = temp
+            second = second.next
+            prev = temp
 
+        # merge
         first = head
-        second = prev
 
         while second:
             temp1 = first.next
