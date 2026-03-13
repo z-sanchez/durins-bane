@@ -9,8 +9,8 @@ def subsWithoutDupes(s: str) -> int:
             charSet.remove(s[left])
             left += 1
 
-        maxCount = max(maxCount, right - left + 1)
         charSet.add(s[right])
+        maxCount = max(maxCount, right - left + 1)
 
     return maxCount
 
