@@ -1,26 +1,26 @@
-# Time Complexity: O(n^2), nested loops
-# Space Complexity: O(n), creating a result array
+# Time Complexity = O(nlogn) we traverse the array once (n) but we do sort the card (longn)
+# Space Complexity = O(n) space for the stack
 
-# The idea here is that you focus on one value at a time. Take that value and find what other two summed with it = 0. Then move to next index.
-# We don't have to worry about comparing results using previous array values because those have been exhausted and check for
-# Rule of thumb: Once we've passed an index in the array, those values have been checked if there in play already, no need to compare back
-
-def dailyTemperatures(temperatures):
-    result = [0] * len(temperatures)
+def carFleet(target, positions, speeds):
+    # zip combines two array into pairs, use for loop to fill the array using tuples returned
+    pair = [[p, s] for p, s in zip(positions, speeds)]
 
     stack = []
 
-    for index, temp in enumerate(temperatures):
-        while stack and stack[-1][1] < temp:
-            stackIndex, stackTemp = stack.pop()
-            result[stackIndex] = index - stackIndex
-        stack.append([index, temp])
+    for position, speed in sorted(pair)[::-1]:
+        time = (target - position) / speed
+        stack.append(time)
 
-    return result
+        while len(stack) > 1 and stack[-1] <= stack[-2]:
+            stack.pop()
+
+    return len(stack)
 
 
 if "__main__" == __name__:
-    temperatures = [30, 38, 30, 36, 35, 40, 28]
+    target = 10
+    position = [1, 4]
+    speed = [3, 2]
 
-    result = dailyTemperatures(temperatures)
+    result = carFleet(target, position, speed)
     print(result)
