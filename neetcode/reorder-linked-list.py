@@ -19,20 +19,18 @@ class Solution:
             slow = slow.next
             fast = fast.next.next
 
-        # reverse list
-
         second = slow.next
+        slow.next = None
         prev = None
-        second.next = None
 
         while second:
-            temp = second
+            temp = second.next
             second.next = prev
-            second = second.next
-            prev = temp
+            prev = second
+            second = temp
 
-        # merge
         first = head
+        second = prev
 
         while second:
             temp1 = first.next
