@@ -1,27 +1,41 @@
-# Time Complexity = O(nlogn) we traverse the array once (n) but we do sort the card (longn)
-# Space Complexity = O(n) space for the stack
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+# [2 -> 4 -> 6 -> 8]
 
-def carFleet(target, positions, speeds):
-    # zip combines two array into pairs, use for loop to fill the array using tuples returned
-    pair = [[p, s] for p, s in zip(positions, speeds)]
+# Time Complexity: O(n), iterate through list a few times but still linear
+# Space Complexity: O(1), no new space created
 
-    # this will keep track of fleet speeds
-    stack = []
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        slow = head
+        fast = head.next
 
-    for position, speed in sorted(pair)[::-1]:
-        time = (target - position) / speed
-        stack.append(time)
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
 
-        if len(stack) > 1 and stack[-1] <= stack[-2]:
-            stack.pop()
+        second = slow.next
+        prev = None
+        slow.next = None
 
-    return len(stack)
+        while second:
+            temp = second.next
+            second.next = prev
+            prev = second
+            second = temp
 
+        first = head
+        second = prev
 
-if "__main__" == __name__:
-    target = 10
-    position = [1, 4]
-    speed = [3, 2]
+        while second:
+            temp1 = first.next
+            temp2 = second.next
 
-    result = carFleet(target, position, speed)
-    print(result)
+            first.next = second
+            second.next = temp1
+
+            first = temp1
+            second = temp2
