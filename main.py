@@ -1,27 +1,45 @@
-
-# Time Complexity: O(n), iterates through linked list no more than once
-# Space Complexity: O(1), not creating anything except dummy, 1 every time
-
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
+# [2 -> 4 -> 6 -> 8]
+
+# Time Complexity: O(n), iterate through list a few times but still linear
+# Space Complexity: O(1), no new space created
 
 class Solution:
-    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
-        dummyNode = ListNode(0, head)
-        left = dummyNode
-        right = head
+    def reorderList(self, head: Optional[ListNode]) -> None:
 
-        while right and n > 0:
-            right = right.next
-            n -= 1
+        # find midpoint
+        slow = head
+        fast = head.next
 
-        while right:
-            left = left.next
-            right = right.next
+        while fast and fast.next:
+            slow = head.next
+            fast = head.next.next
 
-        left.next = left.next.next
+        # reverse list
+        second = slow.next
+        prev = None
+        slow.next = None
 
-        return dummyNode.next
+        while second:
+            temp = second.next
+            second.next = prev
+            prev = second
+            second = temp
+
+        # merge
+        first = head
+        second = prev
+
+        while second:
+            temp1 = first.next
+            temp2 = second.next
+
+            first.next = second
+            second.next = temp1
+
+            first = temp1
+            second = temp2
