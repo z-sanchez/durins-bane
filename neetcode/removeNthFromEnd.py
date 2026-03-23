@@ -16,6 +16,8 @@ class Solution:
         left = dummy
         right = head
 
+        array = []
+
         # advance right so that the distance between it and left are n + 1
         # Note about (n+1): because left is at the created dummy, it is actually one before the node that is n distance from right
         # this is done so that we are able to modify the prev node and skip over the nth we wish to remove

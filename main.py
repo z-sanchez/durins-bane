@@ -11,18 +11,16 @@
 class Solution:
     def reorderList(self, head: Optional[ListNode]) -> None:
 
-        # find midpoint
         slow = head
         fast = head.next
 
         while fast and fast.next:
-            slow = head.next
-            fast = head.next.next
+            fast = fast.next.next
+            slow = slow.next
 
-        # reverse list
         second = slow.next
-        prev = None
         slow.next = None
+        prev = None
 
         while second:
             temp = second.next
@@ -30,7 +28,6 @@ class Solution:
             prev = second
             second = temp
 
-        # merge
         first = head
         second = prev
 
