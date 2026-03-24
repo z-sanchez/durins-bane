@@ -9,21 +9,34 @@
 # Space Complexity: O(1), no new space created
 
 class Solution:
-    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
-        dummyNode = ListNode(0, head)
-        right = head
-        left = dummyNode
+    def reorderList(self, head: Optional[ListNode]) -> None:
 
-        while n > 0:
-            right = right.next
-            n -= 1
-        # now that the pointers are spaced out, we advance them until we hit the end of the list
-        while right:
-            left = left.next
-            right = right.next
+        slow = head
+        fast = head.next
 
-        # making the adjustment to remove the node
-        left.next = left.next.next
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
 
-        # return from dummy, (head could have possibly been destroyed so it's safer to do this)
-        return dummyNode.next
+        prev = None
+        second = slow.next
+        slow.next = None
+
+        while second:
+            next = second.next
+            second.next = prev
+            prev = second
+            second = next
+
+        first = head
+        second = prev
+
+        while second:
+            temp1 = first.next
+            temp2 = second.next
+
+            first.next = second
+            second.next = temp1
+
+            first = temp1
+            second = temp2
