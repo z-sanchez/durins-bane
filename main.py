@@ -19,17 +19,19 @@ class Solution:
     def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
         oldToCopy = {None: None}
 
-        pointer = head
+        cursor = head
 
-        while pointer:
-            oldToCopy[pointer] = Node(pointer.val)
-            pointer = pointer.next
+        while cursor:
+            newNode = Node(cursor.val)
+            oldToCopy[cursor] = newNode
+            cursor = cursor.next
 
-        pointer = head
+        cursor = head
 
-        while pointer:
-            copy = oldToCopy[pointer]
-            copy.next = oldToCopy[pointer.next]
-            copy.random = oldToCopy[pointer.random]
+        while cursor:
+            newNode = oldToCopy[cursor]
+            newNode.next = oldToCopy[cursor.next]
+            newNode.random = oldToCopy[cursor.random]
+            cursor = cursor.next
 
         return oldToCopy[head]
