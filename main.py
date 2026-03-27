@@ -1,32 +1,22 @@
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+def subsWithoutDupes(s: str) -> int:
 
-class Solution:
-    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-        # create dummy node
-        dummy = ListNode()
+    charSet = set()
+    maxCount = 0
+    left = 0
 
-        # start pointing to dummy
-        cursor = dummy
+    for right in range(len(s)):
+        while s[right] in charSet:
+            charSet.remove(s[left])
+            left += 1
 
-        # this will hold carry over from adding
-        carry = 0
+        charSet.add(s[right])
+        maxCount = max(maxCount, right - left + 1)
 
-        while l1 or l2 or carry:
-            valueOne = l1.val if l1 else 0
-            valueTwo = l2.val if l2 else 0
+    return maxCount
 
-            summed = valueOne + valueTwo + carry
-            carry = summed // 10
-            newNode = ListNode(summed % 10)
-            cursor.next = newNode
 
-            l1 = l1.next if l1 else None
-            l2 = l2.next if l2 else None
-            cursor = cursor.next
+if "__main__" == __name__:
+    s = "xyzxzyyzx"
 
-        # return the new list
-        return dummy.next
+    result = subsWithoutDupes(s)
+    print(result)
