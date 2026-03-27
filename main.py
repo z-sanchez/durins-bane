@@ -1,37 +1,32 @@
-"""
-Time complexity: 
-O(n) traverse the list a couple times, but only as long as the list is
-
-
-Space complexity: 
-O(n) create a map depending on size of list
-
-# Definition for a Node.
-class Node:
-    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
-        self.val = int(x)
-        self.next = next
-        self.random = random
-"""
-
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 
 class Solution:
-    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
-        oldToCopy = {None: None}
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        # create dummy node
+        dummy = ListNode()
 
-        cursor = head
+        # start pointing to dummy
+        cursor = dummy
 
-        while cursor:
-            newNode = Node(cursor.val)
-            oldToCopy[cursor] = newNode
+        # this will hold carry over from adding
+        carry = 0
+
+        while l1 or l2 or carry:
+            valueOne = l1.val if l1 else 0
+            valueTwo = l2.val if l2 else 0
+
+            summed = valueOne + valueTwo + carry
+            carry = summed // 10
+            newNode = ListNode(summed % 10)
+            cursor.next = newNode
+
+            l1 = l1.next if l1 else None
+            l2 = l2.next if l2 else None
             cursor = cursor.next
 
-        cursor = head
-
-        while cursor:
-            newNode = oldToCopy[cursor]
-            newNode.next = oldToCopy[cursor.next]
-            newNode.random = oldToCopy[cursor.random]
-            cursor = cursor.next
-
-        return oldToCopy[head]
+        # return the new list
+        return dummy.next
