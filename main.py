@@ -1,22 +1,41 @@
-def subsWithoutDupes(s: str) -> int:
-    charSet = set()
-    maxLength = 0
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+# [2 -> 4 -> 6 -> 8]
 
-    left = 0
+# Time Complexity: O(n), iterate through list a few times but still linear
+# Space Complexity: O(1), no new space created
 
-    for right in range(len(s)):
-        while s[right] in charSet:
-            charSet.remove(s[left])
-            left += 1
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        slow = head
+        fast = head.next
 
-        charSet.add(s[right])
-        maxLength = max(maxLength, right - left + 1)
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
 
-    return maxLength
+        prev = None
+        second = slow.next
+        slow.next = None
 
+        while second:
+            temp = second.next
+            second.next = prev
+            prev = second
+            second = temp
 
-if "__main__" == __name__:
-    s = "xyzxzyyzx"
+        first = head
+        second = prev
 
-    result = subsWithoutDupes(s)
-    print(result)
+        while second:
+            temp1 = first.next
+            temp2 = second.next
+
+            first.next = second
+            second.next = temp1
+
+            first = temp1
+            second = temp2
