@@ -1,7 +1,7 @@
 def subsWithoutDupes(s: str) -> int:
-
     charSet = set()
-    maxCount = 0
+    maxLength = 0
+
     left = 0
 
     for right in range(len(s)):
@@ -10,9 +10,9 @@ def subsWithoutDupes(s: str) -> int:
             left += 1
 
         charSet.add(s[right])
-        maxCount = max(maxCount, right - left + 1)
+        maxLength = max(maxLength, right - left + 1)
 
-    return maxCount
+    return maxLength
 
 
 if "__main__" == __name__:
