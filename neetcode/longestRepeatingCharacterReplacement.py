@@ -1,5 +1,8 @@
-def characterReplacement(s: str, k: int) -> int:
+# Time Complexity: O(m * n)
+# Space Complexity: O(m), uses a count map
+# m = length of string, n = length of unique characters in string
 
+def characterReplacement(s: str, k: int) -> int:
     # map used to track frequency of specific chars
     count = {}
     result = 0
@@ -24,6 +27,7 @@ def characterReplacement(s: str, k: int) -> int:
             count[s[left]] -= 1
             left += 1
 
+        # evaluate max at end of every iteration
         result = max(result, right - left + 1)
 
     return result
