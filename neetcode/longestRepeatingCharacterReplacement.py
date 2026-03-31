@@ -21,9 +21,9 @@ def characterReplacement(s: str, k: int) -> int:
         # countOfDiffCharAllowed = lengthOfWindow - maxCharFrequency
         # validSubstringEnds = countOfDiffCharAllowed > k
 
-        # while the count of diff chars than frequent is more than allowed (k)
+        # if the count of diff chars than frequent is more than allowed (k)
         # adjust setup for next substring, adjust count map, move left pointer of window
-        while (right - left + 1) - max(count.values()) > k:
+        if (right - left + 1) - max(count.values()) > k:
             count[s[left]] -= 1
             left += 1
 
@@ -34,7 +34,7 @@ def characterReplacement(s: str, k: int) -> int:
 
 
 if "__main__" == __name__:
-    s = "XYYX"
+    s = "AABA"
     k = 2
     max = characterReplacement(s, k)
     print("result", max)
