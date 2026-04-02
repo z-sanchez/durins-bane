@@ -1,22 +1,21 @@
-def characterReplacement(s: str, k: int) -> int:
-    count = {}
-    result = 0
+def subsWithoutDupes(s: str) -> int:
     left = 0
+    maxCount = 0
+    charSet = set()
 
     for right in range(len(s)):
-        count[s[right]] = 1 + count.get(s[right], 0)
-
-        if (right - left + 1) - max(count.values()) > k:
-            count[s[left]] -= 1
+        while s[right] in charSet:
+            charSet.remove(s[left])
             left += 1
 
-        result = max(result, (right - left + 1))
+        maxCount = max(maxCount, right - left + 1)
+        charSet.add(s[right])
 
-    return result
+    return maxCount
 
 
 if "__main__" == __name__:
-    s = "AABA"
-    k = 2
-    max = characterReplacement(s, k)
-    print("result", max)
+    s = "xyzxzyyzx"
+
+    result = subsWithoutDupes(s)
+    print(result)
