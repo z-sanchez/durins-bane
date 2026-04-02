@@ -1,28 +1,27 @@
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+# Time Complexity: O(m * n)
+# Space Complexity: O(m), uses a count map
+# m = length of string, n = length of unique characters in string
 
-class Solution:
-    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-        dummy = ListNode()
-        carry = 0
-        cursor = dummy
+def characterReplacement(s: str, k: int) -> int:
 
-        while l1 or l2 or carry:
-            value1 = l1.val if l1 else 0
-            value2 = l2.val if l2 else 0
+    count = {}
+    left = 0
+    maxCount = 0
 
-            sum = value1 + value2 + carry
-            carry = sum // 10
-            newNode = ListNode(sum % 10)
-            cursor.next = newNode
+    for right in range(len(s)):
+        count[s[right]] = 1 + count.get(s[right], 0)
 
-            l1 = l1.next if l1 else None
-            l2 = l2.next if l2 else None
+        if (right - left + 1) - max(count.values()) > k:
+            count[s[left]] -= 1
+            left += 1
 
-            cursor = cursor.next
+        maxCount = max(maxCount, right - left + 1)
 
-        # return the new list
-        return dummy.next
+    return maxCount
+
+
+if "__main__" == __name__:
+    s = "AABA"
+    k = 2
+    max = characterReplacement(s, k)
+    print("result", max)
