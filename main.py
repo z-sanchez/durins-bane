@@ -3,41 +3,30 @@
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
-# [2 -> 4 -> 6 -> 8]
-
-# Time Complexity: O(n), iterate through list a few times but still linear
-# Space Complexity: O(1), no new space created
 
 class Solution:
-    def reorderList(self, head: Optional[ListNode]) -> None:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        # create dummy node
+        dummy = ListNode()
 
-        # find midpoint
-        slow = head
-        fast = head.next
+        carry = 0
 
-        while fast and fast.next:
-            fast = fast.next.next
-            slow = slow.next
+        current = dummy
 
-        prev = None
-        second = slow.next
-        slow.next = None
+        while l1 or l2 or carry:
+            value1 = l1.next if l1 else 0
+            value2 = l2.next if l2 else 0
 
-        while second:
-            temp = second.next
-            second.next = prev
-            prev = second
-            second = temp
+            sum = value1 + value2 + carry
 
-        first = head
-        second = prev
+            carry = sum // 10
 
-        while second:
-            temp1 = first.next
-            temp2 = second.next
+            newNode = ListNode(sum % 10)
 
-            first.next = second
-            second.next = temp1
+            current.next = newNode
 
-            first = temp1
-            second = temp2
+            l1 = l1.next if l1 else None
+            l2 = l2.next if l2 else None
+            current = current.next
+
+        return dummy.next
