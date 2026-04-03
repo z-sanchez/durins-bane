@@ -1,27 +1,43 @@
-# Time Complexity: O(m * n)
-# Space Complexity: O(m), uses a count map
-# m = length of string, n = length of unique characters in string
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+# [2 -> 4 -> 6 -> 8]
 
-def characterReplacement(s: str, k: int) -> int:
+# Time Complexity: O(n), iterate through list a few times but still linear
+# Space Complexity: O(1), no new space created
 
-    count = {}
-    left = 0
-    maxCount = 0
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
 
-    for right in range(len(s)):
-        count[s[right]] = 1 + count.get(s[right], 0)
+        # find midpoint
+        slow = head
+        fast = head.next
 
-        if (right - left + 1) - max(count.values()) > k:
-            count[s[left]] -= 1
-            left += 1
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
 
-        maxCount = max(maxCount, right - left + 1)
+        prev = None
+        second = slow.next
+        slow.next = None
 
-    return maxCount
+        while second:
+            temp = second.next
+            second.next = prev
+            prev = second
+            second = temp
 
+        first = head
+        second = prev
 
-if "__main__" == __name__:
-    s = "AABA"
-    k = 2
-    max = characterReplacement(s, k)
-    print("result", max)
+        while second:
+            temp1 = first.next
+            temp2 = second.next
+
+            first.next = second
+            second.next = temp1
+
+            first = temp1
+            second = temp2
