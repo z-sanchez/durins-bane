@@ -8,25 +8,24 @@ class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
         # create dummy node
         dummy = ListNode()
-
         carry = 0
 
         current = dummy
 
         while l1 or l2 or carry:
-            value1 = l1.next if l1 else 0
-            value2 = l2.next if l2 else 0
+            value1 = l1.val if l1 else 0
+            value2 = l2.val if l2 else 0
 
-            sum = value1 + value2 + carry
+            sum = carry + value1 + value2
 
             carry = sum // 10
-
-            newNode = ListNode(sum % 10)
+            newNode = ListNode(sum % 10, None)
 
             current.next = newNode
 
+            current = current.next
+
             l1 = l1.next if l1 else None
             l2 = l2.next if l2 else None
-            current = current.next
 
         return dummy.next
