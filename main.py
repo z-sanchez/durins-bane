@@ -1,29 +1,26 @@
 # Time Complexity: O(m * n)
 # Space Complexity: O(m), uses a count map
 # m = length of string, n = length of unique characters in string
+def findDuplicate(nums: List[int]) -> int:
+    slow = 0
+    fast = 0
 
-def characterReplacement(s: str, k: int) -> int:
-    # map used to track frequency of specific chars
-    count = {}
+    while True:
+        slow = nums[slow]
+        fast = nums[nums[fast]]
+        if slow == fast:
+            break
 
-    left = 0
+    slow2 = 0
 
-    result = 0
-
-    for right in range(len(s)):
-        count[s[right]] = 1 + count.get(s[right], 0)
-
-        if (right - left + 1) - max(count.values()) > k:
-            count[s[left]] -= 1
-            left + 1
-
-        result = max(right - left + 1, result)
-
-    return result
+    while True:
+        slow = nums[slow]
+        slow2 = nums[slow2]
+        if slow == slow2:
+            return slow
 
 
 if "__main__" == __name__:
-    s = "AABA"
-    k = 2
-    max = characterReplacement(s, k)
+    nums = [1, 2, 3, 2, 2]
+    max = findDuplicate(nums)
     print("result", max)
