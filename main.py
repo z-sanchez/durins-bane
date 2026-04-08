@@ -5,20 +5,19 @@
 def characterReplacement(s: str, k: int) -> int:
     # map used to track frequency of specific chars
     count = {}
-    result = 0
 
-    # start of the window
     left = 0
 
-    # right represents the end of our window
+    result = 0
+
     for right in range(len(s)):
         count[s[right]] = 1 + count.get(s[right], 0)
 
         if (right - left + 1) - max(count.values()) > k:
             count[s[left]] -= 1
-            left += 1
+            left + 1
 
-        result = max(result, (right - left + 1))
+        result = max(right - left + 1, result)
 
     return result
 
