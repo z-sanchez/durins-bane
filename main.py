@@ -1,27 +1,10 @@
-# Time Complexity: O(m * n)
-# Space Complexity: O(m), uses a count map
-# m = length of string, n = length of unique characters in string
-def findDuplicate(nums: List[int]) -> int:
-    slow = 0
-    fast = 0
+class LRUCache:
 
-    while True:
-        slow = nums[slow]
-        fast = nums[nums[fast]]
-        if slow == fast:
-            break
+    def __init__(self, capacity: int):
+        print(capacity)
 
-    slow2 = 0
+    def get(self, key: int) -> int:
+        print(key)
 
-    while True:
-        slow = nums[slow]
-        slow2 = nums[slow2]
-
-        if slow2 == slow:
-            return slow
-
-
-if "__main__" == __name__:
-    nums = [1, 2, 3, 2, 2]
-    max = findDuplicate(nums)
-    print("result", max)
+    def put(self, key: int, value: int) -> None:
+        print(value)
