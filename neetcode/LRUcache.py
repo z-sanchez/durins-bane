@@ -1,3 +1,7 @@
+# Time Complexity: O(1) for get and put operations
+# Space Complexity: O(n), where n is the capacity of the cache
+
+
 class Node:
     def __init__(self, key, val):
         self.key = key  # key is the key to the node in the cache

@@ -1,7 +1,9 @@
+# Time Complexity: O(1) for get and put operations
+# Space Complexity: O(n), where n is the capacity of the cache
 class Node:
     def __init__(self, key, val):
-        self.key = key
-        self.value = val
+        self.key = key  # key is the key to the node in the cache
+        self.value = val  # value is our actual value
         self.next = None
         self.prev = None
 
@@ -9,11 +11,11 @@ class Node:
 class LRUCache:
 
     def __init__(self, capacity: int):
-        self.size = capacity
-        self.cache = {}
-
         self.left = Node(0, 0)
         self.right = Node(0, 0)
+
+        self.cache = {}
+        self.capacity = capacity
 
         self.left.next = self.right
         self.right.prev = self.left
@@ -44,10 +46,12 @@ class LRUCache:
         if key in self.cache:
             self.remove(self.cache[key])
 
-        self.cache[key] = Node(key, value)
+        newNode = Node(key, value)
+        self.cache[key] = newNode
+
         self.insert(self.cache[key])
 
-        if len(self.cache) > self.size:
+        while len(self.cache) > self.capacity:
             lru = self.left.next
             self.remove(lru)
             del self.cache[lru.key]
