@@ -1,57 +1,30 @@
-# Time Complexity: O(1) for get and put operations
-# Space Complexity: O(n), where n is the capacity of the cache
-class Node:
-    def __init__(self, key, val):
-        self.key = key  # key is the key to the node in the cache
-        self.value = val  # value is our actual value
-        self.next = None
-        self.prev = None
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        # create dummy node
+        dummy = ListNode()
+        carry = 0
+        cursor = dummy
 
-class LRUCache:
+        while l1 or l2 or carry:
+            value1 = l1.val if l1 else 0
+            value2 = l2.val if l2 else 0
 
-    def __init__(self, capacity: int):
-        self.left = Node(0, 0)
-        self.right = Node(0, 0)
+            total = value1 + value2 + carry
 
-        self.cache = {}
-        self.capacity = capacity
+            carry = total // 10
+            newNode = ListNode(total % 10)
 
-        self.left.next = self.right
-        self.right.prev = self.left
+            cursor.next = newNode
 
-    def remove(self, node):
-        prev = node.prev
-        next = node.next
+            l1 = l1.next if l1 else None
+            l2 = l2.next if l2 else None
 
-        prev.next = next
-        next.prev = prev
+            cursor = cursor.next
 
-    def insert(self, node):
-        prev = self.right.prev
-        next = self.right
-        prev.next = node
-        next.prev = node
-        node.next = next
-        node.prev = prev
-
-    def get(self, key: int) -> int:
-        if key in self.cache:
-            self.remove(self.cache[key])
-            self.insert(self.cache[key])
-            return self.cache[key].value
-        return -1
-
-    def put(self, key: int, value: int) -> None:
-        if key in self.cache:
-            self.remove(self.cache[key])
-
-        newNode = Node(key, value)
-        self.cache[key] = newNode
-
-        self.insert(self.cache[key])
-
-        while len(self.cache) > self.capacity:
-            lru = self.left.next
-            self.remove(lru)
-            del self.cache[lru.key]
+        return dummy.next
