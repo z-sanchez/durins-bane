@@ -1,30 +1,60 @@
+# Time Complexity: O(1) for get and put operations
+# Space Complexity: O(n), where n is the capacity of the cache
 
-# Time Complexity: O(n), iterates through linked list no more than once
-# Space Complexity: O(1), not creating anything except dummy, 1 every time
 
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+class Node:
+    def __init__(self, key, val):
+        self.key = key  # key is the key to the node in the cache
+        self.value = val  # value is our actual value
+        self.next = None
+        self.prev = None
 
-class Solution:
-    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
 
-        print(head)
-        dummyNode = ListNode(0, head)
+class LRUCache:
 
-        left = dummyNode
-        right = head
+    def __init__(self, capacity: int):
+        print(capacity)
+        self.cache = {}
+        self.capacity = capacity
 
-        while n > 0 and right:
-            n -= 1
-            right = right.next
+        left = Node(0, 0)
+        right = Node(0, 0)
 
-        while right:
-            left = left.next
-            right = right.next
+        left.next = right
+        right.prev = left
 
-        left.next = left.next.next
+    def remove(self, node):
+        prev = node.prev
+        next = node.next
+        prev.next = next
+        next.prev = prev
 
-        return dummyNode.next
+    def insert(self, node):
+        prev = self.right.prev
+        next = self.right
+
+        node.prev = prev
+        node.next = next
+
+        prev.next = node
+        next.prev = node
+
+    def get(self, key: int) -> int:
+        if key in self.cache:
+            self.remove(self.cache[key])
+            self.insert(self.cache[key])
+            return self.cache[key].value
+
+        return -1
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.cache:
+            self.remove(self.cache[key])
+
+        self.cache[key] = Node(key, value)
+        self.insert(self.cache[key])
+
+        if len(self.cache) > self.capacity:
+            lru = self.left.next
+            self.remove(lru)
+            del self.cache[lru.key]
