@@ -1,21 +1,30 @@
-def subsWithoutDupes(s: str) -> int:
 
-    charSet = set()
-    left = 0
-    result = 0
+# Time Complexity: O(n), iterates through linked list no more than once
+# Space Complexity: O(1), not creating anything except dummy, 1 every time
 
-    for right in range(len(s)):
-        while s[right] in charSet:
-            charSet.remove(s[left])
-            left += 1
-        result = max(result, right - left + 1)
-        charSet.add(s[right])
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 
-    return result
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
 
+        print(head)
+        dummyNode = ListNode(0, head)
 
-if "__main__" == __name__:
-    s = "xyzxzyyzx"
+        left = dummyNode
+        right = head
 
-    result = subsWithoutDupes(s)
-    print(result)
+        while n > 0 and right:
+            n -= 1
+            right = right.next
+
+        while right:
+            left = left.next
+            right = right.next
+
+        left.next = left.next.next
+
+        return dummyNode.next
