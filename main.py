@@ -1,29 +1,30 @@
+# Time Complexity: O(n), traverse the nodes
+# Space Complexity: O(1), no space used
 
-# Time Complexity: O(n), iterates through linked list no more than once
-# Space Complexity: O(1), not creating anything except dummy, 1 every time
 
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+def findDuplicate(nums: List[int]) -> int:
+    # Floyd's algo at play
+    slow = 0
+    fast = 0
 
-class Solution:
-    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
-        # create dummy node that points to list, we will return dummy.next (start of list)
-        dummy = ListNode(0, head)
+    while True:
+        slow = nums[slow]
+        fast = nums[nums[fast]]
 
-        left = dummy
-        right = head
+        if slow == fast:
+            break
 
-        while n > 0 and right:
-            n -= 1
-            right = right.next
+    slow2 = 0
 
-        while right:
-            left = left.next
-            right = right.next
+    while True:
+        slow = nums[slow]
+        slow2 = nums[slow2]
 
-        left.next = left.next.next
+        if slow2 == slow:
+            return slow
 
-        return dummy.next
+
+if "__main__" == __name__:
+    nums = [1, 2, 3, 2, 2]
+    max = findDuplicate(nums)
+    print("result", max)
