@@ -1,28 +1,37 @@
+"""
+Time complexity: 
+O(n) traverse the list a couple times, but only as long as the list is
 
-# Time Complexity: O(n), iterates through linked list no more than once
-# Space Complexity: O(1), not creating anything except dummy, 1 every time
 
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+Space complexity: 
+O(n) create a map depending on size of list
+
+# Definition for a Node.
+class Node:
+    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+"""
+
 
 class Solution:
-    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
-        # create dummy node that points to list, we will return dummy.next (start of list)
-        dummy = ListNode(0, head)
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        oldToCopy = {None: None}
 
-        left = dummy
-        right = head
+        curr = head
 
-        while n > 0 and right:
-            right = right.next
-            n -= 1
+        while curr:
+            newNode = Node(curr.val)
+            oldToCopy[curr] = newNode
+            curr = curr.next
 
-        while right:
-            left = left.next
-            right = right.next
+        curr = head
 
-        left.next = left.next.next
-        return dummy.next
+        while curr:
+            newNode = oldToCopy[curr]
+            newNode.next = oldToCopy[curr.next]
+            newNode.random = oldToCopy[curr.random]
+            curr = curr.next
+
+        return oldToCopy[head]
