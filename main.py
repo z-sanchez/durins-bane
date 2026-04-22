@@ -20,7 +20,7 @@ def findDuplicate(nums: List[int]) -> int:
         slow = nums[slow]
         slow2 = nums[slow2]
 
-        if slow2 == slow:
+        if slow == slow2:
             return slow
 
 
