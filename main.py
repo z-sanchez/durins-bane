@@ -22,8 +22,7 @@ class Solution:
         curr = head
 
         while curr:
-            newNode = Node(curr.val)
-            oldToCopy[curr] = newNode
+            oldToCopy[curr] = Node(curr.val)
             curr = curr.next
 
         curr = head
