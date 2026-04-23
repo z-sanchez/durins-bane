@@ -1,36 +1,60 @@
-"""
-Time complexity: 
-O(n) traverse the list a couple times, but only as long as the list is
+# Time Complexity: O(1) for get and put operations
+# Space Complexity: O(n), where n is the capacity of the cache
 
 
-Space complexity: 
-O(n) create a map depending on size of list
-
-# Definition for a Node.
 class Node:
-    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
-        self.val = int(x)
-        self.next = next
-        self.random = random
-"""
+    def __init__(self, key, val):
+        self.key = key  # key is the key to the node in the cache
+        self.value = val  # value is our actual value
+        self.next = None
+        self.prev = None
 
 
-class Solution:
-    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
-        oldToCopy = {None: None}
+class LRUCache:
 
-        curr = head
+    def __init__(self, capacity: int):
+        self.size = capacity
+        self.cache = {}
 
-        while curr:
-            oldToCopy[curr] = Node(curr.val)
-            curr = curr.next
+        self.left = Node(0, 0)
+        self.right = Node(0, 0)
 
-        curr = head
+        self.left.next = self.right
+        self.right.prev = self.left
 
-        while curr:
-            newNode = oldToCopy[curr]
-            newNode.next = oldToCopy[curr.next]
-            newNode.random = oldToCopy[curr.random]
-            curr = curr.next
+    def remove(self, node):
+        next = node.next
+        prev = node.prev
 
-        return oldToCopy[head]
+        prev.next = next
+        next.prev = prev
+
+    def insert(self, node):
+        prev = self.right.prev
+        next = self.right
+
+        prev.next = node
+        next.prev = node
+
+        node.next = next
+        node.prev = prev
+
+    def get(self, key: int) -> int:
+        if key in self.cache:
+            self.remove(self.cache[key])
+            self.insert(self.cache[key])
+            return self.cache[key].value
+        return -1
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.cache:
+            self.remove(self.cache[key])
+
+        newNode = Node(key, value)
+        self.cache[key] = newNode
+        self.insert(self.cache[key])
+
+        if len(self.cache) > self.capacity:
+            lru = self.left.next
+            self.remove(lru)
+            del self.cache[lru.key]
