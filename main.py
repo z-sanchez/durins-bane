@@ -6,10 +6,11 @@ from typing import List
 
 
 def encode(strs):
+
     result = ""
 
-    for word in strs:
-        result += str(len(word)) + "#" + word
+    for string in strs:
+        result += str(len(string)) + "#" + string
 
     return result
 
@@ -42,4 +43,5 @@ if __name__ == "__main__":
     strs = ["need", "code", "love", "you"]
     encodedOutput = encode(strs)
 
+    print(encodedOutput)
     print(decode(encodedOutput))
