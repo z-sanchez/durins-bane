@@ -1,30 +1,29 @@
-# Time Complexity: O(n)
-# Space Complexity: O(n)
+# Time Complexity = O(m * n) n for the number of elements, m for the length of each char
+# Space Complexity = O(m) for the map we create
 
-def topKFrequent(nums, k):
-    # for counting the occurrence of each num
-    count = {}
+def groupAnagrams(strs):
 
-    # buckets for nums key = num of occurrences, value = list of nums
-    frequencies = [[] for x in range(len(nums) + 1)]
+    # map will have a tuple as a key, then a list of strings for values
+    map = {}
 
-    for number in nums:
-        count[number] = 1 + count.get(number, 0)
+    for str in strs:
+        count = [0] * 26
 
-    for value, key in count.items():
-        frequencies[key].append(value)
+        for char in str:
+            count[ord(char) - ord('a')] += 1
 
-    result = []
-    print(frequencies)
+        key = tuple(count)
 
-    for x in range(len(frequencies))[::-1]:
-        for n in frequencies[x]:
-            result.append(n)
-            if len(result) == k:
-                return result
+        if key not in map:
+            map[key] = []
+
+        map[key].append(str)
+
+    return list(map.values())
 
 
 if __name__ == "__main__":
-    nums = [1, 1, 1, 2, 2, 100]
-    k = 2
-    print(topKFrequent(nums, k))
+    strs = ["act", "pots", "tops", "cat", "stop", "hat"]
+
+    result = groupAnagrams(strs)
+    print(result)
