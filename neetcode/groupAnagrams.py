@@ -26,7 +26,7 @@ def groupAnagrams(strs):
         # append word to the matching tuple key
         map[key].append(word)
 
-    return map.values()
+    return list(map.values())
 
 
 if __name__ == "__main__":
