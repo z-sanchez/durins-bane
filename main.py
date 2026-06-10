@@ -1,49 +1,28 @@
+# Time Complexity = O(m * n) n for the number of elements, m for the length of each char
+# Space Complexity = O(m) for the map we create
 
-# Time Complexity: O(n), iterates through string once
-# Space Complexity: O(1), no extra space needed
+def groupAnagrams(strs):
 
-from typing import List
-
-
-def encode(strs):
-
-    result = ""
+    mapping = {}
 
     for word in strs:
-        result += str(len(word)) + "#" + word
+        count = [0] * 26
 
-    return result
+        for char in word:
+            count[ord(char) - ord('a')] += 1
 
+        key = tuple(count)
 
-def decode(str):
+        if key not in mapping:
+            mapping[key] = []
 
-    result = []
-    cursor = 0
+        mapping[key].append(word)
 
-    while (cursor < len(str)):
-        delimiter = cursor
-
-        while str[delimiter] != "#":
-            delimiter += 1
-
-        length = int(str[cursor:delimiter])
-        print("length", length)
-
-        word = str[delimiter + 1: delimiter + 1 + length]
-        print("word", word)
-
-        result.append(word)
-
-        cursor = delimiter + 1 + length
-
-    return result
+    return list(mapping.values())
 
 
 if __name__ == "__main__":
+    strs = ["act", "pots", "tops", "cat", "stop", "hat"]
 
-    strs = ["need", "code", "love", "you"]
-    encodedOutput = encode(strs)
-
-    print(encodedOutput)
-
-    print(decode(encodedOutput))
+    result = groupAnagrams(strs)
+    print(result)
