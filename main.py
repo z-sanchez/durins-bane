@@ -1,31 +1,44 @@
-# Time Complexity: O(n)
-# Space Complexity: O(n)
 
-def topKFrequent(nums, k):
-    # for counting the occurrence of each num
-    count = {}
+# Time Complexity: O(n), iterates through string once
+# Space Complexity: O(1), no extra space needed
 
-    for num in nums:
-        count[num] = 1 + count.get(num, 0)
+from typing import List
 
-    frequencies = [[] for x in range(len(nums) + 1)]
 
-    for num, counted in count.items():
-        frequencies[counted].append(num)
+def encode(strs):
+
+    result = ""
+
+    for word in strs:
+        result += str(len(word)) + "#" + word
+
+    return result
+
+
+def decode(str):
 
     result = []
+    i = 0
 
-    for x in range(len(frequencies))[::-1]:
-        for i in frequencies[x]:
-            if len(result) == k:
-                return result
-            else:
-                result.append(i)
+    while i < len(str):
+        delimiter = i
+
+        while str[delimiter] != "#":
+            delimiter += 1
+
+        length = int(str[i:delimiter])
+
+        word = str[delimiter + 1: delimiter + 1 + length]
+        result.append(word)
+
+        i = delimiter + 1 + length
 
     return result
 
 
 if __name__ == "__main__":
-    nums = [1, 1, 1, 2, 2, 100]
-    k = 2
-    print(topKFrequent(nums, 2))
+
+    strs = ["need", "code", "love", "you"]
+    encodedOutput = encode(strs)
+
+    print(decode(encodedOutput))
