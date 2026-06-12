@@ -10,7 +10,7 @@ def encode(strs):
     result = ""
 
     for word in strs:
-        result += str(len(word)) + '#' + word
+        result += str(len(word)) + "#" + word
 
     return result
 
@@ -28,10 +28,9 @@ def decode(str):
 
         length = int(str[cursor:delimiter])
 
-        word = str[delimiter + 1: delimiter + 1 + length]
+        word = str[delimiter + 1:delimiter + 1 + length]
 
         result.append(word)
-
         cursor = delimiter + 1 + length
 
     return result
