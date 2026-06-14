@@ -4,9 +4,9 @@
 
 def productsOfArrayExceptSelf(nums):
 
-    prefix = 1
-
     result = []
+
+    prefix = 1
 
     for x in range(len(nums)):
         if x == 0:
@@ -15,7 +15,6 @@ def productsOfArrayExceptSelf(nums):
             prefix *= nums[x-1]
             result.append(prefix)
 
-    print(prefix)
     postfix = 1
 
     for x in range(len(nums))[::-1]:
