@@ -12,24 +12,24 @@ def isValidSudoku(board):
         for column in range(9):
             currentValue = board[row][column]
 
-            if board[row][column] == ".":
+            if currentValue == ".":
                 continue
-
-            if column not in columns:
-                columns[column] = set()
 
             if row not in rows:
                 rows[row] = set()
 
-            if (row//3, column//3) not in boxes:
-                boxes[(row//3, column//3)] = set()
+            if column not in columns:
+                columns[column] = set()
 
-            if currentValue in columns[column] or currentValue in rows[row] or currentValue in boxes[(row//3, column//3)]:
+            if ((row//3), (column//3)) not in boxes:
+                boxes[(row//3), (column//3)] = set()
+
+            if currentValue in rows[row] or currentValue in columns[column] or currentValue in boxes[(row//3), (column//3)]:
                 return False
 
             columns[column].add(currentValue)
             rows[row].add(currentValue)
-            boxes[(row//3, column//3)].add(currentValue)
+            boxes[(row//3), (column//3)].add(currentValue)
 
     return True
 
