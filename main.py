@@ -1,31 +1,49 @@
-# Time Complexity: O(n), iterates through list a couple of times but no more than n
-# Space Complexity: O(n), creating a result array
+# Time Complexity: O(n^2), we nest loops to traverse row and columns
+# Space Complexity: O(n^2), each of our created mappings are two dimensional
 
+def isValidSudoku(board):
+    # create hashmaps for each of the sections will need to check
+    # boxes will store coordinates as the key (1-3 for row, 1-3 for column, total of nine boxes)
+    boxes = {}
+    columns = {}
+    rows = {}
 
-def productsOfArrayExceptSelf(nums):
-    # first collects prefix, then multiplies them to get final products
-    result = []
+    for row in range(9):
+        for column in range(9):
 
-    prefix = 1
+            currentValue = board[row][column]
 
-    for x in range(len(nums)):
-        if x == 0:
-            result.append(prefix)
-        else:
-            prefix *= nums[x-1]
-            result.append(prefix)
+            if currentValue == '.':
+                continue
 
-    postFix = 1
+            if row not in rows:
+                rows[row] = set()
 
-    for x in range(len(result))[::-1]:
-        result[x] *= postFix
+            if column not in columns:
+                columns[column] = set()
 
-        postFix *= nums[x]
+            if (row//3, column//3) not in boxes:
+                boxes[(row//3, column//3)] = set()
 
-    return result
+            if currentValue in rows[row] or currentValue in columns[column] or currentValue in boxes[(row//3, column//3)]:
+                return False
+            else:
+                columns[column].add(currentValue)
+                rows[row].add(currentValue)
+                boxes[(row//3, column//3)].add(currentValue)
+
+    return True
 
 
 if __name__ == "__main__":
-    nums = [1, 2, 3, 4]
+    board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
+             ["4", ".", ".", "5", ".", ".", ".", ".", "."],
+             [".", "9", "8", ".", ".", ".", ".", ".", "3"],
+             ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
+             [".", ".", ".", "8", ".", "3", ".", ".", "5"],
+             ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+             [".", ".", ".", ".", ".", ".", "2", ".", "."],
+             [".", ".", ".", "4", "1", "9", ".", ".", "8"],
+             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
 
-    print(productsOfArrayExceptSelf(nums))
+print(isValidSudoku(board))
