@@ -1,29 +1,31 @@
-# Time Complexity = O(m * n) n for the number of elements, m for the length of each char
-# Space Complexity = O(m) for the map we create
+# Time Complexity: O(n), iterates through list a couple of times but no more than n
+# Space Complexity: O(n), creating a result array
 
-def groupAnagrams(strs):
 
-    # map will have a tuple as a key, then a list of strings for values
-    map = {}
+def productsOfArrayExceptSelf(nums):
+    # first collects prefix, then multiplies them to get final products
+    result = []
 
-    for word in strs:
-        count = [0] * 26
+    prefix = 1
 
-        for char in word:
-            count[ord(char) - ord('a')] += 1
+    for x in range(len(nums)):
+        if x == 0:
+            result.append(prefix)
+        else:
+            prefix *= nums[x-1]
+            result.append(prefix)
 
-        key = tuple(count)
+    postFix = 1
 
-        if key not in map:
-            map[key] = []
+    for x in range(len(result))[::-1]:
+        result[x] *= postFix
 
-        map[key].append(word)
+        postFix *= nums[x]
 
-    return list(map.values())
+    return result
 
 
 if __name__ == "__main__":
-    strs = ["act", "pots", "tops", "cat", "stop", "hat"]
+    nums = [1, 2, 3, 4]
 
-    result = groupAnagrams(strs)
-    print(result)
+    print(productsOfArrayExceptSelf(nums))
