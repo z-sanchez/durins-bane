@@ -1,32 +1,21 @@
-# Time Complexity: O(n)
-# Space Complexity: O(n)
+# Time Complexity: O(n), we traverse the array once max
+# Space Complexity: O(n), we make a set here
 
-def topKFrequent(nums, k):
+def longestSequence(nums):
+    numSet = set(nums)
+    result = 0
 
-    count = {}
-
-    frequencies = [[] for x in range(len(nums) + 1)]
-
-    for num in nums:
-        count[num] = 1 + count.get(num, 0)
-
-    for num, counted in count.items():
-        frequencies[counted].append(num)
-
-    print(frequencies)
-    result = []
-
-    for x in range(len(frequencies))[::-1]:
-        for i in frequencies[x]:
-            if len(result) >= k:
-                return result
-            else:
-                result.append(i)
+    for num in numSet:
+        if num - 1 not in numSet:
+            length = 0
+            while num + length in numSet:
+                length += 1
+            result = max(result, length)
 
     return result
 
 
-if __name__ == "__main__":
-    nums = [1, 1, 1, 2, 2, 100]
-    k = 2
-    print(topKFrequent(nums, k))
+if "__main__" == __name__:
+    input = [0, 3, 2, 5, 4, 6, 1, 1]
+    result = longestSequence(input)
+    print(result)
