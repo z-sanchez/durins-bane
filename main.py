@@ -1,50 +1,44 @@
-# Time Complexity: O(n^2), we nest loops to traverse row and columns
-# Space Complexity: O(n^2), each of our created mappings are two dimensional
 
-def isValidSudoku(board):
-    # create hashmaps for each of the sections will need to check
-    # boxes will store coordinates as the key (1-3 for row, 1-3 for column, total of nine boxes)
-    boxes = {}
-    columns = {}
-    rows = {}
+# Time Complexity: O(n), iterates through string once
+# Space Complexity: O(1), no extra space needed
 
-    # iterate row first
+from typing import List
 
-    for row in range(9):
-        for column in range(9):
-            currentValue = board[row][column]
 
-            if currentValue == ".":
-                continue
+def encode(strs):
 
-            if row not in rows:
-                rows[row] = set()
+    result = ""
 
-            if column not in columns:
-                columns[column] = set()
+    for word in strs:
+        result += str(len(word)) + "#" + word
 
-            if (row//3, column//3) not in boxes:
-                boxes[(row//3, column//3)] = set()
+    return result
 
-            if currentValue in rows[row] or currentValue in columns[column] or currentValue in boxes[(row//3, column//3)]:
-                return False
-            else:
-                rows[row].add(currentValue)
-                columns[column].add(currentValue)
-                boxes[(row//3, column//3)].add(currentValue)
 
-    return True
+def decode(str):
+    result = []
+    cursor = 0
+
+    while cursor < len(str):
+        delimiter = cursor
+
+        while str[delimiter] != "#":
+            delimiter += 1
+
+        length = int(str[cursor:delimiter])
+
+        word = str[delimiter + 1: delimiter + 1 + length]
+
+        result.append(word)
+
+        cursor = delimiter + 1 + length
+
+    return result
 
 
 if __name__ == "__main__":
-    board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
-             ["4", ".", ".", "5", ".", ".", ".", ".", "."],
-             [".", "9", "8", ".", ".", ".", ".", ".", "3"],
-             ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
-             [".", ".", ".", "8", ".", "3", ".", ".", "5"],
-             ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
-             [".", ".", ".", ".", ".", ".", "2", ".", "."],
-             [".", ".", ".", "4", "1", "9", ".", ".", "8"],
-             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
 
-print(isValidSudoku(board))
+    strs = ["need", "code", "love", "you"]
+    encodedOutput = encode(strs)
+
+    print(decode(encodedOutput))
