@@ -1,44 +1,28 @@
+# Time Complexity: O(n), nested loops
+# Space Complexity: O(1), creating nothing
 
-# Time Complexity: O(n), iterates through string once
-# Space Complexity: O(1), no extra space needed
+def twoSumTwo(array, target):
+    # pointer to beginning and pointer to the end
+    left = 0
+    right = len(array) - 1
 
-from typing import List
+    while left < right:
+        sum = array[left] + array[right]
 
+        if sum > target:
+            right -= 1
+        elif sum < target:
+            left += 1
+        else:
+            return [left + 1, right + 1]
 
-def encode(strs):
-
-    result = ""
-
-    for word in strs:
-        result += str(len(word)) + "#" + word
-
-    return result
-
-
-def decode(str):
-    result = []
-    cursor = 0
-
-    while cursor < len(str):
-        delimiter = cursor
-
-        while str[delimiter] != "#":
-            delimiter += 1
-
-        length = int(str[cursor:delimiter])
-
-        word = str[delimiter + 1: delimiter + 1 + length]
-
-        result.append(word)
-
-        cursor = delimiter + 1 + length
-
-    return result
+    return []
 
 
-if __name__ == "__main__":
+if "__main__" == __name__:
 
-    strs = ["need", "code", "love", "you"]
-    encodedOutput = encode(strs)
-
-    print(decode(encodedOutput))
+    # must be in order for it to work
+    array = [1, 2, 3, 4]
+    target = 3
+    result = twoSumTwo(array, target)
+    print(result)
