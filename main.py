@@ -1,27 +1,50 @@
-# Time Complexity: O(n), nested loops
-# Space Complexity: O(1), creating nothing
+# Time Complexity: O(n^2), we nest loops to traverse row and columns
+# Space Complexity: O(n^2), each of our created mappings are two dimensional
 
-def twoSumTwo(array, target):
+def isValidSudoku(board):
+    # create hashmaps for each of the sections will need to check
+    # boxes will store coordinates as the key (1-3 for row, 1-3 for column, total of nine boxes)
+    boxes = {}
+    columns = {}
+    rows = {}
 
-    left = 0
-    right = len(array) - 1
+    # iterate row first
 
-    while left < right:
-        sum = array[left] + array[right]
-        if sum > target:
-            right -= 1
-        elif sum < target:
-            left += 1
-        else:
-            return [left + 1, right + 1]
+    for row in range(9):
+        for column in range(9):
+            currentValue = board[row][column]
 
-    return []
+            if currentValue == ".":
+                continue
+
+            if row not in rows:
+                rows[row] = set()
+
+            if column not in columns:
+                columns[column] = set()
+
+            if (row//3, column//3) not in boxes:
+                boxes[(row//3, column//3)] = set()
+
+            if currentValue in rows[row] or currentValue in columns[column] or currentValue in boxes[(row//3, column//3)]:
+                return False
+            else:
+                rows[row].add(currentValue)
+                columns[column].add(currentValue)
+                boxes[(row//3, column//3)].add(currentValue)
+
+    return True
 
 
-if "__main__" == __name__:
+if __name__ == "__main__":
+    board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
+             ["4", ".", ".", "5", ".", ".", ".", ".", "."],
+             [".", "9", "8", ".", ".", ".", ".", ".", "3"],
+             ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
+             [".", ".", ".", "8", ".", "3", ".", ".", "5"],
+             ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+             [".", ".", ".", ".", ".", ".", "2", ".", "."],
+             [".", ".", ".", "4", "1", "9", ".", ".", "8"],
+             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
 
-    # must be in order for it to work
-    array = [1, 2, 3, 4]
-    target = 3
-    result = twoSumTwo(array, target)
-    print(result)
+print(isValidSudoku(board))
