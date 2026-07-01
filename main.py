@@ -1,33 +1,24 @@
-def topKFrequent(nums, k):
+# Time Complexity: O(m * n)
+# Space Complexity: O(m), uses a count map
+# m = length of string, n = length of unique characters in string
 
-    count = {}
+def characterReplacement(s: str, k: int) -> int:
+    charSet = set()
+    result = 0
+    left = 0
 
-    frequencies = [[] for x in range(len(nums) + 1)]
-
-    for num in nums:
-        count[num] = 1 + count.get(num, 0)
-
-    print(count)
-
-    for number, frequency in count.items():
-        print(number, frequency)
-        frequencies[frequency].append(number)
-
-    print(frequencies)
-
-    result = []
-
-    for i in range(len(frequencies))[::-1]:
-        for x in frequencies[i]:
-            if len(result) >= k:
-                return result
-            else:
-                result.append(x)
+    for right in range(len(s)):
+        while s[right] in charSet:
+            charSet.remove(s[left])
+            left += 1
+        result = max(result, right - left + 1)
+        charSet.add(s[right])
 
     return result
 
 
-if __name__ == "__main__":
-    nums = [7, 7]
-    k = 1
-    print(topKFrequent(nums, k))
+if "__main__" == __name__:
+    s = "AABA"
+    k = 2
+    max = characterReplacement(s, k)
+    print("result", max)
