@@ -3,23 +3,30 @@
 # m = length of string, n = length of unique characters in string
 
 
-def longestSequence(nums):
+def productsOfArrayExceptSelf(nums):
 
-    result = 0
+    result = []
 
-    numSet = set(nums)
+    prefix = 1
 
-    for num in nums:
-        if num - 1 not in numSet:
-            length = 0
-            while num + length in numSet:
-                length += 1
-            result = max(result, length)
+    for i in range(len(nums)):
+        if i == 0:
+            result.append(prefix)
+        else:
+
+            prefix *= nums[i - 1]
+            result.append(prefix)
+
+    postfix = 1
+
+    for i in range(len(result))[::-1]:
+        result[i] *= postfix
+        postfix *= nums[i]
 
     return result
 
 
-if "__main__" == __name__:
-    input = [0, 3, 2, 5, 4, 6, 1, 1]
-    result = longestSequence(input)
-    print(result)
+if __name__ == "__main__":
+    nums = [-1, 0, 1, 2, 3]
+
+    print(productsOfArrayExceptSelf(nums))
