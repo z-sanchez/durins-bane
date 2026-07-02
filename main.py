@@ -3,30 +3,26 @@
 # m = length of string, n = length of unique characters in string
 
 
-def productsOfArrayExceptSelf(nums):
+def subsWithoutDupes(s: str) -> int:
 
-    result = []
+    result = 0
 
-    prefix = 1
+    left = 0
 
-    for i in range(len(nums)):
-        if i == 0:
-            result.append(prefix)
-        else:
+    strSet = set()
 
-            prefix *= nums[i - 1]
-            result.append(prefix)
-
-    postfix = 1
-
-    for i in range(len(result))[::-1]:
-        result[i] *= postfix
-        postfix *= nums[i]
+    for right in range(len(s)):
+        while s[right] in strSet:
+            strSet.remove(s[left])
+            left += 1
+        strSet.add(s[right])
+        result = max(result, right - left + 1)
 
     return result
 
 
-if __name__ == "__main__":
-    nums = [-1, 0, 1, 2, 3]
+if "__main__" == __name__:
+    s = "xyzxzyyzx"
 
-    print(productsOfArrayExceptSelf(nums))
+    result = subsWithoutDupes(s)
+    print(result)
