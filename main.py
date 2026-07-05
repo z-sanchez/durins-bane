@@ -1,28 +1,22 @@
-# Time Complexity: O(m * n)
-# Space Complexity: O(m), uses a count map
-# m = length of string, n = length of unique characters in string
+# Time Complexity: O(n), we traverse the array once max
+# Space Complexity: O(n), we make a set here
 
-
-def subsWithoutDupes(s: str) -> int:
-
+def longestSequence(nums):
     result = 0
 
-    left = 0
+    numSet = set(nums)
 
-    strSet = set()
-
-    for right in range(len(s)):
-        while s[right] in strSet:
-            strSet.remove(s[left])
-            left += 1
-        strSet.add(s[right])
-        result = max(result, right - left + 1)
+    for num in numSet:
+        if num - 1 not in numSet:
+            length = 0
+            while num + length in numSet:
+                length += 1
+            result = max(result, length)
 
     return result
 
 
 if "__main__" == __name__:
-    s = "xyzxzyyzx"
-
-    result = subsWithoutDupes(s)
+    input = [0, 3, 2, 5, 4, 6, 1, 1]
+    result = longestSequence(input)
     print(result)
