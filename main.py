@@ -1,48 +1,28 @@
-# Time Complexity: O(n^2), we nest loops to traverse row and columns
-# Space Complexity: O(n^2), each of our created mappings are two dimensional
+# Time Complexity: O(n), nested loops
+# Space Complexity: O(1), creating nothing
 
-def isValidSudoku(board):
+def twoSumTwo(array, target):
+    left = 0
+    right = len(array) - 1
 
-    boxes = {}
-    columns = {}
-    rows = {}
+    while left < right:
 
-    for row in range(9):
-        for column in range(9):
+        sum = array[left] + array[right]
 
-            currentValue = board[row][column]
+        if sum > target:
+            right -= 1
+        elif sum < target:
+            left += 1
+        else:
+            return [left + 1, right + 1]
 
-            if currentValue == ".":
-                continue
-
-            if row not in rows:
-                rows[row] = []
-
-            if column not in columns:
-                columns[column] = []
-
-            if (row//3, column//3) not in boxes:
-                boxes[(row//3, column//3)] = []
-
-            if currentValue in rows[row] or currentValue in columns[column] or currentValue in boxes[(row//3, column//3)]:
-                return False
-
-            rows[row].append(currentValue)
-            columns[column].append(currentValue)
-            boxes[(row//3, column//3)].append(currentValue)
-
-    return True
+    return []
 
 
-if __name__ == "__main__":
-    board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
-             ["4", ".", ".", "5", ".", ".", ".", ".", "."],
-             [".", "9", "8", ".", ".", ".", ".", ".", "3"],
-             ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
-             [".", ".", ".", "8", ".", "3", ".", ".", "5"],
-             ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
-             [".", ".", ".", ".", ".", ".", "2", ".", "."],
-             [".", ".", ".", "4", "1", "9", ".", ".", "8"],
-             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
+if "__main__" == __name__:
 
-print(isValidSudoku(board))
+    # must be in order for it to work
+    array = [1, 2, 3, 4]
+    target = 3
+    result = twoSumTwo(array, target)
+    print(result)
