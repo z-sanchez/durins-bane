@@ -6,7 +6,6 @@ def twoSumTwo(array, target):
     right = len(array) - 1
 
     while left < right:
-
         sum = array[left] + array[right]
 
         if sum > target:
@@ -23,6 +22,6 @@ if "__main__" == __name__:
 
     # must be in order for it to work
     array = [1, 2, 3, 4]
-    target = 3
+    target = 7
     result = twoSumTwo(array, target)
     print(result)
