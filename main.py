@@ -1,27 +1,30 @@
-# Time Complexity: O(n), nested loops
-# Space Complexity: O(1), creating nothing
+# Time Complexity: O(n)
+# Space Complexity: O(n)
 
-def twoSumTwo(array, target):
-    left = 0
-    right = len(array) - 1
+def topKFrequent(nums, k):
 
-    while left < right:
-        sum = array[left] + array[right]
+    counts = {}
+    frequencies = [[] for x in range(len(nums) + 1)]
 
-        if sum > target:
-            right -= 1
-        elif sum < target:
-            left += 1
-        else:
-            return [left + 1, right + 1]
+    for num in nums:
+        counts[num] = 1 + counts.get(num, 0)
 
-    return []
+    for num, count in counts.items():
+        frequencies[count].append(num)
+
+    result = []
+
+    for x in range(len(frequencies))[::-1]:
+        for j in frequencies[x]:
+            if len(result) < k:
+                result.append(j)
+            else:
+                return result
+
+    return result
 
 
-if "__main__" == __name__:
-
-    # must be in order for it to work
-    array = [1, 2, 3, 4]
-    target = 7
-    result = twoSumTwo(array, target)
-    print(result)
+if __name__ == "__main__":
+    nums = [1, 1, 1, 2, 2, 100]
+    k = 2
+    print(topKFrequent(nums, k))
