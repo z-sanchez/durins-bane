@@ -1,23 +1,29 @@
-def subsWithoutDupes(s: str) -> int:
+# Time Complexity = O(m * n) n for the number of elements, m for the length of each char
+# Space Complexity = O(m) for the map we create
 
-    charSet = set()
-    result = 0
-    left = 0
+def groupAnagrams(strs):
 
-    for right in range(len(s)):
+    # map will have a tuple as a key, then a list of strings for values
+    map = {}
 
-        while s[right] in charSet:
-            charSet.remove(s[left])
-            left += 1
+    for str in strs:
+        count = [0] * 26
 
-        charSet.add(s[right])
-        result = max(result, right - left + 1)
+        for char in str:
+            count[ord(char) - ord('a')] += 1
 
-    return result
+        key = tuple(count)
+
+        if key not in map:
+            map[key] = []
+
+        map[key].append(str)
+
+    return list(map.values())
 
 
-if "__main__" == __name__:
-    s = "xyzxzyyzx"
+if __name__ == "__main__":
+    strs = ["act", "pots", "tops", "cat", "stop", "hat"]
 
-    result = subsWithoutDupes(s)
+    result = groupAnagrams(strs)
     print(result)
