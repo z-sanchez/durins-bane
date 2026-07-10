@@ -1,29 +1,23 @@
-# Time Complexity: O(m * n)
-# Space Complexity: O(m), uses a count map
-# m = length of string, n = length of unique characters in string
+def subsWithoutDupes(s: str) -> int:
 
-def characterReplacement(s: str, k: int) -> int:
-
-    count = {}
-
+    charSet = set()
     result = 0
-
     left = 0
 
     for right in range(len(s)):
-        count[s[right]] = 1 + count.get(s[right], 0)
 
-        if (right - left + 1) - max(count.values()) > k:
-            count[s[left]] -= 1
+        while s[right] in charSet:
+            charSet.remove(s[left])
             left += 1
 
+        charSet.add(s[right])
         result = max(result, right - left + 1)
 
     return result
 
 
 if "__main__" == __name__:
-    s = "AABA"
-    k = 2
-    max = characterReplacement(s, k)
-    print("result", max)
+    s = "xyzxzyyzx"
+
+    result = subsWithoutDupes(s)
+    print(result)
