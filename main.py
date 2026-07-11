@@ -1,29 +1,26 @@
 # Time Complexity = O(m * n) n for the number of elements, m for the length of each char
 # Space Complexity = O(m) for the map we create
 
-def groupAnagrams(strs):
+def characterReplacement(string, limit):
 
-    # map will have a tuple as a key, then a list of strings for values
-    map = {}
+    result = 0
+    left = 0
+    count = {}
 
-    for str in strs:
-        count = [0] * 26
+    for right in range(len(string)):
+        count[string[right]] = 1 + count.get(string[right], 0)
 
-        for char in str:
-            count[ord(char) - ord('a')] += 1
+        if (right - left + 1) - max(count.values()) > limit:
+            count[string[left]] -= 1
+            left += 1
 
-        key = tuple(count)
+        result = max(right - left + 1, result)
 
-        if key not in map:
-            map[key] = []
-
-        map[key].append(str)
-
-    return list(map.values())
+    return result
 
 
-if __name__ == "__main__":
-    strs = ["act", "pots", "tops", "cat", "stop", "hat"]
-
-    result = groupAnagrams(strs)
-    print(result)
+if "__main__" == __name__:
+    s = "AABA"
+    k = 2
+    max = characterReplacement(s, k)
+    print("result", max)
