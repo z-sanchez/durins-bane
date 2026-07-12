@@ -3,9 +3,9 @@
 
 def characterReplacement(string, limit):
 
+    count = {}
     result = 0
     left = 0
-    count = {}
 
     for right in range(len(string)):
         count[string[right]] = 1 + count.get(string[right], 0)
@@ -14,13 +14,13 @@ def characterReplacement(string, limit):
             count[string[left]] -= 1
             left += 1
 
-        result = max(right - left + 1, result)
+        result = max(result, right - left + 1)
 
     return result
 
 
 if "__main__" == __name__:
-    s = "AABA"
-    k = 2
+    s = "ABAA"
+    k = 0
     max = characterReplacement(s, k)
     print("result", max)
