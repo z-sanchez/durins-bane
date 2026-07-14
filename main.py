@@ -1,23 +1,35 @@
-def characterReplacement(str, limit):
+def threeSum(array):
+    result = []
 
-    charSet = {}
-    left = 0
-    result = 0
+    # prevent duplicates by sorting
+    array.sort()
 
-    for right in range(len(str)):
-        charSet[str[right]] = 1 + charSet.get(str[right], 0)
+    for index, value in enumerate(array):
+        if index > 0 and array[index] == array[index - 1]:
+            continue
 
-        if (right - left + 1) - max(charSet.values()) > limit:
-            charSet[str[left]] -= 1
-            left += 1
+        left = index + 1
+        right = len(array) - 1
 
-        result = max(result, right - left + 1)
+        while left < right:
+            sum = value + array[left] + array[right]
+
+            if sum > 0:
+                right -= 1
+            elif sum < 0:
+                left += 1
+            else:
+                result.append([value, array[left], array[right]])
+                left += 1
+
+                while array[left] == array[left - 1] and left < right:
+                    left += 1
 
     return result
 
 
 if "__main__" == __name__:
-    s = "AABA"
-    k = 2
-    max = characterReplacement(s, k)
-    print("result", max)
+
+    array = [-1, 0, 1, 2, -1, -4]
+
+    print(threeSum(array))
