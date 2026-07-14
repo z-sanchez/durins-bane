@@ -1,23 +1,27 @@
 # Time Complexity: O(n), we traverse the array once max
 # Space Complexity: O(n), we make a set here
 
-def longestSequence(nums):
-    numSet = set(nums)
-    result = 0
+def groupAnagrams(strs):
+    result = {}
 
-    for num in nums:
-        if num - 1 not in numSet:
-            length = 0
+    for str in strs:
+        count = [0] * 26
 
-            while num + length in numSet:
-                length += 1
+        for s in str:
+            count[ord(s) - ord('a')] += 1
 
-            result = max(result, length)
+        key = tuple(count)
 
-    return result
+        if key not in result:
+            result[key] = []
+
+        result[key].append(str)
+
+    return list(result.values())
 
 
-if "__main__" == __name__:
-    input = [0, 3, 2, 5, 4, 6, 1, 1]
-    result = longestSequence(input)
+if __name__ == "__main__":
+    strs = ["act", "pots", "tops", "cat", "stop", "hat"]
+
+    result = groupAnagrams(strs)
     print(result)
