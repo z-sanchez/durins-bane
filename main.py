@@ -1,27 +1,30 @@
 # Time Complexity: O(n), we traverse the array once max
 # Space Complexity: O(n), we make a set here
 
-def groupAnagrams(strs):
-    result = {}
+def productsOfArrayExceptSelf(nums):
+    result = []
 
-    for str in strs:
-        count = [0] * 26
+    prefix = 1
 
-        for s in str:
-            count[ord(s) - ord('a')] += 1
+    for index in range(len(nums)):
+        if index == 0:
+            result.append(prefix)
+        else:
+            prefix *= nums[index - 1]
+            result.append(prefix)
 
-        key = tuple(count)
+    print(result)
 
-        if key not in result:
-            result[key] = []
+    postfix = 1
 
-        result[key].append(str)
+    for index in range(len(nums))[::-1]:
+        result[index] *= postfix
+        postfix *= nums[index]
 
-    return list(result.values())
+    return result
 
 
 if __name__ == "__main__":
-    strs = ["act", "pots", "tops", "cat", "stop", "hat"]
+    nums = [1, 2, 3, 4]
 
-    result = groupAnagrams(strs)
-    print(result)
+    print(productsOfArrayExceptSelf(nums))
