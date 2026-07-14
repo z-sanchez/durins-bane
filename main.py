@@ -1,12 +1,8 @@
-# Time Complexity: O(n), we traverse the array once max
-# Space Complexity: O(n), we make a set here
-
-def subsWithoutDupes(str):
+def characterReplacement(str, limit):
     result = 0
 
-    charSet = set()
-
     left = 0
+    charSet = set()
 
     for right in range(len(str)):
         while str[right] in charSet:
@@ -20,7 +16,7 @@ def subsWithoutDupes(str):
 
 
 if "__main__" == __name__:
-    s = "xyzxzyyzx"
-
-    result = subsWithoutDupes(s)
-    print(result)
+    s = "AABA"
+    k = 2
+    max = characterReplacement(s, k)
+    print("result", max)
