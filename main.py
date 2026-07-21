@@ -1,36 +1,33 @@
 
-def threeSum(array):
-    result = []
+def checkInclusion(s1, s2):
 
-    array.sort()
+    count = [0] * 26
 
-    for index, num in enumerate(array):
-        if index > 0 and array[index - 1] == num:
-            continue
+    for char in s1:
+        count[ord(char) - ord('a')] += 1
 
-        left = index + 1
-        right = len(array) - 1
+    countsOfStr1 = tuple(count)
 
-        while left < right:
-            sum = num + array[left] + array[right]
+    left = 0
+    newCount = [0] * 26
 
-            if sum > 0:
-                right -= 1
-            elif sum < 0:
-                left += 1
-            else:
-                result.append([num, array[left], array[right]])
+    for right in range(len(s2)):
+        newCount[ord(s2[right]) - ord('a')] += 1
 
-                left += 1
+        testTuple = tuple(newCount)
 
-                while left < right and array[left] == array[left - 1]:
-                    left += 1
+        if testTuple == countsOfStr1:
+            return True
+        elif (right - left + 1) >= len(s1):
+            newCount[ord(s2[left]) - ord('a')] -= 1
+            left += 1
 
-    return result
+    return False
 
 
 if "__main__" == __name__:
 
-    array = [-1, 0, 1, 2, -1, -4]
+    s1 = "abc"
+    s2 = "lecabee"
 
-    print(threeSum(array))
+    print(checkInclusion(s1, s2))
