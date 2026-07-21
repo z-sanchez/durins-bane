@@ -1,23 +1,48 @@
-def characterReplacement(string, limit):
+# Time Complexity: O(n^2), we nest loops to traverse row and columns
+# Space Complexity: O(n^2), each of our created mappings are two dimensional
 
-    left = 0
-    result = 0
-    count = {}
+def isValidSudoku(board):
+    # create hashmaps for each of the sections will need to check
+    # boxes will store coordinates as the key (1-3 for row, 1-3 for column, total of nine boxes)
+    boxes = {}
+    columns = {}
+    rows = {}
 
-    for right in range(len(string)):
-        count[string[right]] = 1 + count.get(string[right], 0)
+    for row in range(9):
+        for column in range(9):
+            value = board[row][column]
 
-        if (right - left + 1) - max(count.values()) > limit:
-            count[string[left]] -= 1
-            left += 1
+            if value == ".":
+                continue
 
-        result = max(result, right - left + 1)
+            if row not in rows:
+                rows[row] = []
 
-    return result
+            if column not in columns:
+                columns[column] = []
+
+            if (row//3, column//3) not in boxes:
+                boxes[(row//3, column//3)] = []
+
+            if value in rows[row] or value in columns[column] or value in boxes[(row//3, column//3)]:
+                return False
+
+            rows[row].append(value)
+            columns[column].append(value)
+            boxes[(row//3, column//3)].append(value)
+
+    return True
 
 
-if "__main__" == __name__:
-    s = "AABA"
-    k = 2
-    max = characterReplacement(s, k)
-    print("result", max)
+if __name__ == "__main__":
+    board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
+             ["4", ".", ".", "5", ".", ".", ".", ".", "."],
+             [".", "9", "8", ".", ".", ".", ".", ".", "3"],
+             ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
+             [".", ".", ".", "8", ".", "3", ".", ".", "5"],
+             ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+             [".", ".", ".", ".", ".", ".", "2", ".", "."],
+             [".", ".", ".", "4", "1", "9", ".", ".", "8"],
+             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
+
+print(isValidSudoku(board))
