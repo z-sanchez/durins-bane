@@ -1,21 +1,36 @@
 
-def longestSequence(nums):
-    result = 0
+def threeSum(array):
+    result = []
 
-    for num in nums:
-        print(num)
-        if num - 1 not in nums:
-            length = 0
+    array.sort()
 
-            while num + length in nums:
-                length += 1
+    for index, num in enumerate(array):
+        if index > 0 and array[index - 1] == num:
+            continue
 
-            result = max(result, length)
+        left = index + 1
+        right = len(array) - 1
+
+        while left < right:
+            sum = num + array[left] + array[right]
+
+            if sum > 0:
+                right -= 1
+            elif sum < 0:
+                left += 1
+            else:
+                result.append([num, array[left], array[right]])
+
+                left += 1
+
+                while left < right and array[left] == array[left - 1]:
+                    left += 1
 
     return result
 
 
 if "__main__" == __name__:
-    input = [2, 20, 4, 10, 3, 4, 5]
-    result = longestSequence(input)
-    print(result)
+
+    array = [-1, 0, 1, 2, -1, -4]
+
+    print(threeSum(array))
