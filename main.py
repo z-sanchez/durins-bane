@@ -1,9 +1,8 @@
 def characterReplacement(string, limit):
 
+    left = 0
     result = 0
     count = {}
-
-    left = 0
 
     for right in range(len(string)):
         count[string[right]] = 1 + count.get(string[right], 0)
@@ -12,7 +11,7 @@ def characterReplacement(string, limit):
             count[string[left]] -= 1
             left += 1
 
-        result = max(result, (right - left + 1))
+        result = max(result, right - left + 1)
 
     return result
 
