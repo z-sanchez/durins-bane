@@ -1,48 +1,21 @@
-# Time Complexity: O(n^2), we nest loops to traverse row and columns
-# Space Complexity: O(n^2), each of our created mappings are two dimensional
 
-def isValidSudoku(board):
-    # create hashmaps for each of the sections will need to check
-    # boxes will store coordinates as the key (1-3 for row, 1-3 for column, total of nine boxes)
-    boxes = {}
-    columns = {}
-    rows = {}
+def longestSequence(nums):
+    result = 0
 
-    for row in range(9):
-        for column in range(9):
-            value = board[row][column]
+    for num in nums:
+        print(num)
+        if num - 1 not in nums:
+            length = 0
 
-            if value == ".":
-                continue
+            while num + length in nums:
+                length += 1
 
-            if row not in rows:
-                rows[row] = []
+            result = max(result, length)
 
-            if column not in columns:
-                columns[column] = []
-
-            if (row//3, column//3) not in boxes:
-                boxes[(row//3, column//3)] = []
-
-            if value in rows[row] or value in columns[column] or value in boxes[(row//3, column//3)]:
-                return False
-
-            rows[row].append(value)
-            columns[column].append(value)
-            boxes[(row//3, column//3)].append(value)
-
-    return True
+    return result
 
 
-if __name__ == "__main__":
-    board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
-             ["4", ".", ".", "5", ".", ".", ".", ".", "."],
-             [".", "9", "8", ".", ".", ".", ".", ".", "3"],
-             ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
-             [".", ".", ".", "8", ".", "3", ".", ".", "5"],
-             ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
-             [".", ".", ".", ".", ".", ".", "2", ".", "."],
-             [".", ".", ".", "4", "1", "9", ".", ".", "8"],
-             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
-
-print(isValidSudoku(board))
+if "__main__" == __name__:
+    input = [2, 20, 4, 10, 3, 4, 5]
+    result = longestSequence(input)
+    print(result)
