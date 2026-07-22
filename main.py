@@ -1,31 +1,44 @@
 
-def checkInclusion(s1, s2):
-    s1Count = [0] * 26
+# Time Complexity: O(n), iterates through string once
+# Space Complexity: O(1), no extra space needed
 
-    for char in s1:
-        s1Count[ord(char) - ord('a')] += 1
-
-    s1Key = tuple(s1Count)
-
-    left = 0
-    s2Count = [0] * 26
-
-    for right in range(len(s2)):
-        if tuple(s2Count) == s1Key:
-            return True
-
-        s2Count[ord(s2[right]) - ord('a')] += 1
-
-        if (right - left + 1) > len(s1):
-            s2Count[ord(s2[left]) - ord('a')] -= 1
-            left += 1
-
-    return False
+from typing import List
 
 
-if "__main__" == __name__:
+def encode(strs):
 
-    s1 = "abc"
-    s2 = "lecabee"
+    result = ""
 
-    print(checkInclusion(s1, s2))
+    for word in strs:
+        result += str(len(word)) + "#" + word
+
+    return result
+
+
+def decode(str):
+
+    result = []
+    i = 0
+
+    while i < len(str):
+        delimiter = i
+
+        while str[delimiter] != "#":
+            delimiter += 1
+
+        length = int(str[i:delimiter])
+
+        word = str[delimiter + 1: delimiter + 1 + length]
+
+        result.append(word)
+        i = delimiter + 1 + length
+
+    return result
+
+
+if __name__ == "__main__":
+
+    strs = ["need", "code", "love", "you"]
+    encodedOutput = encode(strs)
+
+    print(decode(encodedOutput))
