@@ -1,28 +1,28 @@
-def topKFrequent(nums, limit):
 
-    frequencies = [[] for x in range(len(nums) + 1)]
 
-    counts = {}
+def subsWithoutDupes(str):
 
-    result = []
+    result = 0
 
-    for num in nums:
-        counts[num] = 1 + counts.get(num, 0)
+    charSet = set()
 
-    for num, count in counts.items():
-        frequencies[count].append(num)
+    left = 0
 
-    for i in frequencies[::-1]:
-        for j in i:
-            if len(result) >= limit:
-                return result
-            else:
-                result.append(j)
+    for right in range(len(str)):
+
+        while str[right] in charSet:
+            charSet.remove(str[left])
+            left += 1
+
+        charSet.add(str[right])
+
+        result = max(result, right - left + 1)
 
     return result
 
 
-if __name__ == "__main__":
-    nums = [1, 1, 1, 2, 2, 100]
-    k = 2
-    print(topKFrequent(nums, k))
+if "__main__" == __name__:
+    s = "xyzxzyyzx"
+
+    result = subsWithoutDupes(s)
+    print(result)
