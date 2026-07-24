@@ -1,28 +1,35 @@
 # Time Complexity: O(n), we traverse the array once max
 # Space Complexity: O(1), no new data structure needed
 
-def subsWithoutDupes(s):
+def checkInclusion(s1, s2):
+
+    s1Count = [0] * 26
+
+    for char in s1:
+        s1Count[ord(char) - ord('a')] += 1
+
+    s1Key = tuple(s1Count)
 
     left = 0
-    charSet = set()
 
-    result = 0
+    s2count = [0] * 26
+    for right in range(len(s2)):
+        s2count[ord(s2[right]) - ord('a')] += 1
 
-    for right in range(len(s)):
-
-        while s[right] in charSet:
-            charSet.remove(s[left])
+        if (right - left + 1) > len(s1):
+            s2count[ord(s2[left]) - ord('a')] -= 1
             left += 1
 
-        charSet.add(s[right])
+        s2Key = tuple(s2count)
 
-        result = max((right - left + 1), result)
+        if s1Key == s2Key:
+            return True
 
-    return result
+    return False
 
 
 if "__main__" == __name__:
-    s = "xyzxzyyzx"
+    s1 = "abc"
+    s2 = "lecabee"
 
-    result = subsWithoutDupes(s)
-    print(result)
+    print(checkInclusion(s1, s2))
