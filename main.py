@@ -1,26 +1,28 @@
 # Time Complexity: O(n), we traverse the array once max
 # Space Complexity: O(1), no new data structure needed
 
-def maxArea(heights):
+def subsWithoutDupes(s):
+
     left = 0
-    right = len(heights) - 1
+    charSet = set()
 
     result = 0
 
-    while left < right:
-        maxArea = (right - left) * min(heights[left], heights[right])
+    for right in range(len(s)):
 
-        result = max(maxArea, result)
-
-        if heights[left] < heights[right]:
+        while s[right] in charSet:
+            charSet.remove(s[left])
             left += 1
-        else:
-            right -= 1
+
+        charSet.add(s[right])
+
+        result = max((right - left + 1), result)
 
     return result
 
 
 if "__main__" == __name__:
-    input = [1, 7, 2, 5, 4, 7, 3, 6]
-    result = maxArea(input)
+    s = "xyzxzyyzx"
+
+    result = subsWithoutDupes(s)
     print(result)
