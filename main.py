@@ -1,32 +1,36 @@
 # Time Complexity: O(n), we traverse the array once max
 # Space Complexity: O(1), no new data structure needed
 
-def productsOfArrayExceptSelf(nums):
+class MinStack:
 
-    prefix = 1
+    def __init__(self):
+        self.stack = []
+        self.minStack = []
 
-    result = []
-
-    for index in range(len(nums)):
-        if index == 0:
-            result.append(prefix)
+    def push(self, val: int) -> None:
+        self.stack.append(val)
+        if not self.minStack:
+            self.minStack.append(val)
         else:
-            prefix *= nums[index - 1]
-            result.append(prefix)
+            self.minStack.append(min(self.minStack[-1], val))
 
-    print(result)
+    def pop(self) -> None:
+        self.minStack.pop()
+        self.stack.pop()
 
-    postfix = 1
+    def top(self) -> int:
+        return self.stack[-1]
 
-    for newIndex in range(len(nums))[::-1]:
-        result[newIndex] *= postfix
-
-        postfix *= nums[newIndex]
-
-    return result
+    def getMin(self) -> int:
+        return self.minStack[-1]
 
 
-if __name__ == "__main__":
-    nums = [1, 2, 3, 4]
-
-    print(productsOfArrayExceptSelf(nums))
+if "__main__" == __name__:
+    minStack = MinStack()
+    minStack.push(1)
+    minStack.push(2)
+    minStack.push(0)
+    print(minStack.getMin())
+    print(minStack.pop())
+    print(minStack.top())
+    print(minStack.getMin())
