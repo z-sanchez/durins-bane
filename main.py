@@ -10,17 +10,17 @@ def checkInclusion(s1, s2):
 
     s1Key = tuple(s1Count)
 
+    s2Count = [0] * 26
     left = 0
 
-    s2count = [0] * 26
     for right in range(len(s2)):
-        s2count[ord(s2[right]) - ord('a')] += 1
+        s2Count[ord(s2[right]) - ord('a')] += 1
 
         if (right - left + 1) > len(s1):
-            s2count[ord(s2[left]) - ord('a')] -= 1
+            s2Count[ord(s2[left]) - ord('a')] -= 1
             left += 1
 
-        s2Key = tuple(s2count)
+        s2Key = tuple(s2Count)
 
         if s1Key == s2Key:
             return True
