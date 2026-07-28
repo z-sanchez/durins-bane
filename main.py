@@ -1,31 +1,36 @@
-# Time Complexity: O(n), iterates through list a couple of times but no more than n
-# Space Complexity: O(n), creating a result array
+# Time Complexity = O(1) we never traverse, constant time for everything
+# Space Complexity = O(n) create stacks
 
+class MinStack:
 
-def productsOfArrayExceptSelf(nums):
-    # first collects prefix, then multiplies them to get final products
-    result = []
+    def __init__(self):
+        self.stack = []
+        self.minStack = []
 
-    prefix = 1
-
-    for num in range(len(nums)):
-        if num == 0:
-            result.append(prefix)
+    def push(self, val: int) -> None:
+        self.stack.append(val)
+        if not self.minStack:
+            self.minStack.append(val)
         else:
-            prefix = prefix * nums[num-1]
-            result.append(prefix)
+            self.minStack.append(min(val, self.minStack[-1]))
 
-    postfix = 1
+    def pop(self) -> None:
+        self.minStack.pop()
+        self.stack.pop()
 
-    for index in range(len(nums))[::-1]:
-        result[index] *= postfix
+    def top(self) -> int:
+        return self.stack[-1]
 
-        postfix *= nums[index]
+    def getMin(self) -> int:
+        return self.minStack[-1]
 
-    return result
 
-
-if __name__ == "__main__":
-    nums = [1, 2, 3, 4]
-
-    print(productsOfArrayExceptSelf(nums))
+if "__main__" == __name__:
+    minStack = MinStack()
+    minStack.push(1)
+    minStack.push(2)
+    minStack.push(0)
+    print(minStack.getMin())
+    print(minStack.pop())
+    print(minStack.top())
+    print(minStack.getMin())
