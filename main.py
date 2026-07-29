@@ -1,36 +1,22 @@
 # Time Complexity = O(1) we never traverse, constant time for everything
 # Space Complexity = O(n) create stacks
 
-class MinStack:
+def longestSequence(nums):
 
-    def __init__(self):
-        self.stack = []
-        self.minStack = []
+    numSet = set(nums)
+    result = 0
 
-    def push(self, val: int) -> None:
-        self.stack.append(val)
-        if not self.minStack:
-            self.minStack.append(val)
-        else:
-            self.minStack.append(min(val, self.minStack[-1]))
+    for num in nums:
+        if num - 1 not in numSet:
+            length = 0
+            while length + num in numSet:
+                length += 1
+            result = max(result, length)
 
-    def pop(self) -> None:
-        self.minStack.pop()
-        self.stack.pop()
-
-    def top(self) -> int:
-        return self.stack[-1]
-
-    def getMin(self) -> int:
-        return self.minStack[-1]
+    return result
 
 
 if "__main__" == __name__:
-    minStack = MinStack()
-    minStack.push(1)
-    minStack.push(2)
-    minStack.push(0)
-    print(minStack.getMin())
-    print(minStack.pop())
-    print(minStack.top())
-    print(minStack.getMin())
+    input = [0, 3, 2, 5, 4, 6, 1, 1]
+    result = longestSequence(input)
+    print(result)
