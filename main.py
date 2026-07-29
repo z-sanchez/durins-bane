@@ -1,36 +1,25 @@
-# Time Complexity = O(1) we never traverse, constant time for everything
-# Space Complexity = O(n) create stacks
+def carFleet(target, positions, speeds):
+    pairs = [[p, s] for p, s in zip(positions, speeds)]
 
-class MinStack:
+    stack = []
 
-    def __init__(self):
-        self.stack = []
-        self.minStack = []
+    pairs.sort()
 
-    def push(self, val: int) -> None:
-        self.stack.append(val)
-        if not self.minStack:
-            self.minStack.append(val)
-        else:
-            self.minStack.append(min(self.minStack[-1], val))
+    for position, speed in pairs[::-1]:
+        timeToTarget = (target - position) / speed
 
-    def pop(self) -> None:
-        self.minStack.pop()
-        self.stack.pop()
+        stack.append(timeToTarget)
 
-    def top(self) -> int:
-        return self.stack[-1]
+        if len(stack) > 1 and stack[-1] <= stack[-2]:
+            stack.pop()
 
-    def getMin(self) -> int:
-        return self.minStack[-1]
+    return len(stack)
 
 
 if "__main__" == __name__:
-    minStack = MinStack()
-    minStack.push(1)
-    minStack.push(2)
-    minStack.push(0)
-    print(minStack.getMin())
-    print(minStack.pop())
-    print(minStack.top())
-    print(minStack.getMin())
+    target = 10
+    position = [1, 4]
+    speed = [3, 2]
+
+    result = carFleet(target, position, speed)
+    print(result)
