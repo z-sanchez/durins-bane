@@ -1,31 +1,36 @@
 # Time Complexity = O(1) we never traverse, constant time for everything
 # Space Complexity = O(n) create stacks
 
-def productsOfArrayExceptSelf(nums):
+class MinStack:
 
-    result = []
+    def __init__(self):
+        self.stack = []
+        self.minStack = []
 
-    prefix = 1
-
-    for index in range(len(nums)):
-        if index == 0:
-            result.append(prefix)
+    def push(self, val: int) -> None:
+        self.stack.append(val)
+        if not self.minStack:
+            self.minStack.append(val)
         else:
-            prefix *= nums[index - 1]
-            result.append(prefix)
+            self.minStack.append(min(self.minStack[-1], val))
 
-    print(result)
-    postfix = 1
+    def pop(self) -> None:
+        self.minStack.pop()
+        self.stack.pop()
 
-    for i in range(len(nums))[::-1]:
-        result[i] *= postfix
+    def top(self) -> int:
+        return self.stack[-1]
 
-        postfix *= nums[i]
+    def getMin(self) -> int:
+        return self.minStack[-1]
 
-    return result
 
-
-if __name__ == "__main__":
-    nums = [1, 2, 3, 4]
-
-    print(productsOfArrayExceptSelf(nums))
+if "__main__" == __name__:
+    minStack = MinStack()
+    minStack.push(1)
+    minStack.push(2)
+    minStack.push(0)
+    print(minStack.getMin())
+    print(minStack.pop())
+    print(minStack.top())
+    print(minStack.getMin())
