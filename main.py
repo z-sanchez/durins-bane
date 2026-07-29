@@ -1,22 +1,31 @@
 # Time Complexity = O(1) we never traverse, constant time for everything
 # Space Complexity = O(n) create stacks
 
-def longestSequence(nums):
+def productsOfArrayExceptSelf(nums):
 
-    numSet = set(nums)
-    result = 0
+    result = []
 
-    for num in nums:
-        if num - 1 not in numSet:
-            length = 0
-            while length + num in numSet:
-                length += 1
-            result = max(result, length)
+    prefix = 1
+
+    for index in range(len(nums)):
+        if index == 0:
+            result.append(prefix)
+        else:
+            prefix *= nums[index - 1]
+            result.append(prefix)
+
+    print(result)
+    postfix = 1
+
+    for i in range(len(nums))[::-1]:
+        result[i] *= postfix
+
+        postfix *= nums[i]
 
     return result
 
 
-if "__main__" == __name__:
-    input = [0, 3, 2, 5, 4, 6, 1, 1]
-    result = longestSequence(input)
-    print(result)
+if __name__ == "__main__":
+    nums = [1, 2, 3, 4]
+
+    print(productsOfArrayExceptSelf(nums))
