@@ -1,18 +1,23 @@
-def dailyTemperatures(temps: int) -> List[str]:
-    result = [0] * len(temps)
-    stack = []  # index, temp
+def subsWithoutDupes(s):
 
-    for index, temp in enumerate(temps):
-        while stack and temp > stack[-1][1]:
-            stackIndex, stackTemp = stack.pop()
-            result[stackIndex] = index - stackIndex
-        stack.append([index, temp])
+    result = 0
+    charSet = set()
+    left = 0
+
+    for right in range(len(s)):
+        while s[right] in charSet:
+            charSet.remove(s[left])
+            left += 1
+
+        charSet.add(s[right])
+
+        result = max(result, right - left + 1)
 
     return result
 
 
 if "__main__" == __name__:
-    temperatures = [30, 38, 30, 36, 35, 40, 28]
+    s = "xyzxzyyzx"
 
-    result = dailyTemperatures(temperatures)
+    result = subsWithoutDupes(s)
     print(result)
