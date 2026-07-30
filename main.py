@@ -1,13 +1,12 @@
 def carFleet(target, positions, speeds):
-    pairs = [[p, s] for p, s in zip(positions, speeds)]
 
+    pairs = [[p, s] for p, s in zip(positions, speeds)]
     stack = []
 
     pairs.sort()
 
     for position, speed in pairs[::-1]:
-        timeToTarget = (target - position) / speed
-
+        timeToTarget = (target-position)/speed
         stack.append(timeToTarget)
 
         if len(stack) > 1 and stack[-1] <= stack[-2]:
