@@ -1,23 +1,28 @@
-def subsWithoutDupes(s):
+# Time Complexity = O(nlogn) we traverse the array once (n) but we do sort the card (longn)
+# Space Complexity = O(n) space for the stack
 
-    result = 0
-    charSet = set()
-    left = 0
+def carFleet(target, positions, speeds):
+    # zip combines two array into pairs, use for loop to fill the array using tuples returned
+    pairs = [[p, s] for p, s in zip(positions, speeds)]
+    stack = []
 
-    for right in range(len(s)):
-        while s[right] in charSet:
-            charSet.remove(s[left])
-            left += 1
+    pairs.sort()
 
-        charSet.add(s[right])
+    for position, speed in pairs[::-1]:
+        timeToTarget = (target - position) / speed
 
-        result = max(result, right - left + 1)
+        stack.append(timeToTarget)
 
-    return result
+        if len(stack) > 1 and stack[-1] <= stack[-2]:
+            stack.pop()
+
+    return len(stack)
 
 
 if "__main__" == __name__:
-    s = "xyzxzyyzx"
+    target = 10
+    position = [1, 4]
+    speed = [3, 2]
 
-    result = subsWithoutDupes(s)
+    result = carFleet(target, position, speed)
     print(result)
