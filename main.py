@@ -5,31 +5,29 @@ import math
 
 def kokoBananas(piles, hours):
 
-    left = 0
+    left = 1
     right = max(piles)
-
     result = right
 
     while left <= right:
-        bph = (right+left) // 2
+        bananasPerHour = (left + right) // 2
 
-        hoursCounted = 0
+        timeToEat = 0
+        for pile in piles:
+            timeToEat += math.ceil(pile/bananasPerHour)
 
-        for x in piles:
-            hoursCounted += math.ceil(x/bph)
-
-        if hoursCounted <= hours:
-            result = min(result, bph)
-            right = bph - 1
+        if timeToEat <= hours:
+            result = min(result, bananasPerHour)
+            right = bananasPerHour - 1
         else:
-            left = bph + 1
+            left = bananasPerHour + 1
 
     return result
 
 
 if "__main__" == __name__:
-    piles = [25, 10, 23, 4]
-    hours = 4
+    piles = [1, 4, 3, 2]
+    hours = 9
 
     result = kokoBananas(piles, hours)
     print(result)
