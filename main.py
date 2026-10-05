@@ -1,33 +1,29 @@
-# Time Complexity = O(n * logn) we use binary search with the while loop (logn) and the iterate (n) through the piles
-# Space Complexity = O(1) no additional space needed
-import math
+# Time Complexity = O(m * n) n for the number of elements, m for the length of each char
+# Space Complexity = O(m) for the map we create
+
+def groupAnagrams(strs):
+
+    # map will have a tuple as a key, then a list of strings for values
+    map = {}
+
+    for word in strs:
+        count = [0] * 26
+
+        for str in word:
+            count[ord(str)-ord('a')] += 1
+
+        key = tuple(count)
+
+        if key not in map:
+            map[key] = []
+
+        map[key].append(word)
+
+    return list(map.values())
 
 
-def kokoBananas(piles, hours):
+if __name__ == "__main__":
+    strs = ["act", "pots", "tops", "cat", "stop", "hat"]
 
-    left = 1
-    right = max(piles)
-    result = right
-
-    while left <= right:
-        bananasPerHour = (left + right) // 2
-
-        timeToEat = 0
-        for pile in piles:
-            timeToEat += math.ceil(pile/bananasPerHour)
-
-        if timeToEat <= hours:
-            result = min(result, bananasPerHour)
-            right = bananasPerHour - 1
-        else:
-            left = bananasPerHour + 1
-
-    return result
-
-
-if "__main__" == __name__:
-    piles = [1, 4, 3, 2]
-    hours = 9
-
-    result = kokoBananas(piles, hours)
+    result = groupAnagrams(strs)
     print(result)
