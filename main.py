@@ -9,18 +9,17 @@ def topKFrequent(nums, k):
     for num in nums:
         count[num] = 1 + count.get(num, 0)
 
-    ranked = [[] for x in range(len(nums) + 1)]
+    frequencies = [[] for x in range(len(nums) + 1)]
 
-    for value, key in count.items():
-        print(value, key)
-        ranked[key].append(value)
+    for value, counted in count.items():
+        frequencies[counted].append(value)
 
-    for x in range(len(ranked))[::-1]:
-        for j in ranked[x]:
-            if len(result) == k:
+    for x in range(len(frequencies))[::-1]:
+        for i in frequencies[x]:
+            if len(result) >= k:
                 return result
             else:
-                result.append(j)
+                result.append(i)
 
     return result
 
