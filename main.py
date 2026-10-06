@@ -2,24 +2,25 @@
 # Space Complexity: O(n)
 
 def topKFrequent(nums, k):
-    # for counting the occurrence of each num
-    result = []
+
     count = {}
+    result = []
 
     for num in nums:
         count[num] = 1 + count.get(num, 0)
 
     frequencies = [[] for x in range(len(nums) + 1)]
 
-    for value, counted in count.items():
-        frequencies[counted].append(value)
+    for key, value in count.items():
+        print(key, value)
+        frequencies[value].append(key)
 
     for x in range(len(frequencies))[::-1]:
-        for i in frequencies[x]:
+        for n in frequencies[x]:
             if len(result) >= k:
                 return result
             else:
-                result.append(i)
+                result.append(n)
 
     return result
 
