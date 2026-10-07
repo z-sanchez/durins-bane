@@ -1,22 +1,43 @@
-# Time Complexity: O(n), we traverse the array once max
-# Space Complexity: O(n), we make a set here
 
-def longestSequence(nums):
+# Time Complexity: O(n), iterates through string once
+# Space Complexity: O(1), no extra space needed
 
-    numSet = set(nums)
-    result = 0
+from typing import List
 
-    for num in numSet:
-        if num - 1 not in numSet:
-            length = 0
-            while num + length in numSet:
-                length += 1
-            result = max(result, length)
+
+def encode(strs):
+    encodedStr = ''
+
+    for word in strs:
+        encodedStr += str(len(word)) + '#' + word
+
+    return encodedStr
+
+
+def decode(str):
+    result = []
+    pointer = 0
+
+    while pointer < len(str):
+        delimiter = pointer
+
+        while str[delimiter] != "#":
+            delimiter += 1
+
+        length = int(str[pointer:delimiter])
+
+        word = str[delimiter + 1: delimiter + 1 + length]
+
+        result.append(word)
+
+        pointer = delimiter + 1 + length
 
     return result
 
 
-if "__main__" == __name__:
-    input = [0, 3, 2, 5, 4, 6, 1, 1]
-    result = longestSequence(input)
-    print(result)
+if __name__ == "__main__":
+
+    strs = ["need", "code", "love", "you"]
+    encodedOutput = encode(strs)
+
+    print(decode(encodedOutput))
