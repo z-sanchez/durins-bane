@@ -1,43 +1,31 @@
-
-# Time Complexity: O(n), iterates through string once
-# Space Complexity: O(1), no extra space needed
-
-from typing import List
+# Time Complexity: O(n), iterates through list a couple of times but no more than n
+# Space Complexity: O(n), creating a result array
 
 
-def encode(strs):
-    encodedStr = ''
-
-    for word in strs:
-        encodedStr += str(len(word)) + '#' + word
-
-    return encodedStr
-
-
-def decode(str):
+def productsOfArrayExceptSelf(nums):
+    # first collects prefix, then multiplies them to get final products
     result = []
-    pointer = 0
 
-    while pointer < len(str):
-        delimiter = pointer
+    prefix = 1
 
-        while str[delimiter] != "#":
-            delimiter += 1
+    for x in range(len(nums)):
+        if x == 0:
+            result.append(prefix)
+        else:
+            prefix *= nums[x - 1]
+            result.append(prefix)
 
-        length = int(str[pointer:delimiter])
+    postfix = 1
+    for x in range(len(result))[::-1]:
 
-        word = str[delimiter + 1: delimiter + 1 + length]
+        result[x] *= postfix
 
-        result.append(word)
-
-        pointer = delimiter + 1 + length
+        postfix *= nums[x]
 
     return result
 
 
 if __name__ == "__main__":
+    nums = [1, 2, 3, 4]
 
-    strs = ["need", "code", "love", "you"]
-    encodedOutput = encode(strs)
-
-    print(decode(encodedOutput))
+    print(productsOfArrayExceptSelf(nums))
