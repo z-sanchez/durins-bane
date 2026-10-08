@@ -1,32 +1,48 @@
-# Time Complexity: O(n), iterates through list a couple of times but no more than n
-# Space Complexity: O(n), creating a result array
+# Time Complexity: O(n^2), we nest loops to traverse row and columns
+# Space Complexity: O(n^2), each of our created mappings are two dimensional
 
+def isValidSudoku(board):
+    # create hashmaps for each of the sections will need to check
+    # boxes will store coordinates as the key (1-3 for row, 1-3 for column, total of nine boxes)
+    boxes = {}
+    columns = {}
+    rows = {}
 
-def topKFrequent(nums, k):
+    for row in range(9):
+        for col in range(9):
+            square = board[row][col]
 
-    result = []
+            if square == '.':
+                continue
 
-    count = {}
+            if row not in rows:
+                rows[row] = set()
 
-    for x in nums:
-        count[x] = 1 + count.get(x, 0)
+            if col not in columns:
+                columns[col] = set()
 
-    frequencies = [[] for x in range(len(nums) + 1)]
+            if (row//2, col//2) not in boxes:
+                boxes[(row//2, col//2)] = set()
 
-    for value, counted in count.items():
-        frequencies[counted].append(value)
+            if square in rows[row] or square in columns[col] or square in boxes[(row//2, col//2)]:
+                return False
 
-    for x in range(len(frequencies))[::-1]:
-        for n in frequencies[x]:
-            if len(result) >= k:
-                return result
-            else:
-                result.append(n)
+            rows[row].add(square)
+            columns[col].add(square)
+            boxes[(row//2, col//2)].add(square)
 
-    return result
+    return True
 
 
 if __name__ == "__main__":
-    nums = [1, 1, 1, 2, 2, 100]
-    k = 2
-    print(topKFrequent(nums, k))
+    board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
+             ["4", ".", ".", "5", ".", ".", ".", ".", "."],
+             [".", "9", "8", ".", ".", ".", ".", ".", "3"],
+             ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
+             [".", ".", ".", "8", ".", "3", ".", ".", "5"],
+             ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+             [".", ".", ".", ".", ".", ".", "2", ".", "."],
+             [".", ".", ".", "4", "1", "9", ".", ".", "8"],
+             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
+
+print(isValidSudoku(board))
