@@ -2,32 +2,31 @@
 # Space Complexity: O(n), creating a result array
 
 
-def productsOfArrayExceptSelf(nums):
-    # first collects prefix, then multiplies them to get final products
+def topKFrequent(nums, k):
+
     result = []
 
-    prefix = 1
+    count = {}
 
-    for x in range(len(nums)):
-        if x == 0:
-            result.append(prefix)
-        else:
-            prefix *= nums[x - 1]
-            result.append(prefix)
+    for x in nums:
+        count[x] = 1 + count.get(x, 0)
 
-    print(result)
+    frequencies = [[] for x in range(len(nums) + 1)]
 
-    postfix = 1
+    for value, counted in count.items():
+        frequencies[counted].append(value)
 
-    for x in range(len(nums))[::-1]:
-        result[x] *= postfix
-
-        postfix *= nums[x]
+    for x in range(len(frequencies))[::-1]:
+        for n in frequencies[x]:
+            if len(result) >= k:
+                return result
+            else:
+                result.append(n)
 
     return result
 
 
 if __name__ == "__main__":
-    nums = [1, 2, 3, 4]
-
-    print(productsOfArrayExceptSelf(nums))
+    nums = [1, 1, 1, 2, 2, 100]
+    k = 2
+    print(topKFrequent(nums, k))
