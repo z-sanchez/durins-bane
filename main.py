@@ -1,26 +1,29 @@
-def productsOfArrayExceptSelf(nums):
+def getIndices(nums, target):
+
+    left = 0
+    right = len(nums) + 1
+
     result = []
 
-    prefix = 1
+    while left < right:
+        sum = nums[left] + nums[right]
 
-    for x in range(len(nums)):
-        if x == 0:
-            result.append(prefix)
+        if sum < target:
+            left += 1
+        elif sum > target:
+            right -= 1
         else:
-            prefix *= nums[x-1]
-            result.append(prefix)
-
-    postfix = 1
-
-    for x in range(len(nums))[::-1]:
-        result[x] *= postfix
-
-        postfix *= nums[x]
+            return [left+1, right+1]
 
     return result
 
 
 if __name__ == "__main__":
-    nums = [1, 2, 3, 4]
+    # these must be least to greatest
+    nums = [3, 4, 5, 6]
+    target = 7
 
-    print(productsOfArrayExceptSelf(nums))
+    # result must be least to greatest
+    result = getIndices(nums, target)
+
+    print(result)
