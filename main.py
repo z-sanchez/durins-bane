@@ -1,21 +1,39 @@
 # Time Complexity: O(n), we traverse the array once max
 # Space Complexity: O(n), we make a set here
 
-def longestSequence(nums):
-    numSet = set(nums)
-    result = 0
+def threeSum(array):
+    result = []
 
-    for num in nums:
-        if num - 1 not in numSet:
-            length = 0
-            while num + length in numSet:
-                length += 1
-            result = max(length, result)
+    array.sort()
+
+    print(array)
+
+    for index, value in enumerate(array):
+        if index > 0 and array[index - 1] == array[index]:
+            continue
+
+        left = index + 1
+        right = len(array) - 1
+
+        while left < right:
+            sum = array[index] + array[left] + array[right]
+
+            if sum > 0:
+                right -= 1
+            elif sum < 0:
+                left += 1
+            else:
+                result.append([array[index], array[left], array[right]])
+                left += 1
+
+                while left < right and array[left] == array[left - 1]:
+                    left += 1
 
     return result
 
 
 if "__main__" == __name__:
-    input = [0, 3, 2, 5, 4, 6, 1, 1]
-    result = longestSequence(input)
-    print(result)
+
+    array = [-1, 0, 1, 2, -1, -4]
+
+    print(threeSum(array))
