@@ -1,29 +1,29 @@
-def getIndices(nums, target):
+# Time Complexity = O(m * n) n for the number of elements, m for the length of each char
+# Space Complexity = O(m) for the map we create
 
-    left = 0
-    right = len(nums) + 1
+def groupAnagrams(strs):
 
-    result = []
+    # map will have a tuple as a key, then a list of strings for values
+    map = {}
 
-    while left < right:
-        sum = nums[left] + nums[right]
+    for word in strs:
+        count = [0] * 26
 
-        if sum < target:
-            left += 1
-        elif sum > target:
-            right -= 1
-        else:
-            return [left+1, right+1]
+        for ch in word:
+            count[ord(ch) - ord('a')] += 1
 
-    return result
+        key = tuple(count)
+
+        if key not in map:
+            map[key] = []
+
+        map[key].append(word)
+
+    return list(map.values())
 
 
 if __name__ == "__main__":
-    # these must be least to greatest
-    nums = [3, 4, 5, 6]
-    target = 7
+    strs = ["act", "pots", "tops", "cat", "stop", "hat"]
 
-    # result must be least to greatest
-    result = getIndices(nums, target)
-
+    result = groupAnagrams(strs)
     print(result)
