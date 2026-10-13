@@ -1,46 +1,32 @@
 # Time Complexity: O(n), we traverse the array once max
 # Space Complexity: O(n), we make a set here
 
-def isValidSudoku(board):
-    rows = {}
-    columns = {}
-    boxes = {}
+def topKFrequent(nums, k):
+    count = {}
+    result = []
 
-    for row in range(9):
-        for column in range(9):
-            value = board[row][column]
+    for num in nums:
+        count[num] = 1 + count.get(num, 0)
 
-            if value == ".":
-                continue
+    frequencies = [[] for x in range(len(nums) + 1)]
 
-            if row not in rows:
-                rows[row] = set()
+    for key, value in count.items():
+        print(key, value)
+        frequencies[value].append(key)
 
-            if column not in columns:
-                columns[column] = set()
+    print(frequencies)
 
-            if (row//3, column//3) not in boxes:
-                boxes[(row//3, column//3)] = set()
+    for x in range(len(frequencies))[::-1]:
+        for n in frequencies[x]:
+            if len(result) >= k:
+                return result
+            else:
+                result.append(n)
 
-            if value in rows[row] or value in columns[column] or value in boxes[(row//3, column//3)]:
-                return False
-
-            rows[row].add(value)
-            columns[column].add(value)
-            boxes[(row//3, column//3)].add(value)
-
-    return True
+    return result
 
 
 if __name__ == "__main__":
-    board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
-             ["4", ".", ".", "5", ".", ".", ".", ".", "."],
-             [".", "9", "8", ".", ".", ".", ".", ".", "3"],
-             ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
-             [".", ".", ".", "8", ".", "3", ".", ".", "5"],
-             ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
-             [".", ".", ".", ".", ".", ".", "2", ".", "."],
-             [".", ".", ".", "4", "1", "9", ".", ".", "8"],
-             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
-
-print(isValidSudoku(board))
+    nums = [1, 1, 1, 2, 2, 100]
+    k = 2
+    print(topKFrequent(nums, 3))
