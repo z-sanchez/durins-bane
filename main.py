@@ -1,39 +1,46 @@
 # Time Complexity: O(n), we traverse the array once max
 # Space Complexity: O(n), we make a set here
 
-def threeSum(array):
-    result = []
+def isValidSudoku(board):
+    rows = {}
+    columns = {}
+    boxes = {}
 
-    array.sort()
+    for row in range(9):
+        for column in range(9):
+            value = board[row][column]
 
-    print(array)
+            if value == ".":
+                continue
 
-    for index, value in enumerate(array):
-        if index > 0 and array[index - 1] == array[index]:
-            continue
+            if row not in rows:
+                rows[row] = set()
 
-        left = index + 1
-        right = len(array) - 1
+            if column not in columns:
+                columns[column] = set()
 
-        while left < right:
-            sum = array[index] + array[left] + array[right]
+            if (row//3, column//3) not in boxes:
+                boxes[(row//3, column//3)] = set()
 
-            if sum > 0:
-                right -= 1
-            elif sum < 0:
-                left += 1
-            else:
-                result.append([array[index], array[left], array[right]])
-                left += 1
+            if value in rows[row] or value in columns[column] or value in boxes[(row//3, column//3)]:
+                return False
 
-                while left < right and array[left] == array[left - 1]:
-                    left += 1
+            rows[row].add(value)
+            columns[column].add(value)
+            boxes[(row//3, column//3)].add(value)
 
-    return result
+    return True
 
 
-if "__main__" == __name__:
+if __name__ == "__main__":
+    board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
+             ["4", ".", ".", "5", ".", ".", ".", ".", "."],
+             [".", "9", "8", ".", ".", ".", ".", ".", "3"],
+             ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
+             [".", ".", ".", "8", ".", "3", ".", ".", "5"],
+             ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+             [".", ".", ".", ".", ".", ".", "2", ".", "."],
+             [".", ".", ".", "4", "1", "9", ".", ".", "8"],
+             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
 
-    array = [-1, 0, 1, 2, -1, -4]
-
-    print(threeSum(array))
+print(isValidSudoku(board))
