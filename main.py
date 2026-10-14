@@ -5,37 +5,30 @@
 # We don't have to worry about comparing results using previous array values because those have been exhausted and check for
 # Rule of thumb: Once we've passed an index in the array, those values have been checked if there in play already, no need to compare back
 
-def threeSum(array):
+def topKFrequent(nums, k):
     result = []
 
-    array.sort()
+    count = {}
 
-    for index, value in enumerate(array):
+    for num in nums:
+        count[num] = 1 + count.get(num, 0)
 
-        if index > 0 and array[index-1] == array[index]:
-            continue
+    frequencies = [[] for x in range(len(nums) + 1)]
 
-        left = index + 1
-        right = len(array) - 1
+    for key, value in count.items():
+        frequencies[value].append(key)
 
-        while left < right:
-            sum = array[index] + array[right] + array[left]
-
-            if sum < 0:
-                left += 1
-            elif sum > 0:
-                right -= 1
+    for x in range(len(frequencies))[::-1]:
+        for n in frequencies[x]:
+            if len(result) >= k:
+                return result
             else:
-                result.append([array[index], array[left], array[right]])
-                left += 1
-                while left < right and array[left] == array[left-1]:
-                    left += 1
+                result.append(n)
 
     return result
 
 
-if "__main__" == __name__:
-
-    array = [-1, 0, 1, 2, -1, -4]
-
-    print(threeSum(array))
+if __name__ == "__main__":
+    nums = [1, 1, 1, 2, 2, 100]
+    k = 2
+    print(topKFrequent(nums, k))
