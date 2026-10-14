@@ -1,32 +1,26 @@
 # Time Complexity: O(n), we traverse the array once max
 # Space Complexity: O(n), we make a set here
 
-def topKFrequent(nums, k):
-    count = {}
-    result = []
+def maxArea(input):
 
-    for num in nums:
-        count[num] = 1 + count.get(num, 0)
+    result = 0
 
-    frequencies = [[] for x in range(len(nums) + 1)]
+    left = 0
+    right = len(input) - 1
 
-    for key, value in count.items():
-        print(key, value)
-        frequencies[value].append(key)
+    while left < right:
+        calculatedArea = (right - left) * min(input[left], input[right])
+        result = max(calculatedArea, result)
 
-    print(frequencies)
-
-    for x in range(len(frequencies))[::-1]:
-        for n in frequencies[x]:
-            if len(result) >= k:
-                return result
-            else:
-                result.append(n)
+        if input[left] < input[right]:
+            left += 1
+        else:
+            right -= 1
 
     return result
 
 
-if __name__ == "__main__":
-    nums = [1, 1, 1, 2, 2, 100]
-    k = 2
-    print(topKFrequent(nums, 3))
+if "__main__" == __name__:
+    input = [1, 7, 2, 5, 4, 7, 3, 6]
+    result = maxArea(input)
+    print(result)
