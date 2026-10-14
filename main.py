@@ -1,26 +1,41 @@
-# Time Complexity: O(n), we traverse the array once max
-# Space Complexity: O(n), we make a set here
+# Time Complexity: O(n^2), nested loops
+# Space Complexity: O(n), creating a result array
 
-def maxArea(input):
+# The idea here is that you focus on one value at a time. Take that value and find what other two summed with it = 0. Then move to next index.
+# We don't have to worry about comparing results using previous array values because those have been exhausted and check for
+# Rule of thumb: Once we've passed an index in the array, those values have been checked if there in play already, no need to compare back
 
-    result = 0
+def threeSum(array):
+    result = []
 
-    left = 0
-    right = len(input) - 1
+    array.sort()
 
-    while left < right:
-        calculatedArea = (right - left) * min(input[left], input[right])
-        result = max(calculatedArea, result)
+    for index, value in enumerate(array):
 
-        if input[left] < input[right]:
-            left += 1
-        else:
-            right -= 1
+        if index > 0 and array[index-1] == array[index]:
+            continue
+
+        left = index + 1
+        right = len(array) - 1
+
+        while left < right:
+            sum = array[index] + array[right] + array[left]
+
+            if sum < 0:
+                left += 1
+            elif sum > 0:
+                right -= 1
+            else:
+                result.append([array[index], array[left], array[right]])
+                left += 1
+                while left < right and array[left] == array[left-1]:
+                    left += 1
 
     return result
 
 
 if "__main__" == __name__:
-    input = [1, 7, 2, 5, 4, 7, 3, 6]
-    result = maxArea(input)
-    print(result)
+
+    array = [-1, 0, 1, 2, -1, -4]
+
+    print(threeSum(array))
