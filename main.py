@@ -1,34 +1,26 @@
-# Time Complexity: O(n^2), nested loops
-# Space Complexity: O(n), creating a result array
+# Time Complexity: O(n), we traverse the array once max
+# Space Complexity: O(1), no new data structure needed
 
-# The idea here is that you focus on one value at a time. Take that value and find what other two summed with it = 0. Then move to next index.
-# We don't have to worry about comparing results using previous array values because those have been exhausted and check for
-# Rule of thumb: Once we've passed an index in the array, those values have been checked if there in play already, no need to compare back
+def maxArea(heights):
+    left = 0
+    right = len(heights) - 1
 
-def topKFrequent(nums, k):
-    result = []
+    result = 0
 
-    count = {}
+    while left < right:
+        calculatedArea = (right - left) * min(heights[right], heights[left])
 
-    for num in nums:
-        count[num] = 1 + count.get(num, 0)
+        result = max(calculatedArea, result)
 
-    frequencies = [[] for x in range(len(nums) + 1)]
-
-    for key, value in count.items():
-        frequencies[value].append(key)
-
-    for x in range(len(frequencies))[::-1]:
-        for n in frequencies[x]:
-            if len(result) >= k:
-                return result
-            else:
-                result.append(n)
+        if heights[left] < heights[right]:
+            left += 1
+        else:
+            right -= 1
 
     return result
 
 
-if __name__ == "__main__":
-    nums = [1, 1, 1, 2, 2, 100]
-    k = 2
-    print(topKFrequent(nums, k))
+if "__main__" == __name__:
+    input = [1, 7, 2, 5, 4, 7, 3, 6]
+    result = maxArea(input)
+    print(result)
