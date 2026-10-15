@@ -1,26 +1,36 @@
 # Time Complexity: O(n), we traverse the array once max
 # Space Complexity: O(1), no new data structure needed
 
-def maxArea(heights):
-    left = 0
-    right = len(heights) - 1
+class MinStack:
+    def __init__(self):
+        self.stack = []
+        self.min = []
 
-    result = 0
-
-    while left < right:
-        calculatedArea = (right - left) * min(heights[right], heights[left])
-
-        result = max(calculatedArea, result)
-
-        if heights[left] < heights[right]:
-            left += 1
+    def push(self, num):
+        if not self.min:
+            self.min.append(num)
         else:
-            right -= 1
+            self.min.append(min(self.min[-1], num))
 
-    return result
+        self.stack.append(num)
+
+    def top(self):
+        return self.stack[-1]
+
+    def pop(self):
+        self.min.pop()
+        self.stack.pop()
+
+    def getMin(self):
+        return self.min[-1]
 
 
 if "__main__" == __name__:
-    input = [1, 7, 2, 5, 4, 7, 3, 6]
-    result = maxArea(input)
-    print(result)
+    minStack = MinStack()
+    minStack.push(1)
+    minStack.push(2)
+    minStack.push(0)
+    print(minStack.getMin())
+    print(minStack.pop())
+    print(minStack.top())
+    print(minStack.getMin())
