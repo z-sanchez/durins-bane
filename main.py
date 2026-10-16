@@ -2,47 +2,28 @@
 # Space Complexity: O(1), no new data structure needed
 
 
-def isValidSudoku(board):
-    rows = {}
-    columns = {}
-    boxes = {}
+def carFleet(target, position, speed):
+    carFleet = []
+    stack = [[pos, spee] for pos, spee in zip(position, speed)]
 
-    for row in range(9):
-        for column in range(9):
+    stack.sort()
 
-            node = board[row][column]
+    for carPosition, carSpeed in stack[::-1]:
+        distanceToTarget = target - carPosition
+        timeToTarget = distanceToTarget / carSpeed
 
-            if node == ".":
-                continue
+        carFleet.append(timeToTarget)
 
-            if row not in rows:
-                rows[row] = set()
+        while len(carFleet) > 1 and carFleet[-2] >= carFleet[-1]:
+            carFleet.pop()
 
-            if column not in columns:
-                columns[column] = set()
-
-            if (row//3, column//3) not in boxes:
-                boxes[(row//3, column//3)] = set()
-
-            if node in rows[row] or node in columns[column] or node in boxes[(row//3, column//3)]:
-                return False
-            else:
-                rows[row].add(node)
-                columns[column].add(node)
-                boxes[(row//3, column//3)].add(node)
-
-    return True
+    return len(carFleet)
 
 
-if __name__ == "__main__":
-    board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
-             ["4", ".", ".", "5", ".", ".", ".", ".", "."],
-             [".", "9", "8", ".", ".", ".", ".", ".", "3"],
-             ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
-             [".", ".", ".", "8", ".", "3", ".", ".", "5"],
-             ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
-             [".", ".", ".", ".", ".", ".", "2", ".", "."],
-             [".", ".", ".", "4", "1", "9", ".", ".", "8"],
-             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
+if "__main__" == __name__:
+    target = 10
+    position = [1, 4]
+    speed = [3, 2]
 
-print(isValidSudoku(board))
+    result = carFleet(target, position, speed)
+    print(result)
