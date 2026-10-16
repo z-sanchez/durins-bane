@@ -1,29 +1,27 @@
 # Time Complexity: O(n), we traverse the array once max
 # Space Complexity: O(1), no new data structure needed
 
+def maxArea(input):
 
-def carFleet(target, position, speed):
-    carFleet = []
-    stack = [[pos, spee] for pos, spee in zip(position, speed)]
+    result = 0
 
-    stack.sort()
+    left = 0
+    right = len(input) - 1
 
-    for carPosition, carSpeed in stack[::-1]:
-        distanceToTarget = target - carPosition
-        timeToTarget = distanceToTarget / carSpeed
+    while left < right:
+        maxArea = (right-left)*min(input[left], input[right])
 
-        carFleet.append(timeToTarget)
+        result = max(maxArea, result)
 
-        while len(carFleet) > 1 and carFleet[-2] >= carFleet[-1]:
-            carFleet.pop()
+        if input[left] < input[right]:
+            left += 1
+        else:
+            right -= 1
 
-    return len(carFleet)
+    return result
 
 
 if "__main__" == __name__:
-    target = 10
-    position = [1, 4]
-    speed = [3, 2]
-
-    result = carFleet(target, position, speed)
+    input = [1, 7, 2, 5, 4, 7, 3, 6]
+    result = maxArea(input)
     print(result)
