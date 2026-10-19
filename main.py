@@ -1,27 +1,41 @@
-# Time Complexity: O(n), we traverse the array once max
-# Space Complexity: O(1), no new data structure needed
+from typing import List
 
-def maxArea(input):
 
-    result = 0
+def encode(strs):
+    encoded = ""
 
-    left = 0
-    right = len(input) - 1
+    for word in strs:
+        encoded += str(len(word)) + "#" + word
 
-    while left < right:
-        maxArea = (right-left)*min(input[left], input[right])
+    return encoded
 
-        result = max(maxArea, result)
 
-        if input[left] < input[right]:
-            left += 1
-        else:
-            right -= 1
+def decode(str):
+
+    pointer = 0
+
+    result = []
+
+    while pointer < len(str):
+        delimiter = pointer
+
+        while str[delimiter] != "#":
+            delimiter += 1
+
+        wordLength = int(str[pointer:delimiter])
+
+        word = str[delimiter + 1: delimiter + 1 + wordLength]
+
+        result.append(word)
+
+        pointer = delimiter + 1 + wordLength
 
     return result
 
 
-if "__main__" == __name__:
-    input = [1, 7, 2, 5, 4, 7, 3, 6]
-    result = maxArea(input)
-    print(result)
+if __name__ == "__main__":
+
+    strs = ["need", "code", "love", "you"]
+    encodedOutput = encode(strs)
+
+    print(decode(encodedOutput))
