@@ -1,27 +1,46 @@
 
-def carFleet(target, positions, speeds):
+def isValidSudoku(board):
 
-    cars = [[pos, speed] for pos, speed in zip(positions, speeds)]
+    columns = {}
+    rows = {}
+    boxes = {}
 
-    cars.sort()
+    for row in range(9):
+        for column in range(9):
 
-    stack = []
+            value = board[row][column]
 
-    for position, speed in cars[::-1]:
-        distanceToTarget = target - position
-        timeToTarget = distanceToTarget/speed
-        stack.append(timeToTarget)
+            if value == '.':
+                continue
 
-        if len(stack) > 1 and stack[-2] >= stack[-1]:
-            stack.pop()
+            if row not in rows:
+                rows[row] = set()
 
-    return len(stack)
+            if column not in columns:
+                columns[column] = set()
+
+            if (row//3, column//3) not in boxes:
+                boxes[(row//3, column//3)] = set()
+
+            if value in rows[row] or value in columns[column] or value in boxes[(row//3, column//3)]:
+                return False
+
+            rows[row].add(value)
+            columns[column].add(value)
+            boxes[(row//3, column//3)].add(value)
+
+    return True
 
 
-if "__main__" == __name__:
-    target = 10
-    position = [1, 4]
-    speed = [3, 2]
+if __name__ == "__main__":
+    board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
+             ["4", ".", ".", "5", ".", ".", ".", ".", "."],
+             [".", "9", "8", ".", ".", ".", ".", ".", "3"],
+             ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
+             [".", ".", ".", "8", ".", "3", ".", ".", "5"],
+             ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+             [".", ".", ".", ".", ".", ".", "2", ".", "."],
+             [".", ".", ".", "4", "1", "9", ".", ".", "8"],
+             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
 
-    result = carFleet(target, position, speed)
-    print(result)
+    print(isValidSudoku(board))
