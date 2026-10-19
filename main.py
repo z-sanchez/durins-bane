@@ -1,41 +1,27 @@
-from typing import List
+
+def carFleet(target, positions, speeds):
+
+    cars = [[pos, speed] for pos, speed in zip(positions, speeds)]
+
+    cars.sort()
+
+    stack = []
+
+    for position, speed in cars[::-1]:
+        distanceToTarget = target - position
+        timeToTarget = distanceToTarget/speed
+        stack.append(timeToTarget)
+
+        if len(stack) > 1 and stack[-2] >= stack[-1]:
+            stack.pop()
+
+    return len(stack)
 
 
-def encode(strs):
-    encoded = ""
+if "__main__" == __name__:
+    target = 10
+    position = [1, 4]
+    speed = [3, 2]
 
-    for word in strs:
-        encoded += str(len(word)) + "#" + word
-
-    return encoded
-
-
-def decode(str):
-
-    pointer = 0
-
-    result = []
-
-    while pointer < len(str):
-        delimiter = pointer
-
-        while str[delimiter] != "#":
-            delimiter += 1
-
-        wordLength = int(str[pointer:delimiter])
-
-        word = str[delimiter + 1: delimiter + 1 + wordLength]
-
-        result.append(word)
-
-        pointer = delimiter + 1 + wordLength
-
-    return result
-
-
-if __name__ == "__main__":
-
-    strs = ["need", "code", "love", "you"]
-    encodedOutput = encode(strs)
-
-    print(decode(encodedOutput))
+    result = carFleet(target, position, speed)
+    print(result)
