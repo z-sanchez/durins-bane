@@ -1,46 +1,27 @@
 
-def isValidSudoku(board):
+def productsOfArrayExceptSelf(nums):
+    result = []
 
-    columns = {}
-    rows = {}
-    boxes = {}
+    prefix = 1
 
-    for row in range(9):
-        for column in range(9):
+    for index in range(len(nums)):
+        if index == 0:
+            result.append(prefix)
+        else:
+            prefix *= nums[index - 1]
+            result.append(prefix)
 
-            value = board[row][column]
+    postfix = 1
 
-            if value == '.':
-                continue
+    for index in range(len(nums))[::-1]:
+        result[index] *= postfix
 
-            if row not in rows:
-                rows[row] = set()
+        postfix *= nums[index]
 
-            if column not in columns:
-                columns[column] = set()
-
-            if (row//3, column//3) not in boxes:
-                boxes[(row//3, column//3)] = set()
-
-            if value in rows[row] or value in columns[column] or value in boxes[(row//3, column//3)]:
-                return False
-
-            rows[row].add(value)
-            columns[column].add(value)
-            boxes[(row//3, column//3)].add(value)
-
-    return True
+    return result
 
 
 if __name__ == "__main__":
-    board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
-             ["4", ".", ".", "5", ".", ".", ".", ".", "."],
-             [".", "9", "8", ".", ".", ".", ".", ".", "3"],
-             ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
-             [".", ".", ".", "8", ".", "3", ".", ".", "5"],
-             ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
-             [".", ".", ".", ".", ".", ".", "2", ".", "."],
-             [".", ".", ".", "4", "1", "9", ".", ".", "8"],
-             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
+    nums = [1, 2, 3, 4]
 
-    print(isValidSudoku(board))
+    print(productsOfArrayExceptSelf(nums))
