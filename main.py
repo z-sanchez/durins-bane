@@ -1,22 +1,33 @@
 
-def longestSequence(input):
+class MinStack:
+    def __init__(self):
+        self.minStack = []
+        self.stack = []
 
-    numSet = set(input)
-    result = 0
+    def push(self, num):
+        if not self.minStack:
+            self.minStack.append(num)
+        else:
+            self.minStack.append(min(self.minStack[-1], num))
+        self.stack.append(num)
 
-    for num in numSet:
-        if num - 1 not in numSet:
-            length = 0
+    def getMin(self):
+        return self.minStack[-1]
 
-            while length + num in numSet:
-                length += 1
+    def pop(self):
+        self.minStack.pop()
+        self.stack.pop()
 
-            result = max(length, result)
-
-    return result
+    def top(self):
+        return self.stack[-1]
 
 
 if "__main__" == __name__:
-    input = [0, 3, 2, 5, 4, 6, 1, 1]
-    result = longestSequence(input)
-    print(result)
+    minStack = MinStack()
+    minStack.push(1)
+    minStack.push(2)
+    minStack.push(0)
+    print(minStack.getMin())
+    print(minStack.pop())
+    print(minStack.top())
+    print(minStack.getMin())
