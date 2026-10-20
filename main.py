@@ -1,27 +1,22 @@
 
-def productsOfArrayExceptSelf(nums):
-    result = []
+def longestSequence(input):
 
-    prefix = 1
+    numSet = set(input)
+    result = 0
 
-    for index in range(len(nums)):
-        if index == 0:
-            result.append(prefix)
-        else:
-            prefix *= nums[index - 1]
-            result.append(prefix)
+    for num in numSet:
+        if num - 1 not in numSet:
+            length = 0
 
-    postfix = 1
+            while length + num in numSet:
+                length += 1
 
-    for index in range(len(nums))[::-1]:
-        result[index] *= postfix
-
-        postfix *= nums[index]
+            result = max(length, result)
 
     return result
 
 
-if __name__ == "__main__":
-    nums = [1, 2, 3, 4]
-
-    print(productsOfArrayExceptSelf(nums))
+if "__main__" == __name__:
+    input = [0, 3, 2, 5, 4, 6, 1, 1]
+    result = longestSequence(input)
+    print(result)
