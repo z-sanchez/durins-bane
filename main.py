@@ -1,35 +1,26 @@
 
-def evalRPN(input):
-    stack = []
+def groupAnagrams(strs):
 
-    for entry in input:
-        if entry == "+":
-            second = stack.pop()
-            first = stack.pop()
+    map = {}
 
-            stack.append(first + second)
-        elif entry == "-":
-            second = stack.pop()
-            first = stack.pop()
+    for word in strs:
+        count = [0] * 26
 
-            stack.append(first - second)
-        elif entry == '*':
-            second = stack.pop()
-            first = stack.pop()
+        for ch in word:
+            count[ord(ch) - ord('a')] += 1
 
-            stack.append(first * second)
-        elif entry == '/':
-            second = stack.pop()
-            first = stack.pop()
+        key = tuple(count)
 
-            stack.append(int(first / second))
-        else:
-            stack.append(int(entry))
+        if key not in map:
+            map[key] = []
 
-    return stack[0]
+        map[key].append(word)
+
+    return list(map.values())
 
 
-if "__main__" == __name__:
-    input = ["4", "13", "5", "/", "+"]
-    result = evalRPN(input)
+if __name__ == "__main__":
+    strs = ["act", "pots", "tops", "cat", "stop", "hat"]
+
+    result = groupAnagrams(strs)
     print(result)
