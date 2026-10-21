@@ -1,33 +1,35 @@
 
-class MinStack:
-    def __init__(self):
-        self.minStack = []
-        self.stack = []
+def evalRPN(input):
+    stack = []
 
-    def push(self, num):
-        if not self.minStack:
-            self.minStack.append(num)
+    for entry in input:
+        if entry == "+":
+            second = stack.pop()
+            first = stack.pop()
+
+            stack.append(first + second)
+        elif entry == "-":
+            second = stack.pop()
+            first = stack.pop()
+
+            stack.append(first - second)
+        elif entry == '*':
+            second = stack.pop()
+            first = stack.pop()
+
+            stack.append(first * second)
+        elif entry == '/':
+            second = stack.pop()
+            first = stack.pop()
+
+            stack.append(int(first / second))
         else:
-            self.minStack.append(min(self.minStack[-1], num))
-        self.stack.append(num)
+            stack.append(int(entry))
 
-    def getMin(self):
-        return self.minStack[-1]
-
-    def pop(self):
-        self.minStack.pop()
-        self.stack.pop()
-
-    def top(self):
-        return self.stack[-1]
+    return stack[0]
 
 
 if "__main__" == __name__:
-    minStack = MinStack()
-    minStack.push(1)
-    minStack.push(2)
-    minStack.push(0)
-    print(minStack.getMin())
-    print(minStack.pop())
-    print(minStack.top())
-    print(minStack.getMin())
+    input = ["4", "13", "5", "/", "+"]
+    result = evalRPN(input)
+    print(result)
