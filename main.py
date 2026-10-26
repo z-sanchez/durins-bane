@@ -1,42 +1,32 @@
 
-def searchMatrix(matrix, target):
-    OUTER_LENGTH = len(matrix)
-    INNER_LENGTH = len(matrix[0])
+def evalRPN(input):
 
-    outerLow = 0
-    outerHigh = OUTER_LENGTH - 1
+    stack = []
 
-    while outerLow <= outerHigh:
-        outerMidpoint = (outerLow + outerHigh) // 2
-
-        if matrix[outerMidpoint][0] > target:
-            outerHigh = outerMidpoint - 1
-        elif matrix[outerMidpoint][-1] < target:
-            outerLow = outerMidpoint + 1
+    for entry in input:
+        if entry == "+":
+            second = stack.pop()
+            first = stack.pop()
+            stack.append(first + second)
+        elif entry == "-":
+            second = stack.pop()
+            first = stack.pop()
+            stack.append(first - second)
+        elif entry == "*":
+            second = stack.pop()
+            first = stack.pop()
+            stack.append(first * second)
+        elif entry == "/":
+            second = stack.pop()
+            first = stack.pop()
+            stack.append(int(first / second))
         else:
-            break
+            stack.append(int(entry))
 
-    if not outerLow <= outerHigh:
-        return False
-
-    innerLow = 0
-    innerHigh = INNER_LENGTH - 1
-
-    while innerLow <= innerHigh:
-        innerMidpoint = (innerHigh + innerLow)//2
-
-        if matrix[outerMidpoint][innerMidpoint] < target:
-            innerLow = innerMidpoint + 1
-        elif matrix[outerMidpoint][innerMidpoint] > target:
-            innerHigh = innerMidpoint - 1
-        else:
-            return True
-
-    return False
+    return stack[0]
 
 
 if "__main__" == __name__:
-    matrix = [[1, 2, 4, 8], [10, 11, 12, 13], [14, 20, 30, 40]]
-    target = 12
-    result = searchMatrix(matrix, target)
+    input = ["4", "13", "5", "/", "+"]
+    result = evalRPN(input)
     print(result)
