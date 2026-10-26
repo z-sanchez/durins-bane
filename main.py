@@ -1,32 +1,27 @@
 
-def evalRPN(input):
+def productsOfArrayExceptSelf(nums):
 
-    stack = []
+    result = []
+    prefix = 1
 
-    for entry in input:
-        if entry == "+":
-            second = stack.pop()
-            first = stack.pop()
-            stack.append(first + second)
-        elif entry == "-":
-            second = stack.pop()
-            first = stack.pop()
-            stack.append(first - second)
-        elif entry == "*":
-            second = stack.pop()
-            first = stack.pop()
-            stack.append(first * second)
-        elif entry == "/":
-            second = stack.pop()
-            first = stack.pop()
-            stack.append(int(first / second))
+    for index in range(len(nums)):
+        if index == 0:
+            result.append(prefix)
         else:
-            stack.append(int(entry))
+            prefix *= nums[index - 1]
+            result.append(prefix)
 
-    return stack[0]
+    postfix = 1
+
+    for index in range(len(nums))[::-1]:
+        result[index] *= postfix
+
+        postfix *= nums[index]
+
+    return result
 
 
-if "__main__" == __name__:
-    input = ["4", "13", "5", "/", "+"]
-    result = evalRPN(input)
-    print(result)
+if __name__ == "__main__":
+    nums = [1, 2, 3, 4]
+
+    print(productsOfArrayExceptSelf(nums))
