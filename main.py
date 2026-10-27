@@ -1,27 +1,34 @@
 
-def productsOfArrayExceptSelf(nums):
+def threeSum(array):
 
     result = []
-    prefix = 1
 
-    for index in range(len(nums)):
-        if index == 0:
-            result.append(prefix)
-        else:
-            prefix *= nums[index - 1]
-            result.append(prefix)
+    array.sort()
 
-    postfix = 1
+    for index, value in enumerate(array):
+        if index > 0 and array[index - 1] == value:
+            continue
 
-    for index in range(len(nums))[::-1]:
-        result[index] *= postfix
+        left = index + 1
+        right = len(array) - 1
 
-        postfix *= nums[index]
+        while left < right:
+            sum = value + array[left] + array[right]
 
+            if sum > 0:
+                right -= 1
+            elif sum < 0:
+                left += 1
+            else:
+                result.append([value, array[left], array[right]])
+                left += 1
+                while left < right and array[left] == array[left - 1]:
+                    left += 1
     return result
 
 
-if __name__ == "__main__":
-    nums = [1, 2, 3, 4]
+if "__main__" == __name__:
 
-    print(productsOfArrayExceptSelf(nums))
+    array = [-1, 0, 1, 2, -1, -4]
+
+    print(threeSum(array))
