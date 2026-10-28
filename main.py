@@ -1,32 +1,23 @@
 import math
 
 
-def kokoBananas(piles, hours):
-    low = 1
-    high = max(piles)
+def dailyTemperatures(temperatures):
 
-    result = high
+    result = [0 for x in range(len(temperatures))]
 
-    while low <= high:
-        midpoint = (low + high) // 2
+    stack = []  # index, temp
 
-        hoursToEat = 0
-
-        for bananas in piles:
-            hoursToEat += math.ceil(bananas/midpoint)
-
-        if hoursToEat <= hours:
-            high = midpoint - 1
-            result = min(midpoint, result)
-        else:
-            low = midpoint + 1
+    for index, temp in enumerate(temperatures):
+        while stack and stack[-1][1] < temp:
+            stackIndex, stackTemp = stack.pop()
+            result[stackIndex] = index - stackIndex
+        stack.append([index, temp])
 
     return result
 
 
 if "__main__" == __name__:
-    piles = [25, 10, 23, 4]
-    hours = 4
+    temperatures = [30, 38, 30, 36, 35, 40, 28]
 
-    result = kokoBananas(piles, hours)
+    result = dailyTemperatures(temperatures)
     print(result)
