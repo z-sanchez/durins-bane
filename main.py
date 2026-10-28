@@ -1,34 +1,32 @@
+import math
 
-def threeSum(array):
 
-    result = []
+def kokoBananas(piles, hours):
+    low = 1
+    high = max(piles)
 
-    array.sort()
+    result = high
 
-    for index, value in enumerate(array):
-        if index > 0 and array[index - 1] == value:
-            continue
+    while low <= high:
+        midpoint = (low + high) // 2
 
-        left = index + 1
-        right = len(array) - 1
+        hoursToEat = 0
 
-        while left < right:
-            sum = value + array[left] + array[right]
+        for bananas in piles:
+            hoursToEat += math.ceil(bananas/midpoint)
 
-            if sum > 0:
-                right -= 1
-            elif sum < 0:
-                left += 1
-            else:
-                result.append([value, array[left], array[right]])
-                left += 1
-                while left < right and array[left] == array[left - 1]:
-                    left += 1
+        if hoursToEat <= hours:
+            high = midpoint - 1
+            result = min(midpoint, result)
+        else:
+            low = midpoint + 1
+
     return result
 
 
 if "__main__" == __name__:
+    piles = [25, 10, 23, 4]
+    hours = 4
 
-    array = [-1, 0, 1, 2, -1, -4]
-
-    print(threeSum(array))
+    result = kokoBananas(piles, hours)
+    print(result)
