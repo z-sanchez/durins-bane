@@ -1,46 +1,28 @@
 import math
 
 
-def isValidSudoku(board):
-    boxes = {}
-    rows = {}
-    columns = {}
+def twoSumTwo(array, target):
 
-    for row in range(9):
-        for column in range(9):
-            value = board[row][column]
+    left = 0
+    right = len(array) - 1
 
-            if value == '.':
-                continue
+    while left < right:
+        sum = array[left] + array[right]
 
-            if row not in rows:
-                rows[row] = set()
+        if sum < target:
+            left += 1
+        elif sum > target:
+            right -= 1
+        else:
+            return [left + 1, right + 1]
 
-            if column not in columns:
-                columns[column] = set()
-
-            if (row // 3, column // 3) not in boxes:
-                boxes[(row // 3, column // 3)] = set()
-
-            if value in rows[row] or value in columns[column] or value in boxes[(row // 3, column // 3)]:
-                return False
-            else:
-                rows[row].add(value)
-                columns[column].add(value)
-                boxes[(row // 3, column // 3)].add(value)
-
-    return True
+    return []
 
 
-if __name__ == "__main__":
-    board = [["1", "2", ".", ".", "3", ".", ".", ".", "."],
-             ["4", ".", ".", "5", ".", ".", ".", ".", "."],
-             [".", "9", "8", ".", ".", ".", ".", ".", "3"],
-             ["5", ".", ".", ".", "6", ".", ".", ".", "4"],
-             [".", ".", ".", "8", ".", "3", ".", ".", "5"],
-             ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
-             [".", ".", ".", ".", ".", ".", "2", ".", "."],
-             [".", ".", ".", "4", "1", "9", ".", ".", "8"],
-             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
+if "__main__" == __name__:
 
-print(isValidSudoku(board))
+    # must be in order for it to work
+    array = [1, 2, 3, 4]
+    target = 3
+    result = twoSumTwo(array, target)
+    print(result)
