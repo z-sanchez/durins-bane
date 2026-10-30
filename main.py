@@ -1,28 +1,28 @@
 import math
 
 
-def twoSumTwo(array, target):
+def groupAnagrams(strs):
 
-    left = 0
-    right = len(array) - 1
+    map = {}
 
-    while left < right:
-        sum = array[left] + array[right]
+    for word in strs:
+        count = [0] * 26
 
-        if sum < target:
-            left += 1
-        elif sum > target:
-            right -= 1
-        else:
-            return [left + 1, right + 1]
+        for ch in word:
+            count[ord(ch) - ord('a')] += 1
 
-    return []
+        key = tuple(count)
+
+        if key not in map:
+            map[key] = []
+
+        map[key].append(word)
+
+    return list(map.values())
 
 
-if "__main__" == __name__:
+if __name__ == "__main__":
+    strs = ["act", "pots", "tops", "cat", "stop", "hat"]
 
-    # must be in order for it to work
-    array = [1, 2, 3, 4]
-    target = 3
-    result = twoSumTwo(array, target)
+    result = groupAnagrams(strs)
     print(result)
