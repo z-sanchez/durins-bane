@@ -1,28 +1,44 @@
 import math
 
 
-def groupAnagrams(strs):
+def searchMatrix(matrix, target):
+    OUTER_LENGTH = len(matrix)
+    INNER_LENGTH = len(matrix[0])
 
-    map = {}
+    outerLow = 0
+    outerHigh = OUTER_LENGTH - 1
 
-    for word in strs:
-        count = [0] * 26
+    while outerLow <= outerHigh:
+        outerMidpoint = (outerHigh + outerLow) // 2
 
-        for ch in word:
-            count[ord(ch) - ord('a')] += 1
+        if matrix[outerMidpoint][0] > target:
+            outerHigh = outerMidpoint - 1
+        elif matrix[outerMidpoint][-1] < target:
+            outerLow = outerMidpoint + 1
+        else:
+            break
 
-        key = tuple(count)
+    if not outerLow <= outerHigh:
+        return False
 
-        if key not in map:
-            map[key] = []
+    innerLow = 0
+    innerHigh = INNER_LENGTH - 1
 
-        map[key].append(word)
+    while innerLow <= innerHigh:
+        innerMidpoint = (innerLow + innerHigh) // 2
 
-    return list(map.values())
+        if matrix[outerMidpoint][innerMidpoint] < target:
+            innerLow = innerMidpoint + 1
+        elif matrix[outerMidpoint][innerMidpoint] > target:
+            innerHigh = innerMidpoint - 1
+        else:
+            return True
+
+    return False
 
 
-if __name__ == "__main__":
-    strs = ["act", "pots", "tops", "cat", "stop", "hat"]
-
-    result = groupAnagrams(strs)
+if "__main__" == __name__:
+    matrix = [[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]]
+    target = 3
+    result = searchMatrix(matrix, target)
     print(result)
